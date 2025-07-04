@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveName: Buff
   moveType: 3
-  power: 0
+  power: 5
   desc: 
   affectedStat: 0
   isPercentageChange: 1
-  statChangeAmount: 25
+  statChangeAmount: 0
   duration: -1

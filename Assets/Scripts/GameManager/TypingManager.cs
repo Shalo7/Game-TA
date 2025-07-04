@@ -86,6 +86,7 @@ public class TypingManager : MonoBehaviour
 
             if (typed == expected)
             {
+                Debug.Log("Correct!");
                 correctWords++;
                 currentWordIndex++;
                 ShowNextWord();
@@ -93,6 +94,7 @@ public class TypingManager : MonoBehaviour
             else if (typed.Length >= expected.Length && typed != expected)
             {
                 //Typo - skip word
+                Debug.Log("Incorrect!");
                 currentWordIndex++;
                 ShowNextWord();
             }

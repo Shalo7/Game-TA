@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveName: Heal
   moveType: 2
-  power: 50
+  power: 10
   desc: Healing
   affectedStat: 0
   isPercentageChange: 0
