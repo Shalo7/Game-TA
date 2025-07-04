@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aaf44c78ec7de24ea0b1ae4b2ecbb56, type: 3}
-  m_Name: Buff Attack
+  m_Name: Enemy Attack
   m_EditorClassIdentifier: 
-  moveName: Buff
-  moveType: 3
-  power: 5
-  desc: 
+  moveName: Attack
+  moveType: 0
+  power: 40
+  desc: Thundershock
   affectedStat: 0
-  isPercentageChange: 1
+  isPercentageChange: 0
   statChangeAmount: 0
-  duration: -1
+  duration: 0
