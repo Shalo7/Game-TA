@@ -37,7 +37,6 @@ public class SceneController : MonoBehaviour
         }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
         while (!asyncLoad.isDone)
         {
             yield return null;
@@ -47,5 +46,12 @@ public class SceneController : MonoBehaviour
         {
             transitionAnim.SetTrigger("Start");
         }
+
+        // Cek jika AudioManager sudah ada, jangan restart lagu
+        if (AudioManager.Instance != null && !AudioManager.Instance.GetComponent<AudioSource>().isPlaying)
+        {
+            AudioManager.Instance.GetComponent<AudioSource>().Play();
+        }
     }
+
 }

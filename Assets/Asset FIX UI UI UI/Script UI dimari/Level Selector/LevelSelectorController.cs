@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 using System;
 
@@ -46,6 +47,11 @@ public class LevelSelectorController : MonoBehaviour
 
     [Header("Visual Feedback")]
     public float feedbackDuration = 0.25f;
+
+    [Header("Volume Sliders")]
+    public Slider musicSlider;
+    public Slider sfxSlider;
+    public float sliderStep = 0.05f;
 
     private int currentIndex = 0;
     private int optionsIndex = 0;
@@ -197,6 +203,8 @@ public class LevelSelectorController : MonoBehaviour
         optionsIndex = 0;
         HighlightOptions();
         MovePointer();
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
     }
 
     void CloseOptionsPanel()
@@ -208,21 +216,53 @@ public class LevelSelectorController : MonoBehaviour
 
     void HandleOptionsInput()
     {
+        bool moved = false;
+
         if (Input.GetKeyDown(KeyCode.W))
         {
             optionsIndex = (optionsIndex - 1 + optionsButtons.Length) % optionsButtons.Length;
-            HighlightOptions();
-            MovePointer();
+            moved = true;
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             optionsIndex = (optionsIndex + 1) % optionsButtons.Length;
+            moved = true;
+        }
+
+        if (moved)
+        {
             HighlightOptions();
             MovePointer();
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ConfirmOptionsMenu();
+        }
+
+        HandleSliderAdjustment();
+    }
+
+    void HandleSliderAdjustment()
+    {
+        GameObject current = optionsButtons[optionsIndex].gameObject;
+        string currentName = current.name.ToLower();
+
+        if (currentName.Contains("music") && musicSlider != null)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+                musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
+            else if (Input.GetKeyDown(KeyCode.A))
+                musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
+        }
+        else if (currentName.Contains("sfx") && sfxSlider != null)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+                sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
+            else if (Input.GetKeyDown(KeyCode.A))
+                sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
         }
     }
 
@@ -250,10 +290,26 @@ public class LevelSelectorController : MonoBehaviour
         inputLocked = true;
         SetConfirmed(optionsButtons[optionsIndex]);
 
-        switch (optionsIndex)
+        GameObject current = optionsButtons[optionsIndex].gameObject;
+        string name = current.name.ToLower();
+
+        if (name.Contains("music") || name.Contains("sfx"))
         {
-            case 0: // Tutorial
-                optionsPanel.SetActive(false);
+            inputLocked = false;
+            return;
+        }
+
+        if (optionsIndex == 2) // Tutorial
+        {
+            optionsPanel.SetActive(false);
+            if (tutorialBook != null)
+            {
+                if (!tutorialBook.gameObject.activeSelf)
+                    tutorialBook.gameObject.SetActive(true);
+
+                if (tutorialBook.bukuTutorialGO != null && !tutorialBook.bukuTutorialGO.activeSelf)
+                    tutorialBook.bukuTutorialGO.SetActive(true);
+
                 tutorialBook.StartTutorial(() =>
                 {
                     inOptions = false;
@@ -262,11 +318,16 @@ public class LevelSelectorController : MonoBehaviour
                     HighlightOptions();
                     MovePointer();
                 });
-                break;
-
-            case 1: // Back
-                CloseOptionsPanel();
-                break;
+            }
+            else
+            {
+                Debug.LogWarning("TutorialBook reference is missing!");
+                inputLocked = false;
+            }
+        }
+        else if (optionsIndex == 3) // Back
+        {
+            CloseOptionsPanel();
         }
     }
 

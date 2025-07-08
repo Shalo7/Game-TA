@@ -26,7 +26,7 @@ public class TutorialController : MonoBehaviour
     public BattleUIManager battleUIManager;
     public TypingIntroAnimator typingIntroAnimator;
 
-    private int currentStepIndex = 0;
+    public int currentStepIndex = 1;
     private bool tutorialActive = true;
     private bool skipAllowed = true;
     private bool waitingForFinalStep = false;
@@ -124,10 +124,13 @@ public class TutorialController : MonoBehaviour
                 break;
 
             case 6:
+                uiOptionSelector.DisableSelection();
+                Debug.Log("Hello!!");
                 break; // handled externally
 
             case 7:
                 StartCoroutine(ShowFinalStep7Image());
+                Debug.Log("Hello 2!!");
                 break;
         }
     }
@@ -263,7 +266,7 @@ public class TutorialController : MonoBehaviour
         {
             uiOptionSelector.SetAvailableOptions(new string[] { "Defend", "Heal" });
             uiOptionSelector.ForceSelectOption("Defend");
-            uiOptionSelector.EnableSelection();
+            //uiOptionSelector.EnableSelection();
         }
 
         spaceSkipPrompt.SetActive(true);
@@ -273,7 +276,7 @@ public class TutorialController : MonoBehaviour
 
         // Setelah skip flow 9, jangan fade out UI dulu
         // Langsung proceed ke step 7 tanpa menyembunyikan UI
-        ProceedToNextStep();
+        //ProceedToNextStep();
     }
 
     void HideAllTutorialUI()

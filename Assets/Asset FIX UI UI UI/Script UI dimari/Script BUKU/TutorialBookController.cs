@@ -187,4 +187,6 @@ public class TutorialBookController : MonoBehaviour
         buttonImg.color = pressedButtonColor;
         DOVirtual.DelayedCall(0.2f, () => buttonImg.color = normalButtonColor);
     }
+
+
 }
