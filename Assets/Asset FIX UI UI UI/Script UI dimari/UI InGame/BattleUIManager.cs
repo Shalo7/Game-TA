@@ -4,37 +4,61 @@ using DG.Tweening;
 
 public class BattleUIManager : MonoBehaviour
 {
+    [Header("Main Systems")]
     public TypewritingManager typewritingManager;
     public TypingWordTimer typingTimerUI;
 
+    [Header("UI References")]
     public GameObject UI_OptionSelector;
-    public GameObject UI_TurnIndicator; // ✅ Ini adalah UI_PLAYERTurnIndicator
+    public GameObject UI_TurnIndicator; // Banner "Your Turn"
     public GameObject UI_PlayerInfo;
     public GameObject UI_EnemyInfo;
     public GameObject UI_EnemyTurnIndicator;
 
+    [Header("Component References")]
     public UIOptionSelector uiOptionSelectorScript;
     public TypingIntroAnimator typingIntroAnimator;
 
+    [Header("Timing")]
     public float enemyTurnDuration = 2f;
+
+    [Header("Tutorial Hook")]
+    public TutorialController tutorialController; // 🟡 Assign jika ada tutorial
+
+    private bool isInTutorial = false;
+
+    public bool EnemyTurnFinished { get; private set; } = false;
+
+    public void SetTutorialMode(bool active)
+    {
+        isInTutorial = active;
+    }
 
     public void OnActionSelected(string action)
     {
         Debug.Log($"Player memilih: {action}");
 
+        // Nonaktifkan UI yang tidak perlu
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
         UI_EnemyTurnIndicator.SetActive(false);
 
+        // Jalankan typing intro (Let's Begin!)
         typingIntroAnimator.onComplete = () =>
         {
             typewritingManager.BeginTypingSession();
             typingTimerUI.StartTimer();
         };
 
-        typingIntroAnimator.PlayIntro(); // ⬅️ Tambahkan ini
+        typingIntroAnimator.PlayIntro();
+
+        // Saat typing intro muncul, semua UI gameplay sebaiknya disembunyikan
+        UI_OptionSelector.SetActive(false);
+        UI_PlayerInfo.SetActive(false);
+        UI_EnemyInfo.SetActive(false);
+        UI_TurnIndicator.SetActive(false);
     }
 
     public void OnTypingSessionComplete()
@@ -46,12 +70,10 @@ public class BattleUIManager : MonoBehaviour
     {
         Debug.Log("Giliran musuh dimulai...");
 
-        // Show indikator musuh
         UI_EnemyTurnIndicator.SetActive(true);
         UI_EnemyTurnIndicator.transform.localScale = Vector3.zero;
         UI_EnemyTurnIndicator.transform.DOScale(Vector3.one, 0.4f).SetEase(Ease.OutBack);
 
-        // Hide player-related UI
         UI_PlayerInfo.SetActive(false);
         UI_EnemyInfo.SetActive(false);
         UI_OptionSelector.SetActive(false);
@@ -60,7 +82,14 @@ public class BattleUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(enemyTurnDuration);
 
-        // Kembali ke giliran pemain
+        EnemyTurnFinished = true;
+
+        if (tutorialController != null && tutorialController.enabled && tutorialController.IsTutorialInStep5OrBelow())
+        {
+            tutorialController.TriggerStep6AfterEnemyTurn();
+            yield break;
+        }
+
         BackToPlayerSelection();
     }
 
@@ -68,16 +97,16 @@ public class BattleUIManager : MonoBehaviour
     {
         Debug.Log("Giliran pemain kembali");
 
-        // ✅ Sembunyikan UI_ENEMYTurnIndicator
+        // Sembunyikan indikator giliran musuh
         UI_EnemyTurnIndicator.SetActive(false);
 
-        // ✅ Fade-in player UI
+        // Fade in semua UI player
         UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
 
-        // Aktifkan kembali pemilihan aksi
+        // Aktifkan opsi seleksi player
         uiOptionSelectorScript.EnableSelection();
     }
 }
