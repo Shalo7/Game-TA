@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIOptionSelector : MonoBehaviour
 {
     [Header("Option Navigation")]
+    public Button[] moveButtons;
     public RectTransform[] optionButtons;
     public RectTransform selectorPointer;
     public float pointerOffsetX = -30f;
@@ -51,6 +52,16 @@ public class UIOptionSelector : MonoBehaviour
             if (availableOptions.Contains(selectedOption))
             {
                 ConfirmSelection();
+            }
+
+            if (moveButtons != null && currentIndex >= 0 && currentIndex < moveButtons.Length)
+            {
+                Button selectedBtn = moveButtons[currentIndex].GetComponent<Button>();
+                if (selectedBtn != null && selectedBtn.interactable)
+                {
+                    Debug.Log("Triggered" + selectedBtn.name);
+                    selectedBtn.onClick.Invoke();
+                }
             }
         }
     }

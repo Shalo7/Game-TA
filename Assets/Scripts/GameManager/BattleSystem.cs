@@ -31,7 +31,7 @@ public class BattleSystem : MonoBehaviour
         SetupBattle();
     }
 
-    void SetupBattle()
+    public void SetupBattle()
     {
         player = new CharaInstance(playerChara);
         enemy = new CharaInstance(enemyChara);
@@ -54,7 +54,6 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < moveButtons.Length; i++)
         {
             int index = i;
-            moveButtons[i].GetComponentInChildren<TMP_Text>().text = player.baseData.moves[i].moveName;
             moveButtons[i].onClick.AddListener(() => OnPlayerMoveChosen(index));
         }
     }
@@ -104,9 +103,10 @@ public class BattleSystem : MonoBehaviour
             battleLog.text = "You Lost!";
     }
 
-    [SerializeField] TypingManager typingManager;
+    [SerializeField] TypewritingManager typingManager;
     IEnumerator PlayerTurn()
     {
+        Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
         EnableMoveButtons(true);
 
@@ -120,6 +120,7 @@ public class BattleSystem : MonoBehaviour
 
         typingManager.StartTyping((correctCount) =>
         {
+            Debug.Log("✅ StartTyping() callback called with: " + correctCount);
             correctWords = correctCount;
             typingComplete = true;
         });
