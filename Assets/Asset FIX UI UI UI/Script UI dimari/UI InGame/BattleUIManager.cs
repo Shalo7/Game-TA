@@ -74,8 +74,8 @@ public class BattleUIManager : MonoBehaviour
         UI_EnemyTurnIndicator.transform.localScale = Vector3.zero;
         UI_EnemyTurnIndicator.transform.DOScale(Vector3.one, 0.4f).SetEase(Ease.OutBack);
 
-        UI_PlayerInfo.SetActive(false);
-        UI_EnemyInfo.SetActive(false);
+        UI_PlayerInfo.SetActive(true);
+        UI_EnemyInfo.SetActive(true);
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
         typingTimerUI.Hide();

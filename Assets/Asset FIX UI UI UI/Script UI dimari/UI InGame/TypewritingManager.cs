@@ -8,7 +8,7 @@ public class TypewritingManager : MonoBehaviour
 {
     [Header("Word Source")]
     public WordGlossary glossary;
-    private List<string> wordList = new List<string>();
+    public List<string> wordList;
 
     [Header("UI References")]
     public TMP_Text shadowText_Player;

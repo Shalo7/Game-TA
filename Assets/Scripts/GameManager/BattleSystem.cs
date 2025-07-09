@@ -114,7 +114,7 @@ public class BattleSystem : MonoBehaviour
         EnableMoveButtons(false);
         moveChosen = false;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         bool typingComplete = false;
         int correctWords = 0;
 

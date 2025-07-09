@@ -3959,6 +3959,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glossary: {fileID: 11400000, guid: 7444a48cf164c2349a3a413193f7700f, type: 2}
+  wordList:
+  - PYRO
+  - HYDRO
+  - DENDRO
+  - ELECTRO
+  - CRYO
   shadowText_Player: {fileID: 1403982182}
   typedText_Player: {fileID: 869316371}
   shadowText_Enemy: {fileID: 478322735}
