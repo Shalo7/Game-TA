@@ -10,7 +10,7 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject UI_OptionSelector;
-    public GameObject UI_TurnIndicator; // Banner "Your Turn"
+    public GameObject UI_TurnIndicator;
     public GameObject UI_PlayerInfo;
     public GameObject UI_EnemyInfo;
     public GameObject UI_EnemyTurnIndicator;
@@ -22,10 +22,14 @@ public class BattleUIManager : MonoBehaviour
     [Header("Timing")]
     public float enemyTurnDuration = 2f;
 
+    [Header("Health")]
+    public HealthBarAnimation playerHealthBarAnim;
+
     [Header("Tutorial Hook")]
-    public TutorialController tutorialController; // 🟡 Assign jika ada tutorial
+    public TutorialController tutorialController;
 
     private bool isInTutorial = false;
+    private bool hasDealtFirstEnemyDamage = false;
 
     public bool EnemyTurnFinished { get; private set; } = false;
 
@@ -38,14 +42,12 @@ public class BattleUIManager : MonoBehaviour
     {
         Debug.Log($"Player memilih: {action}");
 
-        // Nonaktifkan UI yang tidak perlu
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
         UI_EnemyTurnIndicator.SetActive(false);
 
-        // Jalankan typing intro (Let's Begin!)
         typingIntroAnimator.onComplete = () =>
         {
             typewritingManager.BeginTypingSession();
@@ -54,7 +56,6 @@ public class BattleUIManager : MonoBehaviour
 
         typingIntroAnimator.PlayIntro();
 
-        // Saat typing intro muncul, semua UI gameplay sebaiknya disembunyikan
         UI_OptionSelector.SetActive(false);
         UI_PlayerInfo.SetActive(false);
         UI_EnemyInfo.SetActive(false);
@@ -80,6 +81,14 @@ public class BattleUIManager : MonoBehaviour
         UI_TurnIndicator.SetActive(false);
         typingTimerUI.Hide();
 
+        // ⚠️ Kurangi darah player hanya di giliran musuh pertama (flow 8)
+        if (!hasDealtFirstEnemyDamage && playerHealthBarAnim != null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            playerHealthBarAnim.TakeDamage(50f);
+            hasDealtFirstEnemyDamage = true;
+        }
+
         yield return new WaitForSeconds(enemyTurnDuration);
 
         EnemyTurnFinished = true;
@@ -97,16 +106,13 @@ public class BattleUIManager : MonoBehaviour
     {
         Debug.Log("Giliran pemain kembali");
 
-        // Sembunyikan indikator giliran musuh
         UI_EnemyTurnIndicator.SetActive(false);
 
-        // Fade in semua UI player
         UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
 
-        // Aktifkan opsi seleksi player
         uiOptionSelectorScript.EnableSelection();
     }
 }
