@@ -29,8 +29,10 @@ public class CharaInstance
         activeEffects.Clear();
     }
 
-    public void ApplyMoveEffect(Moves move, bool isFromEnemy, CharaInstance target = null)
+    public void ApplyMoveEffect(Moves move, bool isFromEnemy, CharaInstance target = null, int overridePower = -1)
     {
+        int finalPower = overridePower > -1 ? overridePower : move.power;
+
         switch (move.moveType)
         {
             case MoveType.Attack:
@@ -41,15 +43,15 @@ public class CharaInstance
                 isBlocking = true;
                 break;
             case MoveType.Buff:
-                ApplyStatEffect(move.affectedStat, move.statChangeAmount, move.duration, move);
+                ApplyStatEffect(move.affectedStat, finalPower, move.duration, move);
                 break;
             case MoveType.Debuff:
                 if (target != null)
-                    target.ApplyStatEffect(move.affectedStat, move.statChangeAmount, move.duration, move);
+                    target.ApplyStatEffect(move.affectedStat, finalPower, move.duration, move);
                 break;
 
             case MoveType.Heal:
-                curHP += move.power;
+                curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
                 break;
         }

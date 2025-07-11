@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: WordGlossary
   m_EditorClassIdentifier: 
   words:
-  - 'Ignivar '
-  - 'Glaciris '
-  - 'Voltrix '
-  - 'Aqualis '
-  - 'Arcanum '
-  - 'Pyronis '
-  - 'Cryovex '
-  - 'Stormel '
-  - 'Hydrune '
-  - 'Inferix '
-  - 'Frostrex '
-  - 'Thundra '
-  - 'Aquorix '
-  - 'Runedra '
-  - 'Mantrix '
-  - 'Emberon '
-  - 'Chillaxis '
-  - 'Zaptune '
-  - 'Cascadra '
-  - 'Elemara '
+  - ignivar
+  - glaciris
+  - voltrix
+  - aqualis
+  - arcanum
+  - pyronis
+  - cryovex
+  - stormel
+  - hydrune
+  - inferix
+  - frostrex
+  - thundra
+  - aquorix
+  - runedra
+  - mantrix
+  - emberon
+  - chilaxis
+  - zaptune
+  - cascadra
+  - elemara

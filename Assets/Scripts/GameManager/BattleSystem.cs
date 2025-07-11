@@ -31,7 +31,7 @@ public class BattleSystem : MonoBehaviour
         SetupBattle();
     }
 
-    void SetupBattle()
+    public void SetupBattle()
     {
         player = new CharaInstance(playerChara);
         enemy = new CharaInstance(enemyChara);
@@ -54,7 +54,6 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < moveButtons.Length; i++)
         {
             int index = i;
-            moveButtons[i].GetComponentInChildren<TMP_Text>().text = player.baseData.moves[i].moveName;
             moveButtons[i].onClick.AddListener(() => OnPlayerMoveChosen(index));
         }
     }
@@ -104,20 +103,43 @@ public class BattleSystem : MonoBehaviour
             battleLog.text = "You Lost!";
     }
 
+    [SerializeField] TypewritingManager typingManager;
     IEnumerator PlayerTurn()
     {
+        Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
         EnableMoveButtons(true);
 
         yield return new WaitUntil(() => moveChosen);
-
-        ExecuteMove(player, enemy, selectedMove);
         EnableMoveButtons(false);
         moveChosen = false;
 
+        yield return new WaitForSeconds(2f);
+        bool typingComplete = false;
+        int correctWords = 0;
+
+        typingManager.StartTyping((correctCount) =>
+        {
+            Debug.Log("✅ StartTyping() callback called with: " + correctCount);
+            correctWords = correctCount;
+            typingComplete = true;
+        });
+
+        yield return new WaitUntil(() => typingComplete);
+
+        if (correctWords == 0)
+        {
+            battleLog.text = "Failed";
+            yield return new WaitForSeconds(1f);
+            yield break;
+        }
+
+        float finalPower = selectedMove.power * correctWords;
+
+        ExecuteMove(player, enemy, selectedMove, finalPower);
+
         UpdateHPUI();
         yield return new WaitForSeconds(1f);
-        yield break;
     }
 
     IEnumerator EnemyTurn()
@@ -127,19 +149,22 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
-        ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex]);
+        int basePower = enemy.baseData.moves[moveIndex].power;
+        ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
         Debug.Log(moveIndex);
 
         UpdateHPUI();
         yield return new WaitForSeconds(1f);
     }
 
-    void ExecuteMove(CharaInstance source, CharaInstance target, Moves move)
+    void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
     {
+        int finalPower = Mathf.RoundToInt(modifiedPower);
+
         //Attack Damage Math
         if (move.moveType == MoveType.Attack)
         {
-            int damage = Mathf.Max(1, move.power + source.curAtt - target.curDef);
+            int damage = Mathf.Max(1, finalPower + source.curAtt - target.curDef);
 
             //Block Mechanic
             if (target.isBlocking)
@@ -154,11 +179,11 @@ public class BattleSystem : MonoBehaviour
         }
         else if (move.moveType == MoveType.Debuff || move.moveType == MoveType.Heal)
         {
-            source.ApplyMoveEffect(move, false, target); //Debuff
+            source.ApplyMoveEffect(move, false, target, finalPower); //Debuff
         }
         else
         {
-            source.ApplyMoveEffect(move, false);
+            source.ApplyMoveEffect(move, false, null, finalPower);
         }
 
         target.curHP = Mathf.Clamp(target.curHP, 0, target.baseData.maxHP);

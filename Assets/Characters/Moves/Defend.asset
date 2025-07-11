@@ -19,4 +19,4 @@ MonoBehaviour:
   affectedStat: 1
   isPercentageChange: 1
   statChangeAmount: 0
-  duration: 0
+  duration: 1
