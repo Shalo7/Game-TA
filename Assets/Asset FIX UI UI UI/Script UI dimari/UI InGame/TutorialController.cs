@@ -25,6 +25,7 @@ public class TutorialController : MonoBehaviour
     public UIOptionSelector uiOptionSelector;
     public BattleUIManager battleUIManager;
     public TypingIntroAnimator typingIntroAnimator;
+    public HealthBarAnimation playerHealthBarAnim;
 
     public int currentStepIndex = 1;
     private bool tutorialActive = true;
@@ -131,6 +132,7 @@ public class TutorialController : MonoBehaviour
             case 7:
                 StartCoroutine(ShowFinalStep7Image());
                 Debug.Log("Hello 2!!");
+                playerHealthBarAnim.TakeDamage(-50f);
                 break;
         }
     }
@@ -190,6 +192,7 @@ public class TutorialController : MonoBehaviour
 
         HideAllTutorialUI();
         optionsGroup.SetActive(false);
+        Debug.Log("Jalan");
 
         // Hanya jalankan typing intro jika belum pernah dimulai
         if (!typingIntroStarted)

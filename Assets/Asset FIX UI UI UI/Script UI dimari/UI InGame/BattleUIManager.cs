@@ -57,8 +57,9 @@ public class BattleUIManager : MonoBehaviour
         typingIntroAnimator.PlayIntro();
 
         UI_OptionSelector.SetActive(false);
-        UI_PlayerInfo.SetActive(false);
-        UI_EnemyInfo.SetActive(false);
+        UI_PlayerInfo.SetActive(true);
+        UI_EnemyInfo.SetActive(true);
+        Debug.Log("SetActive Health Bar Kedua");
         UI_TurnIndicator.SetActive(false);
     }
 
@@ -77,6 +78,7 @@ public class BattleUIManager : MonoBehaviour
 
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
+        Debug.Log("SetActive Health Bar");
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
         typingTimerUI.Hide();

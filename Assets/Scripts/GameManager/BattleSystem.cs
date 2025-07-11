@@ -12,8 +12,11 @@ public class BattleSystem : MonoBehaviour
     public Image playerImage;
     public Image enemyImage;
 
-    public Slider playerHpBar;
-    public Slider enemyHpBar;
+    //public Slider playerHpBar;
+    //public Slider enemyHpBar;
+
+    public HealthBarAnimation playerHpBar;
+    public HealthBarAnimation enemyHpBar;
 
     public Button[] moveButtons;
     public TMP_Text battleLog;
@@ -39,8 +42,8 @@ public class BattleSystem : MonoBehaviour
         playerImage.sprite = player.baseData.charaSprite;
         enemyImage.sprite = enemy.baseData.charaSprite;
 
-        playerHpBar.maxValue = player.baseData.maxHP;
-        enemyHpBar.maxValue = enemy.baseData.maxHP;
+        playerHpBar.maxHealth = player.baseData.maxHP;
+        enemyHpBar.maxHealth = enemy.baseData.maxHP;
 
         UpdateHPUI();
 
@@ -98,9 +101,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         if (enemy.IsFainted())
+        {
             battleLog.text = "Enemy Defeated!";
+            Debug.Log("Enemy Defeated!");
+        }
         else
+        {
             battleLog.text = "You Lost!";
+            Debug.Log("You Lost!");
+        }
     }
 
     [SerializeField] TypewritingManager typingManager;
@@ -192,20 +201,20 @@ public class BattleSystem : MonoBehaviour
 
     void UpdateHPUI()
     {
-        playerHpBar.value = player.curHP;
-        enemyHpBar.value = enemy.curHP;
+        //playerHpBar.mainHealthSlider.value = player.curHP;
+        //enemyHpBar.mainHealthSlider.value = enemy.curHP;
+        playerHpBar.UpdateSlidersInstant(player.curHP);
+        enemyHpBar.UpdateSlidersInstant(enemy.curHP);
 
         plrStats.text =
             $"HP: {player.curHP}/{player.baseData.maxHP}\n" +
             $"ATK: {player.curAtt}\n" +
-            $"DEF: {player.curDef}\n" +
-            $"SPD: {player.curSpd}";
+            $"DEF: {player.curDef}";
 
         enemyStats.text =
             $"HP: {enemy.curHP}/{enemy.baseData.maxHP}\n" +
             $"ATK: {enemy.curAtt}\n" +
-            $"DEF: {enemy.curDef}\n" +
-            $"SPD: {enemy.curSpd}";
+            $"DEF: {enemy.curDef}";
     }
 
     private bool moveChosen = false;
@@ -213,7 +222,7 @@ public class BattleSystem : MonoBehaviour
 
     void OnPlayerMoveChosen(int index)
     {
-        Debug.Log("Player selected move: " + index);
+        //ebug.Log("Player selected move: " + index);
         selectedMove = player.baseData.moves[index];
         moveChosen = true;
     }

@@ -112,7 +112,7 @@ public class TypewritingManager : MonoBehaviour
         }
 
         currentWord = wordList[wordIndex];
-        Debug.Log("🆕 Typing word: " + currentWord);
+        //Debug.Log("🆕 Typing word: " + currentWord);
         inputBuffer = "";
         hasFailedEarly = false;
 
@@ -302,6 +302,7 @@ public class TypewritingManager : MonoBehaviour
         typingTimerUI?.StopTimer(); // ⏹ Pastikan timer mati
 
         FindFirstObjectByType<BattleUIManager>()?.OnTypingSessionComplete();
+        Debug.Log("Find!");
         onCompleteCallback?.Invoke(correctTypedCount);
     }
 

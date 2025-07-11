@@ -1016,8 +1016,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 289001791}
-  - component: {fileID: 289001793}
   - component: {fileID: 289001792}
+  - component: {fileID: 289001793}
   m_Layer: 5
   m_Name: HealthBar musuh
   m_TagString: Untagged
@@ -1495,8 +1495,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 365.57, y: 284}
-  m_SizeDelta: {x: 731.1323, y: 194.9788}
+  m_AnchoredPosition: {x: 423, y: 284}
+  m_SizeDelta: {x: 946, y: 194.9788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &478322735
 MonoBehaviour:
@@ -2343,6 +2343,7 @@ MonoBehaviour:
   uiOptionSelector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingIntroAnimator: {fileID: 846540371}
+  playerHealthBarAnim: {fileID: 1804393566}
   currentStepIndex: 1
 --- !u!4 &660498398
 Transform:
@@ -2906,8 +2907,8 @@ MonoBehaviour:
   enemyChara: {fileID: 11400000, guid: 2a7c3b5f317596a4084099cb56fef441, type: 2}
   playerImage: {fileID: 1577821992}
   enemyImage: {fileID: 1355140757}
-  playerHpBar: {fileID: 1804393567}
-  enemyHpBar: {fileID: 289001793}
+  playerHpBar: {fileID: 1804393566}
+  enemyHpBar: {fileID: 289001792}
   moveButtons:
   - {fileID: 1157152002}
   - {fileID: 1746594929}
@@ -3098,8 +3099,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -294, y: 230}
-  m_SizeDelta: {x: 731.1323, y: 194.9788}
+  m_AnchoredPosition: {x: -217.03223, y: 230}
+  m_SizeDelta: {x: 946, y: 194.9788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &869316371
 MonoBehaviour:
@@ -3944,11 +3945,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glossary: {fileID: 11400000, guid: 7444a48cf164c2349a3a413193f7700f, type: 2}
   wordList:
-  - PYRO
-  - HYDRO
-  - DENDRO
-  - ELECTRO
-  - CRYO
+  - A
+  - A
+  - A
+  - A
+  - A
   shadowText_Player: {fileID: 1403982182}
   typedText_Player: {fileID: 869316371}
   shadowText_Enemy: {fileID: 478322735}
@@ -5694,7 +5695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 610, y: 484}
+  m_AnchoredPosition: {x: 610, y: 513}
   m_SizeDelta: {x: 259.9524, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1282360171
@@ -6326,8 +6327,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -294, y: 230}
-  m_SizeDelta: {x: 731.1323, y: 194.9788}
+  m_AnchoredPosition: {x: -217.0322, y: 230}
+  m_SizeDelta: {x: 946, y: 194.9788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1403982182
 MonoBehaviour:
@@ -8382,7 +8383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -615, y: 466}
+  m_AnchoredPosition: {x: -615, y: 513}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1861376117
@@ -8651,8 +8652,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 365.57, y: 284}
-  m_SizeDelta: {x: 731.1323, y: 194.9788}
+  m_AnchoredPosition: {x: 423, y: 284}
+  m_SizeDelta: {x: 946, y: 194.9788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969401762
 MonoBehaviour:
