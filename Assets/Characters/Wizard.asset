@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaName: Wizard
   charaSprite: {fileID: 21300000, guid: 0aedb9c26312a3f488815feb4d4cb334, type: 3}
-  maxHP: 80
-  attack: 104
-  defense: 71
+  maxHP: 161
+  attack: 187
+  defense: 120
   speed: 100
   moves:
   - {fileID: 11400000, guid: cdedbdf14214b904e8d66446634ae2f7, type: 2}

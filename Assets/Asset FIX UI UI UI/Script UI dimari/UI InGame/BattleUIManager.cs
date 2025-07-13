@@ -78,6 +78,8 @@ public class BattleUIManager : MonoBehaviour
 
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
+        UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+        UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         Debug.Log("SetActive Health Bar");
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
@@ -110,8 +112,8 @@ public class BattleUIManager : MonoBehaviour
 
         UI_EnemyTurnIndicator.SetActive(false);
 
-        UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
-        UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+        // UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+        // UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
 

@@ -12,17 +12,20 @@ public class BattleSystem : MonoBehaviour
     public Image playerImage;
     public Image enemyImage;
 
-    //public Slider playerHpBar;
-    //public Slider enemyHpBar;
-
     public HealthBarAnimation playerHpBar;
     public HealthBarAnimation enemyHpBar;
 
     public Button[] moveButtons;
     public TMP_Text battleLog;
 
+    public TMP_Text plrName;
+    public TMP_Text enemyName;
+
     public TMP_Text plrStats;
     public TMP_Text enemyStats;
+
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -39,11 +42,20 @@ public class BattleSystem : MonoBehaviour
         player = new CharaInstance(playerChara);
         enemy = new CharaInstance(enemyChara);
 
+        plrName.text = player.baseData.charaName;
+        enemyName.text = enemy.baseData.charaName;
+
         playerImage.sprite = player.baseData.charaSprite;
         enemyImage.sprite = enemy.baseData.charaSprite;
 
         playerHpBar.maxHealth = player.baseData.maxHP;
+        playerHpBar.SetHealth(player.curHP);
+        Debug.Log(player.curHP);
+        
         enemyHpBar.maxHealth = enemy.baseData.maxHP;
+        enemyHpBar.SetHealth(enemy.curHP);
+        Debug.Log(enemy.curHP);
+
 
         UpdateHPUI();
 
@@ -104,11 +116,13 @@ public class BattleSystem : MonoBehaviour
         {
             battleLog.text = "Enemy Defeated!";
             Debug.Log("Enemy Defeated!");
+            winScreen.SetActive(true);
         }
         else
         {
             battleLog.text = "You Lost!";
             Debug.Log("You Lost!");
+            loseScreen.SetActive(true);
         }
     }
 
@@ -203,8 +217,8 @@ public class BattleSystem : MonoBehaviour
     {
         //playerHpBar.mainHealthSlider.value = player.curHP;
         //enemyHpBar.mainHealthSlider.value = enemy.curHP;
-        playerHpBar.UpdateSlidersInstant(player.curHP);
-        enemyHpBar.UpdateSlidersInstant(enemy.curHP);
+        playerHpBar.TakeDamage(playerHpBar.CurrentHealth - player.curHP);
+        enemyHpBar.TakeDamage(enemyHpBar.CurrentHealth - enemy.curHP);
 
         plrStats.text =
             $"HP: {player.curHP}/{player.baseData.maxHP}\n" +

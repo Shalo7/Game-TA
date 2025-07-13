@@ -23,6 +23,7 @@ public class HealthBarAnimation : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        Debug.Log(maxHealth);
 
         if (mainHealthSlider) mainHealthSlider.maxValue = maxHealth;
         if (easeHealthSlider) easeHealthSlider.maxValue = maxHealth;
