@@ -1,16 +1,23 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIOptionSelector : MonoBehaviour
 {
+    [Header("Option Navigation")]
+    public Button[] moveButtons;
     public RectTransform[] optionButtons;
     public RectTransform selectorPointer;
     public float pointerOffsetX = -30f;
 
+    [Header("Visuals")]
     public Image[] optionImages;
     public Color selectedColor = Color.black;
     public Color normalColor = Color.white;
+    public Color disabledColor = new Color(1f, 1f, 1f, 0.3f);
 
+    [Header("UI Faders")]
     public UIFadeOut fadeUIOptionsGroup;
     public UIFadeOut fadeTurnIndicator;
     public UIFadeOut fadePlayerInfo;
@@ -18,6 +25,8 @@ public class UIOptionSelector : MonoBehaviour
 
     private int currentIndex = 0;
     private bool selectionMade = false;
+    private bool inputEnabled = false;
+    private string[] availableOptions = new string[] { "Attack", "Defend", "Heal" };
 
     void Start()
     {
@@ -27,22 +36,68 @@ public class UIOptionSelector : MonoBehaviour
 
     void Update()
     {
-        if (selectionMade) return;
+        if (!inputEnabled || selectionMade || !gameObject.activeSelf) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            currentIndex = (currentIndex - 1 + optionButtons.Length) % optionButtons.Length;
-            UpdatePointer();
+            MoveSelection(-1);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            currentIndex = (currentIndex + 1) % optionButtons.Length;
-            UpdatePointer();
+            MoveSelection(1);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            ConfirmSelection();
+            string selectedOption = optionButtons[currentIndex].name.Replace("Button_", "");
+            if (availableOptions.Contains(selectedOption))
+            {
+                ConfirmSelection();
+            }
+
+            if (moveButtons != null && currentIndex >= 0 && currentIndex < moveButtons.Length)
+            {
+                Button selectedBtn = moveButtons[currentIndex].GetComponent<Button>();
+                if (selectedBtn != null && selectedBtn.interactable)
+                {
+                    Debug.Log("Triggered" + selectedBtn.name);
+                    selectedBtn.onClick.Invoke();
+                }
+            }
         }
+    }
+
+    void MoveSelection(int direction)
+    {
+        int start = currentIndex;
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            currentIndex = (currentIndex + direction + optionButtons.Length) % optionButtons.Length;
+            string opt = optionButtons[currentIndex].name.Replace("Button_", "");
+            if (availableOptions.Contains(opt))
+            {
+                UpdatePointer();
+                break;
+            }
+        }
+    }
+
+    void ConfirmSelection()
+    {
+        selectionMade = true;
+        ResetButtonColors();
+
+        if (optionImages != null && currentIndex < optionImages.Length)
+        {
+            optionImages[currentIndex].color = selectedColor;
+        }
+
+        string choice = optionButtons[currentIndex].name.Replace("Button_", "");
+        FindFirstObjectByType<TurnManager>()?.OnPlayerChoice(choice);
+
+        fadeUIOptionsGroup?.StartFadeOut();
+        fadeTurnIndicator?.StartFadeOut();
+        fadePlayerInfo?.StartFadeOut();
+        fadeEnemyInfo?.StartFadeOut();
     }
 
     void UpdatePointer()
@@ -50,33 +105,31 @@ public class UIOptionSelector : MonoBehaviour
         selectorPointer.position = optionButtons[currentIndex].position + Vector3.left * pointerOffsetX;
     }
 
-    void ConfirmSelection()
+    void ResetButtonColors()
     {
-        selectionMade = true;
-
-        // 1. Hitamkan pilihan
-        ResetButtonColors();
-        if (optionImages != null && currentIndex < optionImages.Length)
+        for (int i = 0; i < optionImages.Length; i++)
         {
-            optionImages[currentIndex].color = selectedColor;
+            string key = optionButtons[i].name.Replace("Button_", "");
+            optionImages[i].color = availableOptions.Contains(key) ? normalColor : disabledColor;
         }
-
-        // 2. Ambil nama button -> kirim ke TurnManager
-        string choice = optionButtons[currentIndex].name.Replace("Button_", ""); // lebih clean
-        Debug.Log("Player chose: " + choice);
-        FindFirstObjectByType<TurnManager>().OnPlayerChoice(choice);
-
-        // 3. Fade semua UI
-        fadeUIOptionsGroup?.StartFadeOut();
-        fadeTurnIndicator?.StartFadeOut();
-        fadePlayerInfo?.StartFadeOut();
-        fadeEnemyInfo?.StartFadeOut();
     }
 
     public void EnableSelection()
     {
+        inputEnabled = true;
         selectionMade = false;
-        currentIndex = 0;
+
+        // Temukan index opsi pertama yang tersedia
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            string opt = optionButtons[i].name.Replace("Button_", "");
+            if (availableOptions.Contains(opt))
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+
         UpdatePointer();
         ResetButtonColors();
         gameObject.SetActive(true);
@@ -87,11 +140,27 @@ public class UIOptionSelector : MonoBehaviour
         fadeEnemyInfo?.ResetFade();
     }
 
-    void ResetButtonColors()
+    public void DisableSelection()
     {
-        foreach (var img in optionImages)
+        inputEnabled = false;
+    }
+
+    public void SetAvailableOptions(string[] allowedOptions)
+    {
+        availableOptions = allowedOptions;
+        ResetButtonColors();
+    }
+
+    public void ForceSelectOption(string optionName)
+    {
+        for (int i = 0; i < optionButtons.Length; i++)
         {
-            img.color = normalColor;
+            if (optionButtons[i].name.Replace("Button_", "") == optionName)
+            {
+                currentIndex = i;
+                UpdatePointer();
+                break;
+            }
         }
     }
 }

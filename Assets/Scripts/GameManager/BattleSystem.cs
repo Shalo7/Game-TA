@@ -12,14 +12,20 @@ public class BattleSystem : MonoBehaviour
     public Image playerImage;
     public Image enemyImage;
 
-    public Slider playerHpBar;
-    public Slider enemyHpBar;
+    public HealthBarAnimation playerHpBar;
+    public HealthBarAnimation enemyHpBar;
 
     public Button[] moveButtons;
     public TMP_Text battleLog;
 
+    public TMP_Text plrName;
+    public TMP_Text enemyName;
+
     public TMP_Text plrStats;
     public TMP_Text enemyStats;
+
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -31,16 +37,25 @@ public class BattleSystem : MonoBehaviour
         SetupBattle();
     }
 
-    void SetupBattle()
+    public void SetupBattle()
     {
         player = new CharaInstance(playerChara);
         enemy = new CharaInstance(enemyChara);
 
+        plrName.text = player.baseData.charaName;
+        enemyName.text = enemy.baseData.charaName;
+
         playerImage.sprite = player.baseData.charaSprite;
         enemyImage.sprite = enemy.baseData.charaSprite;
 
-        playerHpBar.maxValue = player.baseData.maxHP;
-        enemyHpBar.maxValue = enemy.baseData.maxHP;
+        playerHpBar.maxHealth = player.baseData.maxHP;
+        playerHpBar.SetHealth(player.curHP);
+        Debug.Log(player.curHP);
+        
+        enemyHpBar.maxHealth = enemy.baseData.maxHP;
+        enemyHpBar.SetHealth(enemy.curHP);
+        Debug.Log(enemy.curHP);
+
 
         UpdateHPUI();
 
@@ -54,7 +69,6 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < moveButtons.Length; i++)
         {
             int index = i;
-            moveButtons[i].GetComponentInChildren<TMP_Text>().text = player.baseData.moves[i].moveName;
             moveButtons[i].onClick.AddListener(() => OnPlayerMoveChosen(index));
         }
     }
@@ -99,14 +113,23 @@ public class BattleSystem : MonoBehaviour
         }
 
         if (enemy.IsFainted())
+        {
             battleLog.text = "Enemy Defeated!";
+            Debug.Log("Enemy Defeated!");
+            winScreen.SetActive(true);
+        }
         else
+        {
             battleLog.text = "You Lost!";
+            Debug.Log("You Lost!");
+            loseScreen.SetActive(true);
+        }
     }
 
-    [SerializeField] TypingManager typingManager;
+    [SerializeField] TypewritingManager typingManager;
     IEnumerator PlayerTurn()
     {
+        Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
         EnableMoveButtons(true);
 
@@ -114,12 +137,13 @@ public class BattleSystem : MonoBehaviour
         EnableMoveButtons(false);
         moveChosen = false;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         bool typingComplete = false;
         int correctWords = 0;
 
         typingManager.StartTyping((correctCount) =>
         {
+            Debug.Log("✅ StartTyping() callback called with: " + correctCount);
             correctWords = correctCount;
             typingComplete = true;
         });
@@ -191,20 +215,20 @@ public class BattleSystem : MonoBehaviour
 
     void UpdateHPUI()
     {
-        playerHpBar.value = player.curHP;
-        enemyHpBar.value = enemy.curHP;
+        //playerHpBar.mainHealthSlider.value = player.curHP;
+        //enemyHpBar.mainHealthSlider.value = enemy.curHP;
+        playerHpBar.TakeDamage(playerHpBar.CurrentHealth - player.curHP);
+        enemyHpBar.TakeDamage(enemyHpBar.CurrentHealth - enemy.curHP);
 
         plrStats.text =
             $"HP: {player.curHP}/{player.baseData.maxHP}\n" +
             $"ATK: {player.curAtt}\n" +
-            $"DEF: {player.curDef}\n" +
-            $"SPD: {player.curSpd}";
+            $"DEF: {player.curDef}";
 
         enemyStats.text =
             $"HP: {enemy.curHP}/{enemy.baseData.maxHP}\n" +
             $"ATK: {enemy.curAtt}\n" +
-            $"DEF: {enemy.curDef}\n" +
-            $"SPD: {enemy.curSpd}";
+            $"DEF: {enemy.curDef}";
     }
 
     private bool moveChosen = false;
@@ -212,7 +236,7 @@ public class BattleSystem : MonoBehaviour
 
     void OnPlayerMoveChosen(int index)
     {
-        Debug.Log("Player selected move: " + index);
+        //ebug.Log("Player selected move: " + index);
         selectedMove = player.baseData.moves[index];
         moveChosen = true;
     }

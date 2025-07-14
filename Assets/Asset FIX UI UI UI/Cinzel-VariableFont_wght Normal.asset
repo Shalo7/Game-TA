@@ -11,8 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - GLOW_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - MASK_HARD
   - RATIOS_OFF
@@ -66,7 +65,7 @@ Material:
     - _GlowOffset: 0.38
     - _GlowOuter: 0.46
     - _GlowPower: 0.29
-    - _GradientScale: 1
+    - _GradientScale: 0.52
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
@@ -90,7 +89,7 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _TextureHeight: 512
-    - _TextureWidth: 476.12
+    - _TextureWidth: 469.71
     - _UnderlayDilate: 0
     - _UnderlayOffsetX: 0
     - _UnderlayOffsetY: 0
@@ -2010,7 +2009,7 @@ MonoBehaviour:
   m_ClearDynamicDataOnBuild: 0
   m_AtlasWidth: 512
   m_AtlasHeight: 512
-  m_AtlasPadding: 0
+  m_AtlasPadding: -1
   m_AtlasRenderMode: 4165
   m_UsedGlyphRects:
   - m_X: 0

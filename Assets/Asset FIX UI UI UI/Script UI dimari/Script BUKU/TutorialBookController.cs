@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
@@ -33,6 +33,7 @@ public class TutorialBookController : MonoBehaviour
     private int currentIndex = 1; // Start dari element 1
     private Tween blinkTween;
     private System.Action onComplete;
+    private string originatingSceneName;
 
     void Update()
     {
@@ -60,7 +61,9 @@ public class TutorialBookController : MonoBehaviour
     public void StartTutorial(System.Action onFinish)
     {
         onComplete = onFinish;
+        originatingSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
+        // Setup awal
         bukuTutorialGO.SetActive(true);
         bookCanvasGroup.alpha = 0;
         darkPanelGroup.alpha = 0;
@@ -76,7 +79,7 @@ public class TutorialBookController : MonoBehaviour
         nextButtonGroup.blocksRaycasts = false;
         prevButtonGroup.blocksRaycasts = false;
 
-        book.currentPage = 1; // Tampilkan halaman 0 & 1
+        book.currentPage = 1;
         currentIndex = 1;
 
         ShowBook();
@@ -100,18 +103,19 @@ public class TutorialBookController : MonoBehaviour
 
     void HideBook()
     {
-        darkPanelGroup.DOFade(0f, fadeDuration);
-        bookCanvasGroup.DOFade(0f, fadeDuration);
+        darkPanelGroup.DOFade(0f, fadeDuration).SetUpdate(true);
+        bookCanvasGroup.DOFade(0f, fadeDuration).SetUpdate(true);
 
-        bookRootTransform.DOAnchorPos(startPos, moveDuration).SetEase(Ease.InBack)
+        bookRootTransform.DOAnchorPos(startPos, moveDuration).SetEase(Ease.InBack).SetUpdate(true)
             .OnComplete(() =>
             {
                 bukuTutorialGO.SetActive(false);
-                onComplete?.Invoke();
 
-                // Kembali ke main menu (opsional atau custom event bisa ditambahkan di MainMenuController)
-                if (SceneController.Instance != null)
-                    SceneController.Instance.NextLevel("MainMenu");
+                // ❌ Hapus Scene Reset, kita tidak perlu ini:
+                // UnityEngine.SceneManagement.SceneManager.LoadScene(originatingSceneName);
+
+                // ✅ Cukup panggil callback
+                onComplete?.Invoke();
             });
     }
 
@@ -167,7 +171,7 @@ public class TutorialBookController : MonoBehaviour
     void StartBlinking()
     {
         if (blinkTween != null) blinkTween.Kill();
-        blinkTween = spaceContinueGroup.DOFade(0.2f, spaceBlinkSpeed).SetLoops(-1, LoopType.Yoyo);
+        blinkTween = spaceContinueGroup.DOFade(0.2f, spaceBlinkSpeed).SetLoops(-1, LoopType.Yoyo).SetUpdate(true);
     }
 
     void StopBlinking()
@@ -183,4 +187,6 @@ public class TutorialBookController : MonoBehaviour
         buttonImg.color = pressedButtonColor;
         DOVirtual.DelayedCall(0.2f, () => buttonImg.color = normalButtonColor);
     }
+
+
 }

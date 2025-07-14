@@ -7,6 +7,7 @@ using DG.Tweening;
 public class TypewritingManager : MonoBehaviour
 {
     [Header("Word Source")]
+    public WordGlossary glossary;
     public List<string> wordList;
 
     [Header("UI References")]
@@ -111,6 +112,7 @@ public class TypewritingManager : MonoBehaviour
         }
 
         currentWord = wordList[wordIndex];
+        //Debug.Log("🆕 Typing word: " + currentWord);
         inputBuffer = "";
         hasFailedEarly = false;
 
@@ -143,6 +145,40 @@ public class TypewritingManager : MonoBehaviour
             typingTimerUI.OnTimerTimeout = OnWordTimeOut;
             typingTimerUI.StartTimer();
         }
+    }
+
+    System.Action<int> onCompleteCallback;
+    int correctTypedCount;
+
+    public void StartTyping(System.Action<int> onComplete)
+    {
+        onCompleteCallback = onComplete;
+        correctTypedCount = 0;
+
+        LoadWords(5); // pull 5 words from the glossary
+        BeginTypingSession();
+    }
+
+    public void LoadWords(int count)
+    {
+        wordList.Clear();
+
+        if (glossary == null || glossary.words.Count == 0)
+        {
+            Debug.LogWarning("No Glossary");
+            return;
+        }
+
+        List<string> copy = new List<string>(glossary.words);
+
+        for (int i = 0; i < count && copy.Count > 0; i++)
+        {
+            int index = Random.Range(0, copy.Count);
+            wordList.Add(copy[index].ToUpper()); //uppercase typing
+            copy.RemoveAt(index);
+        }
+
+        Debug.Log("✅ Loaded words: " + string.Join(", ", wordList));
     }
 
     void UpdateTypedVisual()
@@ -215,6 +251,7 @@ public class TypewritingManager : MonoBehaviour
 
         yield return new WaitForSeconds(bounceDuration + fadeOutDuration + 0.1f);
 
+        correctTypedCount++;
         wordIndex++;
 
         if (wordIndex < wordList.Count)
@@ -265,6 +302,8 @@ public class TypewritingManager : MonoBehaviour
         typingTimerUI?.StopTimer(); // ⏹ Pastikan timer mati
 
         FindFirstObjectByType<BattleUIManager>()?.OnTypingSessionComplete();
+        Debug.Log("Find!");
+        onCompleteCallback?.Invoke(correctTypedCount);
     }
 
     void ApplyShakeEffect()

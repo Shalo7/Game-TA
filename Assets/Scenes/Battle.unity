@@ -389,7 +389,6 @@ GameObject:
   m_Component:
   - component: {fileID: 147181325}
   - component: {fileID: 147181324}
-  - component: {fileID: 147181326}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -424,7 +423,7 @@ MonoBehaviour:
   battleLog: {fileID: 753750943}
   plrStats: {fileID: 234111013}
   enemyStats: {fileID: 1701956643}
-  typingManager: {fileID: 147181326}
+  typingManager: {fileID: 0}
 --- !u!4 &147181325
 Transform:
   m_ObjectHideFlags: 0
@@ -440,24 +439,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &147181326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 147181323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae451a457859632479992f8e46a97dd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  typingUI: {fileID: 501384973}
-  wordText: {fileID: 700075765}
-  inputField: {fileID: 1273224691}
-  timerSlider: {fileID: 272654798}
-  glossary: {fileID: 11400000, guid: 7444a48cf164c2349a3a413193f7700f, type: 2}
-  timeLimit: 10
 --- !u!1 &234111011
 GameObject:
   m_ObjectHideFlags: 0
