@@ -20,16 +20,16 @@ public class HealthBarAnimation : MonoBehaviour
 
     public float CurrentHealth => currentHealth;
 
-    void Start()
-    {
-        currentHealth = maxHealth;
-        Debug.Log(maxHealth);
+    // void Start()
+    // {
+    //     currentHealth = maxHealth;
+    //     Debug.Log(maxHealth);
 
-        if (mainHealthSlider) mainHealthSlider.maxValue = maxHealth;
-        if (easeHealthSlider) easeHealthSlider.maxValue = maxHealth;
+    //     if (mainHealthSlider) mainHealthSlider.maxValue = maxHealth;
+    //     if (easeHealthSlider) easeHealthSlider.maxValue = maxHealth;
 
-        UpdateSlidersInstant(currentHealth);
-    }
+    //     UpdateSlidersInstant(currentHealth);
+    // }
 
     public void TakeDamage(float damage)
     {
@@ -70,6 +70,12 @@ public class HealthBarAnimation : MonoBehaviour
 
     public void SetHealth(float value)
     {
+        currentHealth = maxHealth;
+        Debug.Log(maxHealth);
+
+        if (mainHealthSlider) mainHealthSlider.maxValue = maxHealth;
+        if (easeHealthSlider) easeHealthSlider.maxValue = maxHealth;
+
         currentHealth = Mathf.Clamp(value, 0, maxHealth);
         UpdateSlidersInstant(currentHealth);
     }
