@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using AnimationLoading.LoadStruct;
+using ParticleData.SpawnData;
 using UnityEngine;
 
 public class CharaInstance
@@ -9,14 +11,20 @@ public class CharaInstance
     public int curAtt;
     public int curDef;
     public int curSpd;
+    public Transform curTransform;
+    public Vector3[] particleScalesArray;
+    private BaseAnimationController animCtrl;
+    public BaseAnimationController GetCurrentAnimCtrl() => animCtrl;
 
     public bool isBlocking = false;
 
     private List<ActiveEffect> activeEffects = new();
 
-    public CharaInstance(Charas baseData)
+    public CharaInstance(Charas baseData, Transform transform)
     {
         this.baseData = baseData;
+        this.curTransform = transform;
+        this.animCtrl = GetAnimationController();
         ResetStats();
     }
 
@@ -27,6 +35,15 @@ public class CharaInstance
         curDef = baseData.defense;
         curSpd = baseData.speed;
         activeEffects.Clear();
+    }
+
+    private BaseAnimationController GetAnimationController()
+    {
+        if (curTransform == null) return null;
+        animCtrl = curTransform.GetComponentInChildren<BaseAnimationController>();
+        if (animCtrl == null) return null;
+        Debug.LogWarning($"{animCtrl} found it!");
+        return animCtrl;
     }
 
     public void ApplyMoveEffect(Moves move, bool isFromEnemy, CharaInstance target = null, int overridePower = -1)
@@ -53,8 +70,19 @@ public class CharaInstance
             case MoveType.Heal:
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
+                if (animCtrl != null)
+                {
+                    AnimationLoadStruct animLoad = new AnimationLoadStruct(0, GenericAnimationEnums.HEAL, true, true);
+                    animCtrl.RequestPlayAnimation(animLoad);
+                }
                 break;
         }
+    }
+
+    void ExecuteParticleEffects(ParticleSpawnData data)
+    {
+        if (ParticlePoolManager.instance == null) return;
+        ParticlePoolManager.instance.ActivateParticleFX(data);
     }
 
     private void ApplyStatEffect(StatType stat, int amount, int duration, Moves move)

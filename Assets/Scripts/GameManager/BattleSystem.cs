@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ParticleData.SpawnData;
+using AnimationLoading.LoadStruct;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class BattleSystem : MonoBehaviour
 
     private CharaInstance player;
     private CharaInstance enemy;
+    private Transform playerTransform;
+    private Transform enemyTransform;
 
     private bool isPlayerTurn;
 
@@ -39,8 +43,11 @@ public class BattleSystem : MonoBehaviour
 
     public void SetupBattle()
     {
-        player = new CharaInstance(playerChara);
-        enemy = new CharaInstance(enemyChara);
+        playerTransform = GetCharacterTransform(CharType.Player);
+        enemyTransform = GetCharacterTransform(CharType.Enemy);
+        player = new CharaInstance(playerChara, playerTransform);
+        Debug.Log(playerTransform);
+        enemy = new CharaInstance(enemyChara, enemyTransform);
 
         plrName.text = player.baseData.charaName;
         enemyName.text = enemy.baseData.charaName;
@@ -50,11 +57,9 @@ public class BattleSystem : MonoBehaviour
 
         playerHpBar.maxHealth = player.baseData.maxHP;
         playerHpBar.SetHealth(player.curHP);
-        Debug.Log(player.curHP);
         
         enemyHpBar.maxHealth = enemy.baseData.maxHP;
         enemyHpBar.SetHealth(enemy.curHP);
-        Debug.Log(enemy.curHP);
 
 
         UpdateHPUI();
@@ -62,6 +67,21 @@ public class BattleSystem : MonoBehaviour
         SetupMoveButtons();
 
         StartCoroutine(BattleLoop());
+    }
+
+    private Transform GetCharacterTransform(CharType type)
+    {
+        CharacterMarker[] charMark = FindObjectsByType<CharacterMarker>(FindObjectsSortMode.None);
+        CharacterMarker chosenCharMark = null;
+        foreach (CharacterMarker marks in charMark)
+        {
+            chosenCharMark = marks;
+            if (chosenCharMark.GetCharType() != type) continue;
+            break;
+        }
+
+        if (chosenCharMark.GetCharType() != type) return null;
+        else return chosenCharMark.GetTransform();
     }
 
     void SetupMoveButtons()
@@ -198,6 +218,13 @@ public class BattleSystem : MonoBehaviour
             else
             {
                 target.curHP -= damage;
+                ParticleSpawnData data = new ParticleSpawnData(null, target.curTransform.position, Vector3.zero, Vector3.one, ParticleEnum.EntityDamage, true);
+                ExecuteParticleEffects(data);
+                if (source.GetCurrentAnimCtrl() != null)
+                {
+                    AnimationLoadStruct animStruct = new AnimationLoadStruct(0, GenericAnimationEnums.ATTACK, true, true);
+                    source.GetCurrentAnimCtrl().RequestPlayAnimation(animStruct);
+                }
             }
         }
         else if (move.moveType == MoveType.Debuff || move.moveType == MoveType.Heal)
@@ -211,6 +238,12 @@ public class BattleSystem : MonoBehaviour
 
         target.curHP = Mathf.Clamp(target.curHP, 0, target.baseData.maxHP);
         source.curHP = Mathf.Clamp(source.curHP, 0, source.baseData.maxHP);
+    }
+
+    void ExecuteParticleEffects(ParticleSpawnData data)
+    {
+        if (ParticlePoolManager.instance == null) return;
+        ParticlePoolManager.instance.ActivateParticleFX(data);
     }
 
     void UpdateHPUI()
