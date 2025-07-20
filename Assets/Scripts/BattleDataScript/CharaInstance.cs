@@ -70,11 +70,6 @@ public class CharaInstance
             case MoveType.Heal:
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
-                if (animCtrl != null)
-                {
-                    AnimationLoadStruct animLoad = new AnimationLoadStruct(0, GenericAnimationEnums.HEAL, true, true);
-                    animCtrl.RequestPlayAnimation(animLoad);
-                }
                 break;
         }
     }

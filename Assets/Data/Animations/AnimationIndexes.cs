@@ -2,25 +2,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum GenericAnimationEnums
+public enum GenericAnimationStates
 {
     IDLE,
     ATTACK,
     DEF,
     HEAL,
+    BUFF,
+    DEBUFF,
     DEATH,
     NONE
 }
 
+public enum AnimEventTypes
+{
+    GENERICMOVE,
+    POWERUP
+}
+
 public static class AnimationIndexes
 {
-    public static readonly Dictionary<GenericAnimationEnums, int> GenericAnimationDict = new Dictionary<GenericAnimationEnums, int>
+    public static readonly Dictionary<GenericAnimationStates, int> GenericAnimationDict = new Dictionary<GenericAnimationStates, int>
     {
-        {GenericAnimationEnums.IDLE, Animator.StringToHash("IDLE")},
-        {GenericAnimationEnums.ATTACK, Animator.StringToHash("ATTACK")},
-        {GenericAnimationEnums.DEF, Animator.StringToHash("DEF")},
-        {GenericAnimationEnums.HEAL, Animator.StringToHash("HEAL")},
-        {GenericAnimationEnums.DEATH, Animator.StringToHash("DEATH")},
-        {GenericAnimationEnums.NONE, Animator.StringToHash("IDLE")}
+        {GenericAnimationStates.IDLE, Animator.StringToHash("IDLE")},
+        {GenericAnimationStates.ATTACK, Animator.StringToHash("ATTACK")},
+        {GenericAnimationStates.DEF, Animator.StringToHash("DEF")},
+        {GenericAnimationStates.HEAL, Animator.StringToHash("HEAL")},
+        {GenericAnimationStates.BUFF, Animator.StringToHash("BUFF")},
+        {GenericAnimationStates.DEBUFF, Animator.StringToHash("DEBUFF")},
+        {GenericAnimationStates.DEATH, Animator.StringToHash("DEATH")},
+        {GenericAnimationStates.NONE, Animator.StringToHash("IDLE")}
     };
 }

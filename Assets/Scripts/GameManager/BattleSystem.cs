@@ -4,9 +4,12 @@ using UnityEngine.UI;
 using TMPro;
 using ParticleData.SpawnData;
 using AnimationLoading.LoadStruct;
+using System;
+using Random = UnityEngine.Random;
 
 public class BattleSystem : MonoBehaviour
 {
+    public static BattleSystem instance;
     [Header("References")]
     public Charas playerChara;
     public Charas enemyChara;
@@ -34,7 +37,22 @@ public class BattleSystem : MonoBehaviour
     private Transform playerTransform;
     private Transform enemyTransform;
 
-    private bool isPlayerTurn;
+    private CharaInstance currentAttacker;
+    private CharaInstance currentTarget;
+    private Moves currentMove;
+    private int currentFinalPower;
+
+    BaseAnimationController currentAnimMonitored;
+    AnimationStateInstance currentAnimStateMonitored;
+    bool isAnimationDone = false;
+
+    [SerializeField] private bool isPlayerTurn;
+
+    void Awake()
+    {
+        if (instance != null) return;
+        instance = this;   
+    }
 
     void Start()
     {
@@ -113,17 +131,21 @@ public class BattleSystem : MonoBehaviour
             {
                 yield return PlayerTurn();
                 if (enemy.IsFainted()) break;
+                //yield return WaitTurnDone();
 
                 yield return EnemyTurn();
                 if (player.IsFainted()) break;
+                //yield return WaitTurnDone();
             }
             else
             {
                 yield return EnemyTurn();
                 if (player.IsFainted()) break;
+                //yield return WaitTurnDone();
 
                 yield return PlayerTurn();
                 if (enemy.IsFainted()) break;
+                //yield return WaitTurnDone();
             }
 
             player.OnTurnEnd();
@@ -181,7 +203,6 @@ public class BattleSystem : MonoBehaviour
 
         ExecuteMove(player, enemy, selectedMove, finalPower);
 
-        UpdateHPUI();
         yield return new WaitForSeconds(1f);
     }
 
@@ -196,12 +217,23 @@ public class BattleSystem : MonoBehaviour
         ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
         Debug.Log(moveIndex);
 
-        UpdateHPUI();
+
+        yield return new WaitForSeconds(1f);
+    }
+
+    IEnumerator WaitTurnDone()
+    {
+        while (!isAnimationDone)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(1f);
     }
 
     void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
     {
+        Debug.LogWarning("ExecuteMove!");
+        /*//isAnimationDone = false;
         int finalPower = Mathf.RoundToInt(modifiedPower);
 
         //Attack Damage Math
@@ -223,7 +255,11 @@ public class BattleSystem : MonoBehaviour
                 if (source.GetCurrentAnimCtrl() != null)
                 {
                     AnimationLoadStruct animStruct = new AnimationLoadStruct(0, GenericAnimationEnums.ATTACK, true, true);
-                    source.GetCurrentAnimCtrl().RequestPlayAnimation(animStruct);
+                    (currentAnimMonitored, currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(animStruct);
+                    //this.currentAnimMonitored = currentAnimMonitored;
+                    //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                    currentAnimMonitored.OnAnimEndsEvent += OnTurnAnimationEnds;
+                    currentAnimStateMonitored.AnimationStateEvents += OnAnimationStateEvents;
                 }
             }
         }
@@ -234,10 +270,109 @@ public class BattleSystem : MonoBehaviour
         else
         {
             source.ApplyMoveEffect(move, false, null, finalPower);
+        }*/
+        currentAttacker = source;
+        currentTarget = target;
+        currentMove = move;
+        currentFinalPower = Mathf.RoundToInt(modifiedPower);
+
+        switch (move.moveType)
+        {
+            default:
+                Debug.LogError("No move!");
+                break;
+
+            case MoveType.Attack:
+                AnimationLoadStruct attackAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.ATTACK, true, true);
+                (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(attackAnimStruct);
+                //this.currentAnimMonitored = currentAnimMonitored;
+                //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
+                break;
+
+            case MoveType.Heal:
+                AnimationLoadStruct healAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.HEAL, true, true);
+                (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(healAnimStruct);
+                //this.currentAnimMonitored = currentAnimMonitored;
+                //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
+                break;
+
+            case MoveType.Defend:
+                AnimationLoadStruct defAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEF, true, true);
+                (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(defAnimStruct);
+                //this.currentAnimMonitored = currentAnimMonitored;
+                //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
+                break;
+
+            case MoveType.Buff:
+                AnimationLoadStruct buffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(buffAnimStruct);
+                //this.currentAnimMonitored = currentAnimMonitored;
+                //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
+                break;
+
+            case MoveType.Debuff:
+                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
+                //this.currentAnimMonitored = currentAnimMonitored;
+                //this.currentAnimStateMonitored = currentAnimStateMonitored;
+                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
+                break;
         }
+
 
         target.curHP = Mathf.Clamp(target.curHP, 0, target.baseData.maxHP);
         source.curHP = Mathf.Clamp(source.curHP, 0, source.baseData.maxHP);
+    }
+
+    private void OnAnimationStateEvents(AnimEventTypes types)
+    {
+        if (types == AnimEventTypes.GENERICMOVE)
+        {
+            if (currentMove.moveType == MoveType.Attack)
+            {
+                int damage = Mathf.Max(1, currentFinalPower + currentAttacker.curAtt - currentTarget.curDef);
+                if (currentTarget.isBlocking)
+                {
+                    damage = 0;
+                    currentTarget.isBlocking = false;
+                }
+                else
+                {
+                    currentTarget.curHP -= damage;
+                    ParticleSpawnData data = new ParticleSpawnData(null, currentTarget.curTransform.position, Vector3.zero, Vector3.one, ParticleEnum.EntityDamage, true);
+                    if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }
+                    else { CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 1.5f, 0f), 0.3f, 0.75f); }
+                }
+            }
+            else if (currentMove.moveType == MoveType.Debuff || currentMove.moveType == MoveType.Heal)
+            {
+                currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
+            }
+            else
+            {
+                currentAttacker.ApplyMoveEffect(currentMove, false, null, currentFinalPower);
+            }
+        }
+
+        UpdateHPUI();
+    }
+
+    private void OnTurnAnimationEnds()
+    {
+        currentAnimMonitored.AnimationEndsEvent -= OnTurnAnimationEnds;
+        currentAnimStateMonitored.AnimationStateEvents -= OnAnimationStateEvents;
+        currentAnimMonitored = null;
+        currentAnimStateMonitored = null;
+        Debug.LogWarning("Animation ended!");
     }
 
     void ExecuteParticleEffects(ParticleSpawnData data)

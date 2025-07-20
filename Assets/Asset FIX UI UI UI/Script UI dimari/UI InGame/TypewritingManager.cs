@@ -237,8 +237,9 @@ public class TypewritingManager : MonoBehaviour
         }
         else if (!hasMistake && inputBuffer.Length < currentWord.Length && !hasFailedEarly)
         {
-            if (ParticlePoolManager.instance == null) return;
-            typedText.ForceMeshUpdate();
+            ShakeCameraOnType();
+            if (ParticlePoolManager.instance == null) { return;}
+            /*typedText.ForceMeshUpdate();
             string theText = typedText.text;
             if (theText == "") return;
             TMP_TextInfo textInfo = typedText.textInfo;
@@ -256,8 +257,15 @@ public class TypewritingManager : MonoBehaviour
             ParticleSpawnData datas = new ParticleSpawnData(null, worldPos, Vector3.zero, Vector3.one * 0.1f, ParticleEnum.OnTextTyped, true);
 
             if (inputBuffer.Length == currentWord.Length) return;
-            ParticlePoolManager.instance.ActivateParticleFX(datas);
+            ParticlePoolManager.instance.ActivateParticleFX(datas);*/
         }
+    }
+
+    void ShakeCameraOnType()
+    {
+        float shakeOffset = ((float)correctTypedCount / (float)correctTypedCount) / 200f;
+        shakeOffset = Mathf.Clamp(shakeOffset, 0, 0.2f);
+        CameraShakeManager.instance.ActivateCamShake(new Vector3(0f + shakeOffset, 0f, 0f), 0.15f, 0.05f + shakeOffset);
     }
 
     IEnumerator WordCompleteRoutine()
@@ -304,6 +312,7 @@ public class TypewritingManager : MonoBehaviour
 
     IEnumerator EarlyFailRoutine()
     {
+        CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f), 0.7f, 1f);
         isTypingActive = false;
         typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
