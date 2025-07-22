@@ -46,7 +46,7 @@ public class BattleSystem : MonoBehaviour
     AnimationStateInstance currentAnimStateMonitored;
     bool isAnimationDone = false;
 
-    [SerializeField] private bool isPlayerTurn;
+    private bool isPlayerTurn;
 
     void Awake()
     {
@@ -348,7 +348,13 @@ public class BattleSystem : MonoBehaviour
                 else
                 {
                     currentTarget.curHP -= damage;
-                    ParticleSpawnData data = new ParticleSpawnData(null, currentTarget.curTransform.position, Vector3.zero, Vector3.one, ParticleEnum.EntityDamage, true);
+                    ParticleEnum particleType = ParticleEnum.EntityDamage;
+                    CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
+                    Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
+
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
+
+                    ExecuteParticleEffects(data);
                     if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }
                     else { CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 1.5f, 0f), 0.3f, 0.75f); }
                 }

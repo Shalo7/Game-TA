@@ -4272,7 +4272,6 @@ MonoBehaviour:
   enemyStats: {fileID: 1274606213}
   winScreen: {fileID: 1988508528}
   loseScreen: {fileID: 612594230}
-  isPlayerTurn: 0
   typingManager: {fileID: 996873120}
 --- !u!4 &812588305
 Transform:
@@ -13610,7 +13609,7 @@ Transform:
   m_GameObject: {fileID: 2126854181}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.42, z: -15.36}
+  m_LocalPosition: {x: 0, y: -2.05, z: -15.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14372,6 +14371,10 @@ PrefabInstance:
     - target: {fileID: 2356582004099274936, guid: cfb741db44f3852468608c336fd59f39, type: 3}
       propertyPath: m_Name
       value: ent_Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2365378358308289663, guid: cfb741db44f3852468608c336fd59f39, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2382948106595412341, guid: cfb741db44f3852468608c336fd59f39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16756,7 +16759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1778369093965220134, guid: 6b5d7a2403aa72a41b5b122f85e5cd14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.711
+      value: -4.61399
       objectReference: {fileID: 0}
     - target: {fileID: 1778369093965220134, guid: 6b5d7a2403aa72a41b5b122f85e5cd14, type: 3}
       propertyPath: m_LocalPosition.z

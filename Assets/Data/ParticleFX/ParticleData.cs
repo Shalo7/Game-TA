@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -29,6 +30,19 @@ namespace ParticleData.SpawnData
             this.scale = scale;
             this.type = type;
             this.isUI = isUI;
+        }
+    }
+
+    [Serializable]
+    public struct CharInstanceParticleTransform
+    {
+        public Vector3 positionOffset;
+        public Vector3 scale;
+
+        public CharInstanceParticleTransform(Vector3 positionOffset, Vector3 scale)
+        {
+            this.positionOffset = positionOffset;
+            this.scale = scale;
         }
     }
 }

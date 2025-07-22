@@ -12,7 +12,7 @@ public class CharaInstance
     public int curDef;
     public int curSpd;
     public Transform curTransform;
-    public Vector3[] particleScalesArray;
+    public CharInstanceParticleTransform[] charParticleTransformArray;
     private BaseAnimationController animCtrl;
     public BaseAnimationController GetCurrentAnimCtrl() => animCtrl;
 
@@ -34,6 +34,7 @@ public class CharaInstance
         curAtt = baseData.attack;
         curDef = baseData.defense;
         curSpd = baseData.speed;
+        this.charParticleTransformArray = baseData.charParticleTransformArray;
         activeEffects.Clear();
     }
 
@@ -70,6 +71,14 @@ public class CharaInstance
             case MoveType.Heal:
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
+
+                    ParticleEnum healparticleType = ParticleEnum.EntityHeal;
+                    CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
+                    Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
+
+                    ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false);
+
+                    ExecuteParticleEffects(healData);
                 break;
         }
     }

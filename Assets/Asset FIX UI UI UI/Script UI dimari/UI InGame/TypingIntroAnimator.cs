@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using ParticleData.SpawnData;
 
 public class TypingIntroAnimator : MonoBehaviour
 {
@@ -38,5 +39,11 @@ public class TypingIntroAnimator : MonoBehaviour
                 });
             });
         });
+    }
+
+    private void ExecuteParticleEffects(ParticleSpawnData data)
+    {
+        if (ParticlePoolManager.instance == null) return;
+        ParticlePoolManager.instance.ActivateParticleFX(data);
     }
 }

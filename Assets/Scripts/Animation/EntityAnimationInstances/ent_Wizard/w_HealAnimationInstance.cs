@@ -6,6 +6,14 @@ public class w_HealAnimationInstance : AnimationStateInstance
 
     public override void OnAnimationEvent(int index)
     {
-        throw new System.NotImplementedException();
+        switch (index)
+        {
+            default:
+
+                break;
+            case 0:
+                AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
+                break;
+        }
     }
 }
