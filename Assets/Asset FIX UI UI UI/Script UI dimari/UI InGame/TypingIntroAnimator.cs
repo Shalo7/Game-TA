@@ -26,9 +26,11 @@ public class TypingIntroAnimator : MonoBehaviour
 
         textLets.transform.DOScale(toScale, stompDuration).SetEase(Ease.InExpo).OnComplete(() =>
         {
+            if (CameraShakeManager.instance != null) {CameraShakeManager.instance.ActivateCamShake(new Vector3(0.3f, 0.3f, 0f), 0.125f, 0.125f);}
             textBegin.gameObject.SetActive(true);
             textBegin.transform.DOScale(toScale, stompDuration).SetEase(Ease.InExpo).SetDelay(delayBetweenTexts).OnComplete(() =>
             {
+                if (CameraShakeManager.instance != null) {CameraShakeManager.instance.ActivateCamShake(new Vector3(0.3f, 0.3f, 0f), 0.125f, 0.125f);}
                 DOVirtual.DelayedCall(0.3f, () =>
                 {
                     panelGroup.DOFade(0, 0.3f).OnComplete(() =>
@@ -39,11 +41,5 @@ public class TypingIntroAnimator : MonoBehaviour
                 });
             });
         });
-    }
-
-    private void ExecuteParticleEffects(ParticleSpawnData data)
-    {
-        if (ParticlePoolManager.instance == null) return;
-        ParticlePoolManager.instance.ActivateParticleFX(data);
     }
 }
