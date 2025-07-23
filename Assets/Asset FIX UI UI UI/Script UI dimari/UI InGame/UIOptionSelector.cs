@@ -102,7 +102,7 @@ public class UIOptionSelector : MonoBehaviour
 
     void UpdatePointer()
     {
-        selectorPointer.position = optionButtons[currentIndex].position + Vector3.left * pointerOffsetX;
+        selectorPointer.position = optionButtons[currentIndex].position + Vector3.right * pointerOffsetX;
     }
 
     void ResetButtonColors()

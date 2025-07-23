@@ -31,6 +31,8 @@ public class BattleSystem : MonoBehaviour
 
     public GameObject winScreen;
     public GameObject loseScreen;
+    public UIOptionSelector selector;
+    public BattleUIManager battleUIManager;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -158,12 +160,16 @@ public class BattleSystem : MonoBehaviour
         {
             battleLog.text = "Enemy Defeated!";
             Debug.Log("Enemy Defeated!");
+            AudioManager.Instance.StopBGM();
+            battleUIManager.playerNotDone = false;
             winScreen.SetActive(true);
         }
         else
         {
             battleLog.text = "You Lost!";
             Debug.Log("You Lost!");
+            AudioManager.Instance.StopBGM();
+            battleUIManager.playerNotDone = false;
             loseScreen.SetActive(true);
         }
     }
@@ -174,6 +180,7 @@ public class BattleSystem : MonoBehaviour
         Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
         EnableMoveButtons(true);
+        //selector.EnableSelection();
 
         yield return new WaitUntil(() => moveChosen);
         EnableMoveButtons(false);

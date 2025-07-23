@@ -179,7 +179,7 @@ public class LevelSelectorController : MonoBehaviour
     {
         if (currentIndex == 0)
         {
-            SceneManager.LoadScene("InGame UI");
+            SceneManager.LoadScene("BattleUICollab_TechArt");
         }
         else
         {

@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             musicSource.clip = background;
             musicSource.Play();
@@ -29,6 +29,11 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void StopBGM()
+    {
+        musicSource.Stop();
     }
 
     public void PlaySFX(AudioClip clip)
