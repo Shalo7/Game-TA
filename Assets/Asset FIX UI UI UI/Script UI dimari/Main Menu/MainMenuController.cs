@@ -67,12 +67,12 @@ public class MainMenuController : MonoBehaviour
     {
         bool moved = false;
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             index = (index - 1 + buttons.Length) % buttons.Length;
             moved = true;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             index = (index + 1) % buttons.Length;
             moved = true;
@@ -96,16 +96,16 @@ public class MainMenuController : MonoBehaviour
 
         if (currentName.Contains("music") && musicSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
                 musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
                 musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
         }
         else if (currentName.Contains("sfx") && sfxSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
                 sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
                 sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
         }
     }

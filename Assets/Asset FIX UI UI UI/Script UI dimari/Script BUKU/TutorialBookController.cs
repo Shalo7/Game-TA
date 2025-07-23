@@ -39,13 +39,13 @@ public class TutorialBookController : MonoBehaviour
     {
         if (!bukuTutorialGO.activeSelf) return;
 
-        if (Input.GetKeyDown(KeyCode.D) && currentIndex < 5)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && currentIndex < 5)
         {
             AnimateButtonPress(nextButtonImage);
             OnClickNext();
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && currentIndex > 1)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && currentIndex > 1)
         {
             AnimateButtonPress(prevButtonImage);
             OnClickPrevious();
