@@ -1,3 +1,4 @@
+using ParticleData.SpawnData;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Charas", menuName = "Scriptable Objects/Charas")]
@@ -12,4 +13,6 @@ public class Charas : ScriptableObject
     public int speed;
 
     public Moves[] moves;
+
+    public CharInstanceParticleTransform[] charParticleTransformArray;
 }

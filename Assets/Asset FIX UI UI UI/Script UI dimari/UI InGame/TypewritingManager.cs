@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using ParticleData.SpawnData;
 
 public class TypewritingManager : MonoBehaviour
 {
@@ -50,6 +51,14 @@ public class TypewritingManager : MonoBehaviour
     private bool isTypingActive = false;
     private bool hasFailedEarly = false;
 
+    KeyCode[] validKeys =
+    {
+        KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G,
+        KeyCode.H, KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N,
+        KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T, KeyCode.U,
+        KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z
+    };
+
     public void BeginTypingSession()
     {
         wordIndex = 0;
@@ -66,25 +75,31 @@ public class TypewritingManager : MonoBehaviour
 
     void HandleTypingInput()
     {
-        foreach (char c in Input.inputString)
+        foreach (KeyCode kc in validKeys)
         {
-            if (c == '\b')
+            if (Input.GetKeyDown(kc))
             {
-                if (inputBuffer.Length > 0)
-                    inputBuffer = inputBuffer.Substring(0, inputBuffer.Length - 1);
-            }
-            else if (char.IsLetter(c))
-            {
+                char typedChar = char.ToUpper(kc.ToString()[0]);
+
+                if (typedChar == '\b')
+                {
+                    if (inputBuffer.Length > 0)
+                        inputBuffer = inputBuffer.Substring(0, inputBuffer.Length - 1);
+                    continue;
+                }
+
+                if (!char.IsLetter(typedChar)) continue;
+
+                // Batasi typing panjang dan early fail
                 if (inputBuffer.Length >= currentWord.Length || hasFailedEarly) return;
 
-                char typedChar = char.ToUpper(c);
                 char expectedChar = currentWord[inputBuffer.Length];
-
                 inputBuffer += typedChar;
 
                 if (typedChar == expectedChar)
                 {
                     PlaySound(typeSound);
+                    UpdateTypedVisual();
                 }
                 else
                 {
@@ -95,12 +110,11 @@ public class TypewritingManager : MonoBehaviour
                     {
                         hasFailedEarly = true;
                         StartCoroutine(EarlyFailRoutine());
+                        UpdateTypedVisual();
                     }
                 }
             }
         }
-
-        UpdateTypedVisual();
     }
 
     void SetupWord()
@@ -221,6 +235,37 @@ public class TypewritingManager : MonoBehaviour
         {
             StartCoroutine(WordCompleteRoutine());
         }
+        else if (!hasMistake && inputBuffer.Length < currentWord.Length && !hasFailedEarly)
+        {
+            ShakeCameraOnType();
+            if (ParticlePoolManager.instance == null) { return;}
+            /*typedText.ForceMeshUpdate();
+            string theText = typedText.text;
+            if (theText == "") return;
+            TMP_TextInfo textInfo = typedText.textInfo;
+
+            int matIndex = textInfo.characterInfo[theText.Length - 1].materialReferenceIndex;
+            int vertIndex = textInfo.characterInfo[theText.Length - 1].vertexIndex;
+            Vector3[] vertices = textInfo.meshInfo[matIndex].vertices;
+
+            Vector3 localMidPos = (vertices[vertIndex + 0] + vertices[vertIndex + 2]) / 2f;
+
+            Vector3 worldPos = typedText.transform.TransformPoint(localMidPos);
+
+            //Debug.Log(worldPos);
+
+            ParticleSpawnData datas = new ParticleSpawnData(null, worldPos, Vector3.zero, Vector3.one * 0.1f, ParticleEnum.OnTextTyped, true);
+
+            if (inputBuffer.Length == currentWord.Length) return;
+            ParticlePoolManager.instance.ActivateParticleFX(datas);*/
+        }
+    }
+
+    void ShakeCameraOnType()
+    {
+        float shakeOffset = ((float)correctTypedCount / (float)correctTypedCount) / 200f;
+        shakeOffset = Mathf.Clamp(shakeOffset, 0, 0.2f);
+        CameraShakeManager.instance.ActivateCamShake(new Vector3(0f + shakeOffset, 0f, 0f), 0.15f, 0.05f + shakeOffset);
     }
 
     IEnumerator WordCompleteRoutine()
@@ -267,6 +312,7 @@ public class TypewritingManager : MonoBehaviour
 
     IEnumerator EarlyFailRoutine()
     {
+        CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f), 0.7f, 1f);
         isTypingActive = false;
         typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
@@ -302,7 +348,7 @@ public class TypewritingManager : MonoBehaviour
         typingTimerUI?.StopTimer(); // ⏹ Pastikan timer mati
 
         FindFirstObjectByType<BattleUIManager>()?.OnTypingSessionComplete();
-        Debug.Log("Find!");
+        //Debug.Log("Find!");
         onCompleteCallback?.Invoke(correctTypedCount);
     }
 

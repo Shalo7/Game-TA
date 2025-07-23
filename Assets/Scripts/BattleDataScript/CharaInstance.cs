@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using AnimationLoading.LoadStruct;
+using ParticleData.SpawnData;
 using UnityEngine;
 
 public class CharaInstance
@@ -9,14 +11,20 @@ public class CharaInstance
     public int curAtt;
     public int curDef;
     public int curSpd;
+    public Transform curTransform;
+    public CharInstanceParticleTransform[] charParticleTransformArray;
+    private BaseAnimationController animCtrl;
+    public BaseAnimationController GetCurrentAnimCtrl() => animCtrl;
 
     public bool isBlocking = false;
 
     private List<ActiveEffect> activeEffects = new();
 
-    public CharaInstance(Charas baseData)
+    public CharaInstance(Charas baseData, Transform transform)
     {
         this.baseData = baseData;
+        this.curTransform = transform;
+        this.animCtrl = GetAnimationController();
         ResetStats();
     }
 
@@ -26,7 +34,17 @@ public class CharaInstance
         curAtt = baseData.attack;
         curDef = baseData.defense;
         curSpd = baseData.speed;
+        this.charParticleTransformArray = baseData.charParticleTransformArray;
         activeEffects.Clear();
+    }
+
+    private BaseAnimationController GetAnimationController()
+    {
+        if (curTransform == null) return null;
+        animCtrl = curTransform.GetComponentInChildren<BaseAnimationController>();
+        if (animCtrl == null) return null;
+        Debug.LogWarning($"{animCtrl} found it!");
+        return animCtrl;
     }
 
     public void ApplyMoveEffect(Moves move, bool isFromEnemy, CharaInstance target = null, int overridePower = -1)
@@ -53,8 +71,22 @@ public class CharaInstance
             case MoveType.Heal:
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
+
+                    ParticleEnum healparticleType = ParticleEnum.EntityHeal;
+                    CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
+                    Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
+
+                    ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false);
+
+                    ExecuteParticleEffects(healData);
                 break;
         }
+    }
+
+    void ExecuteParticleEffects(ParticleSpawnData data)
+    {
+        if (ParticlePoolManager.instance == null) return;
+        ParticlePoolManager.instance.ActivateParticleFX(data);
     }
 
     private void ApplyStatEffect(StatType stat, int amount, int duration, Moves move)
