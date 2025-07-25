@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveName: Attack
   moveType: 0
-  power: 100
+  power: 65
   desc: Thundershock
   affectedStat: 0
   isPercentageChange: 0

@@ -1484,9 +1484,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1466808466}
   SFXSource: {fileID: 1420336110}
-  background: {fileID: 8300000, guid: bb66b3dddfbd7004d818eb82db1d8021, type: 3}
+  background: {fileID: 8300000, guid: 21c417c5973d30c4ca11e9d9a78a43f9, type: 3}
   sfxClips:
-  - {fileID: 8300000, guid: e9eb2166b46d3fb4e9020fe7c8a1f9d2, type: 3}
+  - {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
   - {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   - {fileID: 8300000, guid: 71806a04db62b1f4fa4749b8f8612d62, type: 3}
 --- !u!1 &1892287696

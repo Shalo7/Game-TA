@@ -28,6 +28,8 @@ public class BattleUIManager : MonoBehaviour
     [Header("Tutorial Hook")]
     public TutorialController tutorialController;
 
+    public bool playerNotDone = true;
+
     private bool isInTutorial = false;
     private bool hasDealtFirstEnemyDamage = false;
 
@@ -108,15 +110,18 @@ public class BattleUIManager : MonoBehaviour
 
     public void BackToPlayerSelection()
     {
-        Debug.Log("Giliran pemain kembali");
+        if (playerNotDone)
+        {
+            Debug.Log("Giliran pemain kembali");
 
-        UI_EnemyTurnIndicator.SetActive(false);
+            UI_EnemyTurnIndicator.SetActive(false);
 
-        // UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
-        // UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
-        UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
-        UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
+            // UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+            // UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+            UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
+            UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
 
-        uiOptionSelectorScript.EnableSelection();
+            uiOptionSelectorScript.EnableSelection();   
+        }
     }
 }

@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 7f42b5f8088e3d347a1ca29269b44924
   - enabled: 1
@@ -17,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InGame UI.unity
     guid: 3c7c5d5828aef914fa2054f3c0f3067d
+  - enabled: 1
+    path: Assets/Scenes/BattleUICollab_TechArt.unity
+    guid: f54ee7d461977f74ca3fdd4d53a563e2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
