@@ -5743,11 +5743,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glossary: {fileID: 11400000, guid: 7444a48cf164c2349a3a413193f7700f, type: 2}
   wordList:
-  - THIS
-  - GAME
-  - CANNOT
-  - EASILY
-  - DEFEATED
+  - FIREBALL
+  - MISSILE
+  - ELECTRO
+  - HYDRO
+  - LEAFAGE
   shadowText_Player: {fileID: 1403982182}
   typedText_Player: {fileID: 869316371}
   shadowText_Enemy: {fileID: 478322735}
@@ -8165,7 +8165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1274606213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12590,7 +12590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1861376116
 RectTransform:
   m_ObjectHideFlags: 0
