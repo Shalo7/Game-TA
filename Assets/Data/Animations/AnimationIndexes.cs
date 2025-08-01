@@ -43,11 +43,11 @@ public static class AnimationIndexes
 
     public static readonly Dictionary<SceneTransitionEnums, int> TransitionHashes = new Dictionary<SceneTransitionEnums, int>
     {
-        {SceneTransitionEnums.ST_EMPTY, Animator.StringToHash("Empty")},
         {SceneTransitionEnums.ST_FILLED, Animator.StringToHash("Filled")},
-        {SceneTransitionEnums.ST_LEFTENTER, Animator.StringToHash("Left_Enter")},
-        {SceneTransitionEnums.ST_RIGHTEXIT, Animator.StringToHash("Right_Exit")},
+        {SceneTransitionEnums.ST_EMPTY, Animator.StringToHash("Empty")},
         {SceneTransitionEnums.ST_RIGHTENTER, Animator.StringToHash("Right_Enter")},
-        {SceneTransitionEnums.ST_LEFTEXIT, Animator.StringToHash("Left_Exit")}
+        {SceneTransitionEnums.ST_LEFTEXIT, Animator.StringToHash("Left_Exit")},
+        {SceneTransitionEnums.ST_LEFTENTER, Animator.StringToHash("Left_Enter")},
+        {SceneTransitionEnums.ST_RIGHTEXIT, Animator.StringToHash("Right_Exit")}
     };
 }
