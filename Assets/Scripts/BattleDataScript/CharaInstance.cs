@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using AnimationLoading.LoadStruct;
 using ParticleData.SpawnData;
 using UnityEngine;
+
 
 public class CharaInstance
 {
@@ -12,6 +14,8 @@ public class CharaInstance
     public int curDef;
     public int curSpd;
     public Transform curTransform;
+    public Transform targetTransform;
+    public Transform GetTargetTransform() => targetTransform;
     public CharInstanceParticleTransform[] charParticleTransformArray;
     private BaseAnimationController animCtrl;
     public BaseAnimationController GetCurrentAnimCtrl() => animCtrl;
@@ -20,12 +24,21 @@ public class CharaInstance
 
     private List<ActiveEffect> activeEffects = new();
 
-    public CharaInstance(Charas baseData, Transform transform)
+    public CharaInstance(Charas baseData, Transform transform, Transform target)
     {
         this.baseData = baseData;
         this.curTransform = transform;
+        this.targetTransform = target;
         this.animCtrl = GetAnimationController();
+        AssignCharaInstance(this);
         ResetStats();
+    }
+
+    private void AssignCharaInstance(CharaInstance charaInstance)
+    {
+        CharacterMarker characterMarker;
+        if (!curTransform.TryGetComponent(out characterMarker)) return;
+        characterMarker.InitializeCharacterInstance(charaInstance);
     }
 
     public void ResetStats()
@@ -59,6 +72,7 @@ public class CharaInstance
 
             case MoveType.Defend:
                 isBlocking = true;
+                Debug.Log($"{this} is blocking!");
                 break;
             case MoveType.Buff:
                 ApplyStatEffect(move.affectedStat, finalPower, move.duration, move);
@@ -72,13 +86,13 @@ public class CharaInstance
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
 
-                    ParticleEnum healparticleType = ParticleEnum.EntityHeal;
-                    CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
-                    Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
+                ParticleEnum healparticleType = ParticleEnum.EntityHeal;
+                CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
+                Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
 
-                    ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false);
+                ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false);
 
-                    ExecuteParticleEffects(healData);
+                ExecuteParticleEffects(healData);
                 break;
         }
     }

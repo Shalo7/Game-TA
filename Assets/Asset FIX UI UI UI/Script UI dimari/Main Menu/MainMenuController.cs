@@ -143,7 +143,8 @@ public class MainMenuController : MonoBehaviour
         {
             case 0: // Play
                 audioManager.PlaySFX(audioManager.sfxClips[2]);
-                SceneController.Instance?.NextLevel("LevelSelector");
+                if (Director.instance == null) {SceneController.Instance?.NextLevel("LevelSelector"); return;}
+                Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "LevelSelector");
                 break;
 
             case 1: // Options
