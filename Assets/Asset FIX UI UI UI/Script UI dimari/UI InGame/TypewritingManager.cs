@@ -32,6 +32,11 @@ public class TypewritingManager : MonoBehaviour
     [Header("Colors")]
     public bool useGradientForTypedText = false;
     public VertexGradient typedTextGradient;
+    /*typedTextGradient note
+    FDD776
+    FFD600
+    563921
+    331A00*/
     public Color shadowTextColor = new Color(1f, 1f, 1f, 22f / 255f);
 
     [Header("Sounds")]

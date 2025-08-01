@@ -179,8 +179,8 @@ public class LevelSelectorController : MonoBehaviour
     {
         if (currentIndex == 0)
         {
-            if (Director.instance == null) {SceneManager.LoadScene("BattleUICollab_TechArt"); return;}
-            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "BattleUICollab_TechArt");
+            if (Director.instance == null) {SceneManager.LoadScene("MainBattle"); return;}
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle");
         }
         else
         {
