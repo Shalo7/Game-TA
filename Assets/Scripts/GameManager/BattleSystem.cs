@@ -65,9 +65,8 @@ public class BattleSystem : MonoBehaviour
     {
         playerTransform = GetCharacterTransform(CharType.Player);
         enemyTransform = GetCharacterTransform(CharType.Enemy);
-        player = new CharaInstance(playerChara, playerTransform);
-        Debug.Log(playerTransform);
-        enemy = new CharaInstance(enemyChara, enemyTransform);
+        player = new CharaInstance(playerChara, playerTransform, enemyTransform);
+        enemy = new CharaInstance(enemyChara, enemyTransform, playerTransform);
 
         plrName.text = player.baseData.charaName;
         enemyName.text = enemy.baseData.charaName;
@@ -349,15 +348,24 @@ public class BattleSystem : MonoBehaviour
                 int damage = Mathf.Max(1, currentFinalPower + currentAttacker.curAtt - currentTarget.curDef);
                 if (currentTarget.isBlocking)
                 {
+                    ParticleEnum particleType = ParticleEnum.EntityShieldHit;
+                    CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
+                    Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
+
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
+                    ExecuteParticleEffects(data);
+
+                    CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
+
                     damage = 0;
                     currentTarget.isBlocking = false;
                 }
                 else
                 {
-                    currentTarget.curHP -= damage;
                     ParticleEnum particleType = ParticleEnum.EntityDamage;
                     CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
                     Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
+                    currentTarget.curHP -= damage;
 
                     ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
 

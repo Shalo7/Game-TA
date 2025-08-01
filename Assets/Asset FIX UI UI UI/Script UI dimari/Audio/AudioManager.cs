@@ -21,14 +21,18 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             //DontDestroyOnLoad(gameObject);
-
-            musicSource.clip = background;
-            musicSource.Play();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    void OnEnable()
+    {
+        musicSource.clip = background;
+        musicSource.Play();
+        if (!musicSource.isPlaying) {Debug.Log("Not Played");}
     }
 
     public void StopBGM()

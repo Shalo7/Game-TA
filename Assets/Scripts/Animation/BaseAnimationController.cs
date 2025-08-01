@@ -13,6 +13,8 @@ public abstract class BaseAnimationController : MonoBehaviour
     public GenericAnimationStates currentAnimState;
     protected bool currentLockStatus;
     protected BaseBodyPartHandler bodyParts;
+    protected CharaInstance charaInstance;
+    public CharaInstance GetCharaInstance() => charaInstance;
     protected Dictionary<GenericAnimationStates, AnimationStateInstance> stateInstances = new Dictionary<GenericAnimationStates, AnimationStateInstance>();
     protected AnimationStateInstance currentStateInstance;
 
@@ -83,5 +85,10 @@ public abstract class BaseAnimationController : MonoBehaviour
         AnimationEndsEvent?.Invoke();
         Debug.LogWarning($"Now {this.name} next animation will be {animState}!");
         RequestPlayAnimation(loadStruct);
+    }
+
+    public virtual void InitializeCharacterInstance(CharaInstance inst)
+    {
+        charaInstance = inst;
     }
 }

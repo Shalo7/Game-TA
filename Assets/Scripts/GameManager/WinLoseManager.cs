@@ -14,7 +14,8 @@ public class WinLoseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("LevelSelector");
+            if (Director.instance == null) { SceneManager.LoadScene("LevelSelector"); return; }
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "LevelSelector");
         }
     }
 }

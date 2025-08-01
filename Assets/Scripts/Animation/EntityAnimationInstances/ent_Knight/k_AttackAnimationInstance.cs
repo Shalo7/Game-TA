@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class k_AttackAnimationInstance : AnimationStateInstance
 {
-    public k_AttackAnimationInstance(BaseBodyPartHandler bodyParts) : base(bodyParts) { }
+    public k_AttackAnimationInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac) : base(bodyParts, bac) { }
 
     TrailRenderer swordTrail;
 
