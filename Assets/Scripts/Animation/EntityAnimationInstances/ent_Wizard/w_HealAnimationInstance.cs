@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class w_HealAnimationInstance : AnimationStateInstance
 {
-    public w_HealAnimationInstance(BaseBodyPartHandler bodyParts) : base(bodyParts) { }
+    public w_HealAnimationInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac) : base(bodyParts, bac) { }
 
     public override void OnAnimationEvent(int index)
     {

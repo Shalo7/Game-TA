@@ -179,7 +179,8 @@ public class LevelSelectorController : MonoBehaviour
     {
         if (currentIndex == 0)
         {
-            SceneManager.LoadScene("BattleUICollab_TechArt");
+            if (Director.instance == null) {SceneManager.LoadScene("BattleUICollab_TechArt"); return;}
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "BattleUICollab_TechArt");
         }
         else
         {
@@ -189,7 +190,8 @@ public class LevelSelectorController : MonoBehaviour
 
     void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        if (Director.instance == null) { SceneManager.LoadScene("MainMenu"); return;}
+        Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "MainMenu");
     }
 
     #endregion

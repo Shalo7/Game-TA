@@ -20,6 +20,13 @@ public enum AnimEventTypes
     POWERUP
 }
 
+public enum SameAnimActionEnum
+{
+    Override,
+    Unpause,
+    None
+}
+
 public static class AnimationIndexes
 {
     public static readonly Dictionary<GenericAnimationStates, int> GenericAnimationDict = new Dictionary<GenericAnimationStates, int>
@@ -32,5 +39,15 @@ public static class AnimationIndexes
         {GenericAnimationStates.DEBUFF, Animator.StringToHash("DEBUFF")},
         {GenericAnimationStates.DEATH, Animator.StringToHash("DEATH")},
         {GenericAnimationStates.NONE, Animator.StringToHash("IDLE")}
+    };
+
+    public static readonly Dictionary<SceneTransitionEnums, int> TransitionHashes = new Dictionary<SceneTransitionEnums, int>
+    {
+        {SceneTransitionEnums.ST_EMPTY, Animator.StringToHash("Empty")},
+        {SceneTransitionEnums.ST_FILLED, Animator.StringToHash("Filled")},
+        {SceneTransitionEnums.ST_LEFTENTER, Animator.StringToHash("Left_Enter")},
+        {SceneTransitionEnums.ST_RIGHTEXIT, Animator.StringToHash("Right_Exit")},
+        {SceneTransitionEnums.ST_RIGHTENTER, Animator.StringToHash("Right_Enter")},
+        {SceneTransitionEnums.ST_LEFTEXIT, Animator.StringToHash("Left_Exit")}
     };
 }

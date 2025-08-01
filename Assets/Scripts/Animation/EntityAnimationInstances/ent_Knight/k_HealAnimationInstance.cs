@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class k_HealAnimationInstance : AnimationStateInstance
 {
-    public k_HealAnimationInstance(BaseBodyPartHandler bodyParts) : base(bodyParts) { }
+    public k_HealAnimationInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac) : base(bodyParts, bac) { }
 
     public override void OnAnimationEvent(int index)
     {

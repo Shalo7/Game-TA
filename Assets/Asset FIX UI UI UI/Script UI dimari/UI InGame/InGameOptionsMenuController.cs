@@ -200,7 +200,8 @@ public class InGameOptionsMenuController : MonoBehaviour
                 OpenTutorialBook();
                 break;
             case 3:
-                StartCoroutine(QuitWithFade());
+                if (Director.instance == null) { StartCoroutine(QuitWithFade()); return; }
+                Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "LevelSelector");
                 break;
         }
     }

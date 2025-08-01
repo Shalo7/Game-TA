@@ -163992,7 +163992,7 @@ AnimationClip:
     messageOptions: 0
   - time: 1.7083334
     functionName: OnAnimationEnd
-    data: 0:IDLE:false:false
+    data: 0:IDLE:false:false:None
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

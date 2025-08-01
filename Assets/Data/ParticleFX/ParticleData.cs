@@ -7,6 +7,8 @@ public enum ParticleEnum
 {
     EntityDamage,
     EntityHeal,
+    EntityShieldHit,
+    W_ThunderAttack,
     OnTextTyped
 }
 

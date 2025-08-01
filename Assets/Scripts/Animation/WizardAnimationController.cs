@@ -16,12 +16,12 @@ public class WizardAnimationController : BaseAnimationController
         bodyParts = GetComponent<WizardBodyPartsHandler>();
         stateInstances = new Dictionary<GenericAnimationStates, AnimationStateInstance>()
         {
-            { GenericAnimationStates.IDLE, new w_IdleAnimationInstance(bodyParts) },
-            { GenericAnimationStates.ATTACK, new w_AttackAnimationInstance(bodyParts) },
-            { GenericAnimationStates.DEF, new w_DefendAnimationInstance(bodyParts) },
-            { GenericAnimationStates.HEAL, new w_HealAnimationInstance(bodyParts) }
+            { GenericAnimationStates.IDLE, new w_IdleAnimationInstance(bodyParts, this) },
+            { GenericAnimationStates.ATTACK, new w_AttackAnimationInstance(bodyParts, this) },
+            { GenericAnimationStates.DEF, new w_DefendAnimationInstance(bodyParts, this) },
+            { GenericAnimationStates.HEAL, new w_HealAnimationInstance(bodyParts, this) }
         };
-        AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false);
+        AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false, SameAnimActionEnum.None);
         RequestPlayAnimation(loadStruct);
     }
 }

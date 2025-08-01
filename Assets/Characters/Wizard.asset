@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff82a68263c14040a7b35c09310eb9c, type: 3}
   m_Name: Wizard
   m_EditorClassIdentifier: 
-  charaName: Wizard
+  charaName: Darindragan
   charaSprite: {fileID: 21300000, guid: 0aedb9c26312a3f488815feb4d4cb334, type: 3}
   maxHP: 161
   attack: 187
@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fa9283321368ae74c9c246a0b0329632, type: 2}
   - {fileID: 11400000, guid: 78e594f4504a27c4d863c8fce7636130, type: 2}
   charParticleTransformArray:
+  - positionOffset: {x: 0, y: 1.85, z: 0}
+    scale: {x: 2, y: 2, z: 2}
   - positionOffset: {x: 0, y: 1.85, z: 0}
     scale: {x: 2, y: 2, z: 2}
   - positionOffset: {x: 0, y: 1.85, z: 0}

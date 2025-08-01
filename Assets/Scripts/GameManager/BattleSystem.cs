@@ -65,9 +65,8 @@ public class BattleSystem : MonoBehaviour
     {
         playerTransform = GetCharacterTransform(CharType.Player);
         enemyTransform = GetCharacterTransform(CharType.Enemy);
-        player = new CharaInstance(playerChara, playerTransform);
-        Debug.Log(playerTransform);
-        enemy = new CharaInstance(enemyChara, enemyTransform);
+        player = new CharaInstance(playerChara, playerTransform, enemyTransform);
+        enemy = new CharaInstance(enemyChara, enemyTransform, playerTransform);
 
         plrName.text = player.baseData.charaName;
         enemyName.text = enemy.baseData.charaName;
@@ -290,7 +289,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Attack:
-                AnimationLoadStruct attackAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.ATTACK, true, true);
+                AnimationLoadStruct attackAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.ATTACK, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(attackAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -299,7 +298,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Heal:
-                AnimationLoadStruct healAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.HEAL, true, true);
+                AnimationLoadStruct healAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.HEAL, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(healAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -308,7 +307,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Defend:
-                AnimationLoadStruct defAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEF, true, true);
+                AnimationLoadStruct defAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(defAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -317,7 +316,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Buff:
-                AnimationLoadStruct buffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                AnimationLoadStruct buffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(buffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -326,7 +325,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Debuff:
-                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -349,15 +348,24 @@ public class BattleSystem : MonoBehaviour
                 int damage = Mathf.Max(1, currentFinalPower + currentAttacker.curAtt - currentTarget.curDef);
                 if (currentTarget.isBlocking)
                 {
+                    ParticleEnum particleType = ParticleEnum.EntityShieldHit;
+                    CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
+                    Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
+
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
+                    ExecuteParticleEffects(data);
+
+                    CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
+
                     damage = 0;
                     currentTarget.isBlocking = false;
                 }
                 else
                 {
-                    currentTarget.curHP -= damage;
                     ParticleEnum particleType = ParticleEnum.EntityDamage;
                     CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
                     Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
+                    currentTarget.curHP -= damage;
 
                     ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
 
