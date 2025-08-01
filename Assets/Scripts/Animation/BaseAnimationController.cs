@@ -34,7 +34,11 @@ public abstract class BaseAnimationController : MonoBehaviour
         //Debug.LogWarning($" this {this.name} found hash!");
         if (!stateInstances.TryGetValue(data.animState, out nextstateInstance)) return (null, null);
         //Debug.LogError($"{currentAnimHash}, {theHash} || {currentAnimState}, {data.animState} || {nextstateInstance}, {currentStateInstance}");
-        if (currentAnimHash == theHash || currentAnimState == data.animState || nextstateInstance == currentStateInstance) return (null, null);
+        if (currentAnimHash == theHash || currentAnimState == data.animState || nextstateInstance == currentStateInstance)
+        {
+            if (data.sameAnimAction == SameAnimActionEnum.None) { return (null, null); }
+            if (data.sameAnimAction == SameAnimActionEnum.Unpause) { animator.speed = 1f; return (this, nextstateInstance); }
+        }
         //Debug.LogWarning($"this {this.name} hash is not the same!");
         if (!data.canPass && currentLockStatus) return (null, null);
 
@@ -69,19 +73,22 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     public virtual void OnAnimationEnd(string parse)
     {
-        //layer:animEnum:isLock:canPass
+        //layer:animEnum:isLock:canPass:sameAnimAction
+        Debug.LogWarning("Animation ended!");
         string[] parsed = parse.Split(":");
-        if (parsed.Length < 1 || parsed.Length > 4) return;
+        if (parsed.Length < 1 || parsed.Length > 5) return;
         int layer;
         GenericAnimationStates animState;
         bool isLock;
         bool canPass;
+        SameAnimActionEnum sameAnimActionEnum;
         if (!int.TryParse(parsed[0], out layer)) { Debug.LogError("No layer!"); return; }
         if (!Enum.TryParse(parsed[1], out animState)) { Debug.LogError("No enum!"); return; }
         if (!bool.TryParse(parsed[2], out isLock)) { Debug.LogError("No isLock!"); return; }
         if (!bool.TryParse(parsed[3], out canPass)) { Debug.LogError("No canPass!"); return; }
+        if (!Enum.TryParse(parsed[4], out sameAnimActionEnum)) { Debug.LogError("No sameAnimAction!"); return; }
         currentLockStatus = false;
-        AnimationLoadStruct loadStruct = new AnimationLoadStruct(layer, animState, isLock, canPass);
+        AnimationLoadStruct loadStruct = new AnimationLoadStruct(layer, animState, isLock, canPass, sameAnimActionEnum);
         AnimationEndsEvent?.Invoke();
         Debug.LogWarning($"Now {this.name} next animation will be {animState}!");
         RequestPlayAnimation(loadStruct);

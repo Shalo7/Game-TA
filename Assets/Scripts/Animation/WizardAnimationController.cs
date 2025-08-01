@@ -21,7 +21,7 @@ public class WizardAnimationController : BaseAnimationController
             { GenericAnimationStates.DEF, new w_DefendAnimationInstance(bodyParts, this) },
             { GenericAnimationStates.HEAL, new w_HealAnimationInstance(bodyParts, this) }
         };
-        AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false);
+        AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false, SameAnimActionEnum.None);
         RequestPlayAnimation(loadStruct);
     }
 }

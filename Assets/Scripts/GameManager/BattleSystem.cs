@@ -289,7 +289,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Attack:
-                AnimationLoadStruct attackAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.ATTACK, true, true);
+                AnimationLoadStruct attackAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.ATTACK, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(attackAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -298,7 +298,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Heal:
-                AnimationLoadStruct healAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.HEAL, true, true);
+                AnimationLoadStruct healAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.HEAL, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(healAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -307,7 +307,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Defend:
-                AnimationLoadStruct defAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEF, true, true);
+                AnimationLoadStruct defAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(defAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -316,7 +316,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Buff:
-                AnimationLoadStruct buffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                AnimationLoadStruct buffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(buffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
@@ -325,7 +325,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Debuff:
-                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true);
+                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;

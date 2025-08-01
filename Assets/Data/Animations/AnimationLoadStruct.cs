@@ -8,13 +8,15 @@ namespace AnimationLoading.LoadStruct
         public GenericAnimationStates animState;
         public bool isLock;
         public bool canPass;
+        public SameAnimActionEnum sameAnimAction;
 
-        public AnimationLoadStruct(int layer, GenericAnimationStates animEnum, bool isLock, bool canPass)
+        public AnimationLoadStruct(int layer, GenericAnimationStates animEnum, bool isLock, bool canPass, SameAnimActionEnum animPauseTypes)
         {
             this.layer = layer;
             this.animState = animEnum;
             this.isLock = isLock;
             this.canPass = canPass;
+            this.sameAnimAction = animPauseTypes;
         }
     }
 }

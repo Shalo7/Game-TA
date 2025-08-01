@@ -20,6 +20,13 @@ public enum AnimEventTypes
     POWERUP
 }
 
+public enum SameAnimActionEnum
+{
+    Override,
+    Unpause,
+    None
+}
+
 public static class AnimationIndexes
 {
     public static readonly Dictionary<GenericAnimationStates, int> GenericAnimationDict = new Dictionary<GenericAnimationStates, int>
