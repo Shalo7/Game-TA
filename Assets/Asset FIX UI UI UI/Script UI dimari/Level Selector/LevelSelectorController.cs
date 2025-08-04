@@ -102,12 +102,12 @@ public class LevelSelectorController : MonoBehaviour
         {
             SelectLevel();
         }
-        else if (Input.GetKeyDown(KeyCode.Tab))
+        else if (Input.GetKeyDown(KeyCode.Escape))
         {
             ShowVisualFeedback(settingsIcon, settingsSelectedColor, settingsNormalColor);
             OpenOptionsPanel();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (Input.GetKeyDown(KeyCode.Tab))
         {
             ShowVisualFeedback(backArrowIcon, backSelectedColor, backNormalColor);
             ReturnToMainMenu();
