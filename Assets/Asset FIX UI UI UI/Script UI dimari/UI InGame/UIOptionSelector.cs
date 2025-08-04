@@ -25,7 +25,7 @@ public class UIOptionSelector : MonoBehaviour
 
     private int currentIndex = 0;
     private bool selectionMade = false;
-    private bool inputEnabled = false;
+    public bool inputEnabled = false;
     private string[] availableOptions = new string[] { "Attack", "Defend", "Heal" };
 
     void Start()
@@ -46,7 +46,7 @@ public class UIOptionSelector : MonoBehaviour
         {
             MoveSelection(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Space) && inputEnabled)
         {
             string selectedOption = optionButtons[currentIndex].name.Replace("Button_", "");
             if (availableOptions.Contains(selectedOption))

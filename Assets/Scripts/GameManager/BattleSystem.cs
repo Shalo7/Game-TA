@@ -178,6 +178,7 @@ public class BattleSystem : MonoBehaviour
     {
         Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
+        selector.SetAvailableOptions(new[] {"Attack", "Defend", "Heal"} );
         EnableMoveButtons(true);
         //selector.EnableSelection();
 
