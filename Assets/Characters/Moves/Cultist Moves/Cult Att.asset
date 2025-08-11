@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aaf44c78ec7de24ea0b1ae4b2ecbb56, type: 3}
-  m_Name: Enemy Debuff
+  m_Name: Cult Att
   m_EditorClassIdentifier: 
-  moveName: Debuff
-  moveType: 4
-  power: -15
-  desc: 
-  affectedStat: 1
-  isPercentageChange: 1
+  moveName: Attack
+  moveType: 0
+  power: 65
+  desc: Thundershock
+  affectedStat: 0
+  isPercentageChange: 0
   statChangeAmount: 0
-  duration: 3
+  duration: 0

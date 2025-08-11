@@ -11,28 +11,29 @@ public class BattleSystem : MonoBehaviour
 {
     public static BattleSystem instance;
     [Header("References")]
-    public Charas playerChara;
-    public Charas enemyChara;
+    [SerializeField] Charas playerChara;
+    [SerializeField] Charas enemyChara;
 
-    public Image playerImage;
-    public Image enemyImage;
+    [SerializeField] Image playerImage;
+    [SerializeField] Image enemyImage;
 
-    public HealthBarAnimation playerHpBar;
-    public HealthBarAnimation enemyHpBar;
+    [SerializeField] HealthBarAnimation playerHpBar;
+    [SerializeField] HealthBarAnimation enemyHpBar;
 
-    public Button[] moveButtons;
-    public TMP_Text battleLog;
+    [SerializeField] Button[] moveButtons;
+    [SerializeField] TMP_Text battleLog;
 
-    public TMP_Text plrName;
-    public TMP_Text enemyName;
+    [SerializeField] TMP_Text plrName;
+    [SerializeField] TMP_Text enemyName;
 
-    public TMP_Text plrStats;
-    public TMP_Text enemyStats;
+    [SerializeField] TMP_Text plrStats;
+    [SerializeField] TMP_Text enemyStats;
 
-    public GameObject winScreen;
-    public GameObject loseScreen;
-    public UIOptionSelector selector;
-    public BattleUIManager battleUIManager;
+    [SerializeField] GameObject winScreen;
+    [SerializeField] GameObject loseScreen;
+
+    [SerializeField] UIOptionSelector selector;
+    [SerializeField] BattleUIManager battleUIManager;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -178,6 +179,7 @@ public class BattleSystem : MonoBehaviour
     {
         Debug.Log("▶ PlayerTurn started");
         battleLog.text = "Your Turn!";
+        selector.SetAvailableOptions(new[] {"Attack", "Defend", "Heal"} );
         EnableMoveButtons(true);
         //selector.EnableSelection();
 
@@ -325,7 +327,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Debuff:
-                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.BUFF, true, true, SameAnimActionEnum.None);
+                AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEBUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;

@@ -66,7 +66,8 @@ public class TutorialController : MonoBehaviour
 
         if (waitingForFinalStep && Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(Flow10ToFlow11());
+            //StartCoroutine(Flow10ToFlow11());
+            //Debug.LogError("DONE!");
             return;
         }
 
@@ -134,6 +135,12 @@ public class TutorialController : MonoBehaviour
                 Debug.Log("Hello 2!!");
                 playerHealthBarAnim.TakeDamage(-50f);
                 break;
+            case 8:
+                StartCoroutine(Flow10ToFlow11());
+                Debug.LogError("Case 8!!");
+                waitingForFinalStep = true;
+                skipAllowed = false;
+                break;
         }
     }
 
@@ -165,11 +172,11 @@ public class TutorialController : MonoBehaviour
         optionsGroup.SetActive(true);
         bannerEnemyTurn.SetActive(false);
 
-        uiOptionSelector.SetAvailableOptions(new[] { "Attack", "Defend", "Heal" });
-        uiOptionSelector.EnableSelection();
+        uiOptionSelector.SetAvailableOptions(new[] {"Defend", "Heal" });
+        //uiOptionSelector.EnableSelection();
 
-        skipAllowed = false;
-        waitingForFinalStep = true;
+        //skipAllowed = false;
+        //waitingForFinalStep = true;
         spaceSkipPrompt.SetActive(true);
     }
 
@@ -177,6 +184,7 @@ public class TutorialController : MonoBehaviour
     {
         if (flow11Triggered) yield break;
         flow11Triggered = true;
+        Debug.LogError("DONE!");
 
         waitingForFinalStep = false;
         spaceSkipPrompt.SetActive(false);
@@ -189,13 +197,14 @@ public class TutorialController : MonoBehaviour
 
         zonaTutorial.SetActive(false);
         tutorialActive = false;
+        uiOptionSelector.EnableSelection();
 
-        HideAllTutorialUI();
-        optionsGroup.SetActive(false);
+        //HideAllTutorialUI();
+        //optionsGroup.SetActive(false);
         Debug.Log("Jalan");
 
         // Hanya jalankan typing intro jika belum pernah dimulai
-        if (!typingIntroStarted)
+        /*if (!typingIntroStarted)
         {
             typingIntroStarted = true;
             typingIntroAnimator.onComplete = () =>
@@ -210,7 +219,7 @@ public class TutorialController : MonoBehaviour
             };
 
             typingIntroAnimator.PlayIntro();
-        }
+        }*/
     }
 
     IEnumerator StartTypingPhase()

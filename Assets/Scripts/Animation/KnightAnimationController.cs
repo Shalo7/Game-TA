@@ -18,7 +18,8 @@ public class KnightAnimationController : BaseAnimationController
         {
             {GenericAnimationStates.IDLE, new k_IdleAnimationInstance(bodyParts, this)},
             {GenericAnimationStates.ATTACK, new k_AttackAnimationInstance(bodyParts, this)},
-            {GenericAnimationStates.DEF, new k_DefendAnimationInstance(bodyParts, this)},
+            {GenericAnimationStates.DEBUFF, new k_DebuffAnimationInstance(bodyParts, this)},
+            { GenericAnimationStates.DEF, new k_DefendAnimationInstance(bodyParts, this)},
             {GenericAnimationStates.HEAL, new k_HealAnimationInstance(bodyParts, this)}
         };
         AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false, SameAnimActionEnum.None);

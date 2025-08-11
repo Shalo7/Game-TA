@@ -53,11 +53,11 @@ public class InGameOptionsMenuController : MonoBehaviour
     {
         if (!isReadingBook)
         {
-            if (suppressNextTab && Input.GetKeyDown(KeyCode.Tab))
+            if (suppressNextTab && Input.GetKeyDown(KeyCode.Escape))
             {
                 suppressNextTab = false;
             }
-            else if (Input.GetKeyDown(KeyCode.Tab))
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (isPaused)
                     ResumeGame();
