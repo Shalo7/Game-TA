@@ -13,14 +13,14 @@ public class KnightAnimationController : BaseAnimationController
     {
         if (stateInstances.Count > 0) return;
         animator = GetComponent<Animator>();
-        bodyParts = GetComponent<KnightBodyPartsHandler>();
+        bodyParts = GetComponent<BaseBodyPartHandler>();
         stateInstances = new Dictionary<GenericAnimationStates, AnimationStateInstance>()
         {
-            {GenericAnimationStates.IDLE, new k_IdleAnimationInstance(bodyParts, this)},
-            {GenericAnimationStates.ATTACK, new k_AttackAnimationInstance(bodyParts, this)},
-            {GenericAnimationStates.DEBUFF, new k_DebuffAnimationInstance(bodyParts, this)},
-            { GenericAnimationStates.DEF, new k_DefendAnimationInstance(bodyParts, this)},
-            {GenericAnimationStates.HEAL, new k_HealAnimationInstance(bodyParts, this)}
+            {GenericAnimationStates.IDLE, new k_IdleAnimationInstance(this)},
+            {GenericAnimationStates.ATTACK, new k_AttackAnimationInstance(this)},
+            {GenericAnimationStates.DEF, new k_DefendAnimationInstance(this)},
+            {GenericAnimationStates.HEAL, new k_HealAnimationInstance(this)}
+
         };
         AnimationLoadStruct loadStruct = new AnimationLoadStruct(0, GenericAnimationStates.IDLE, false, false, SameAnimActionEnum.None);
         RequestPlayAnimation(loadStruct);
