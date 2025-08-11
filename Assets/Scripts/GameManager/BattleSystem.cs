@@ -350,11 +350,15 @@ public class BattleSystem : MonoBehaviour
                 int damage = Mathf.Max(1, currentFinalPower + currentAttacker.curAtt - currentTarget.curDef);
                 if (currentTarget.isBlocking)
                 {
+                    ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
+                    Debug.LogError(shieldParticle);
+                    
+                    if (shieldParticle != null) { shieldParticle.ForceStop(); }
                     ParticleEnum particleType = ParticleEnum.EntityShieldHit;
                     CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
                     Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
 
-                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
                     ExecuteParticleEffects(data);
 
                     CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
@@ -369,7 +373,7 @@ public class BattleSystem : MonoBehaviour
                     Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
                     currentTarget.curHP -= damage;
 
-                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false);
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
 
                     ExecuteParticleEffects(data);
                     if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }

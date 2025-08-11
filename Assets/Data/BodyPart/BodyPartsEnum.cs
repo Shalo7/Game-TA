@@ -2,5 +2,6 @@ using UnityEngine;
 
 public enum BodyParts
 {
-    K_SWORD
+    WEAPON_FRONTTIP,
+    WEAPON_MIDDLE,
 }

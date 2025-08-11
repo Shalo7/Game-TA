@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AnimationLoading.LoadStruct;
+using ParticleData.SpawnData;
 using UnityEngine;
 
 public abstract class BaseAnimationController : MonoBehaviour
@@ -9,14 +10,18 @@ public abstract class BaseAnimationController : MonoBehaviour
 
 
     protected Animator animator;
+    protected Dictionary<GenericAnimationStates, AnimationStateInstance> stateInstances = new Dictionary<GenericAnimationStates, AnimationStateInstance>();
+    public Dictionary<GenericAnimationStates, AnimationStateInstance> GetAnimStateInstances() => stateInstances;
+    protected AnimationStateInstance currentStateInstance;
     protected int currentAnimHash;
     public GenericAnimationStates currentAnimState;
     protected bool currentLockStatus;
     protected BaseBodyPartHandler bodyParts;
+    public BaseBodyPartHandler GetBodyParts() => bodyParts;
     protected CharaInstance charaInstance;
     public CharaInstance GetCharaInstance() => charaInstance;
-    protected Dictionary<GenericAnimationStates, AnimationStateInstance> stateInstances = new Dictionary<GenericAnimationStates, AnimationStateInstance>();
-    protected AnimationStateInstance currentStateInstance;
+    protected List<ParticleAnimStatePair> currentActiveParticles = new List<ParticleAnimStatePair>();
+
 
     protected abstract void AnimInitialization();
 
@@ -67,14 +72,14 @@ public abstract class BaseAnimationController : MonoBehaviour
         if (!stateInstances.TryGetValue(animState, out eventAnimInstance)) return;
         if (currentStateInstance != eventAnimInstance) return;
         eventAnimInstance.OnAnimationEvent(eventIndex);
-        Debug.LogWarning($"{this.name} fired anim event with index {eventIndex}!");
+        //Debug.LogWarning($"{this.name} fired anim event with index {eventIndex}!");
     }
 
 
     public virtual void OnAnimationEnd(string parse)
     {
         //layer:animEnum:isLock:canPass:sameAnimAction
-        Debug.LogWarning("Animation ended!");
+        //Debug.LogWarning("Animation ended!");
         string[] parsed = parse.Split(":");
         if (parsed.Length < 1 || parsed.Length > 5) return;
         int layer;
@@ -90,12 +95,60 @@ public abstract class BaseAnimationController : MonoBehaviour
         currentLockStatus = false;
         AnimationLoadStruct loadStruct = new AnimationLoadStruct(layer, animState, isLock, canPass, sameAnimActionEnum);
         AnimationEndsEvent?.Invoke();
-        Debug.LogWarning($"Now {this.name} next animation will be {animState}!");
+        //Debug.LogWarning($"Now {this.name} next animation will be {animState}!");
         RequestPlayAnimation(loadStruct);
     }
+
 
     public virtual void InitializeCharacterInstance(CharaInstance inst)
     {
         charaInstance = inst;
+    }
+
+
+    public virtual void AddActiveAnimationParticles(AnimationStateInstance caller, ParticleFXController particle)
+    {
+        particle.OnDoneEvent += OnActiveAnimationParticleDone;
+        ParticleAnimStatePair newPair = new ParticleAnimStatePair(caller, particle);
+        currentActiveParticles.Add(newPair);
+    }
+
+
+    private void OnActiveAnimationParticleDone(ParticleFXController controller)
+    {
+        foreach (ParticleAnimStatePair pssp in currentActiveParticles)
+        {
+            if (pssp.particleFXController != controller) continue;
+            pssp.particleFXController.OnDoneEvent -= OnActiveAnimationParticleDone;
+            currentActiveParticles.Remove(pssp);
+        }
+    }
+
+
+    public ParticleFXController GetSpecificActiveAnimationParticle(AnimationStateInstance stateInstance, ParticleEnum desiredEnum)
+    {
+        if (currentActiveParticles.Count < 1) return null;
+        ParticleFXController desiredFXController = null;
+        if (stateInstance == null)
+        {
+            foreach (ParticleAnimStatePair pssp in currentActiveParticles)
+            {
+                if (pssp.particleFXController.GetCurrentActiveChild() != (int)desiredEnum) continue;
+                desiredFXController = pssp.particleFXController;
+                break;
+            }
+        }
+        else
+        {
+            foreach (ParticleAnimStatePair pssp in currentActiveParticles)
+            {
+                if (stateInstance != null && pssp.animationStateInstance != stateInstance) continue;
+                if (pssp.particleFXController.GetCurrentActiveChild() != (int)desiredEnum) continue;
+                desiredFXController = pssp.particleFXController;
+                break;
+            }
+        }
+
+        return desiredFXController;
     }
 }

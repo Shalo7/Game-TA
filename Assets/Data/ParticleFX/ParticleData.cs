@@ -7,7 +7,9 @@ public enum ParticleEnum
 {
     EntityDamage,
     EntityHeal,
+    EntityShield,
     EntityShieldHit,
+    W_StickGlow,
     W_ThunderAttack,
     OnTextTyped
 }
@@ -23,8 +25,9 @@ namespace ParticleData.SpawnData
         public Vector3 scale;
         public ParticleEnum type;
         public bool isUI;
+        public bool isLoop;
 
-        public ParticleSpawnData(Transform parent, Vector3 position, Vector3 rotation, Vector3 scale, ParticleEnum type, bool isUI)
+        public ParticleSpawnData(Transform parent, Vector3 position, Vector3 rotation, Vector3 scale, ParticleEnum type, bool isUI, bool isLoop)
         {
             this.parent = parent;
             this.position = position;
@@ -32,6 +35,7 @@ namespace ParticleData.SpawnData
             this.scale = scale;
             this.type = type;
             this.isUI = isUI;
+            this.isLoop = isLoop;
         }
     }
 
@@ -45,6 +49,19 @@ namespace ParticleData.SpawnData
         {
             this.positionOffset = positionOffset;
             this.scale = scale;
+        }
+    }
+
+    [Serializable]
+    public struct ParticleAnimStatePair
+    {
+        public AnimationStateInstance animationStateInstance;
+        public ParticleFXController particleFXController;
+
+        public ParticleAnimStatePair(AnimationStateInstance animationStateInstance, ParticleFXController particleFXController)
+        {
+            this.animationStateInstance = animationStateInstance;
+            this.particleFXController = particleFXController;
         }
     }
 }

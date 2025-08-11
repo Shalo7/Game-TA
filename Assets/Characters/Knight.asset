@@ -27,4 +27,6 @@ MonoBehaviour:
   - positionOffset: {x: 0, y: 2, z: 0}
     scale: {x: 3, y: 3, z: 3}
   - positionOffset: {x: 0, y: 2, z: 0}
+    scale: {x: 18, y: 18, z: 18}
+  - positionOffset: {x: 0, y: 2, z: 0}
     scale: {x: 3, y: 3, z: 3}

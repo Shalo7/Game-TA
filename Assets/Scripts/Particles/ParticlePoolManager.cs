@@ -35,7 +35,7 @@ public class ParticlePoolManager : MonoBehaviour
     }
 
 
-    public Transform ActivateParticleFX(ParticleSpawnData datas)
+    public ParticleFXController ActivateParticleFX(ParticleSpawnData datas)
     {
         if (transform.childCount < 1) return null;
 
@@ -74,8 +74,10 @@ public class ParticlePoolManager : MonoBehaviour
             }
         }
 
+        fXController.ChangeLoop(datas.isLoop);
+
         fXController.InitializeParticleFX(datas);
-        return fXController.transform;
+        return fXController;
     }
 
 

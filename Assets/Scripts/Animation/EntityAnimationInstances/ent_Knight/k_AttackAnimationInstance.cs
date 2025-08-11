@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class k_AttackAnimationInstance : AnimationStateInstance
 {
-    public k_AttackAnimationInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac) : base(bodyParts, bac) { }
+    public k_AttackAnimationInstance(BaseAnimationController bac) : base(bac) { }
 
     TrailRenderer swordTrail;
 
@@ -15,7 +15,7 @@ public class k_AttackAnimationInstance : AnimationStateInstance
                 Debug.LogError("No anim index!");
                 break;
             case 0:
-                swordTrail = FindTrailRendererInObject(bodyParts.GetPart(BodyParts.K_SWORD));
+                swordTrail = FindTrailRendererInObject(animCtrl.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));
                 if (swordTrail == null) break;
                 swordTrail.EnableTrail();
                 break;
@@ -24,7 +24,7 @@ public class k_AttackAnimationInstance : AnimationStateInstance
                 //Debug.LogWarning("V Ataku!");
                 break;
             case 2:
-                if (swordTrail == null ) {swordTrail = FindTrailRendererInObject(bodyParts.GetPart(BodyParts.K_SWORD));}
+                if (swordTrail == null ) {swordTrail = FindTrailRendererInObject(animCtrl.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));}
                 swordTrail.DisableTrailFade(BattleSystem.instance, 0.75f);
                 break;
         }

@@ -60,6 +60,15 @@ public class CharaInstance
         return animCtrl;
     }
 
+    public CharInstanceParticleTransform GetCharInstanceParticleTransform(int index)
+    {
+        if (charParticleTransformArray.Length < index) return new CharInstanceParticleTransform(Vector3.zero, Vector3.zero);
+        else
+        {
+            return charParticleTransformArray[index];
+        }
+    }
+
     public void ApplyMoveEffect(Moves move, bool isFromEnemy, CharaInstance target = null, int overridePower = -1)
     {
         int finalPower = overridePower > -1 ? overridePower : move.power;
@@ -90,7 +99,7 @@ public class CharaInstance
                 CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
                 Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
 
-                ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false);
+                ParticleSpawnData healData = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, healparticleType, false, false);
 
                 ExecuteParticleEffects(healData);
                 break;

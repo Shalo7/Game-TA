@@ -1,15 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AnimationStateInstance
 {
     public Action<AnimEventTypes> AnimationStateEvents;
-    protected BaseBodyPartHandler bodyParts;
     protected BaseAnimationController animCtrl;
 
-    public AnimationStateInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac)
+    public AnimationStateInstance(BaseAnimationController bac)
     {
-        this.bodyParts = bodyParts;
         this.animCtrl = bac;
     }
 

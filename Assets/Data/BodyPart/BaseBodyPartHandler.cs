@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 
-public abstract class BaseBodyPartHandler : MonoBehaviour
+public class BaseBodyPartHandler : MonoBehaviour
 {
     [SerializeField] protected List<BodyPartElement> bodyParts = new();
 
