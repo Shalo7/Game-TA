@@ -58,10 +58,10 @@ public class ParticleFXController : MonoBehaviour
         transform.SetParent(ParticlePoolManager.instance.GetTransform(), false);
         transform.GetChild(currentChild).gameObject.SetActive(false);
         currentSystem.transform.gameObject.SetActive(false);
+        OnDoneEvent?.Invoke(this);
         currentSystem = null;
         //Debug.LogWarning(currentSystem);
         transform.localScale = Vector3.one;
-        OnDoneEvent?.Invoke(this);
         CO_ParticleLifetime = null;
     }
 
@@ -102,15 +102,16 @@ public class ParticleFXController : MonoBehaviour
     public void ForceStop()
     {
         if (currentSystem == null) return;
-        if (currentSystem.IsAlive() && currentSystem.isPlaying)
+        if (currentSystem.IsAlive())
         {
             currentSystem.Stop();
-            transform.SetParent(ParticlePoolManager.instance.GetTransform(), false);
-            transform.GetChild(currentChild).gameObject.SetActive(false);
-            currentSystem.transform.gameObject.SetActive(false);
-            currentSystem = null;
-            transform.localScale = Vector3.one;
-            OnDoneEvent?.Invoke(this);
+
         }
+        transform.SetParent(ParticlePoolManager.instance.GetTransform(), false);
+        transform.GetChild(currentChild).gameObject.SetActive(false);
+        currentSystem.transform.gameObject.SetActive(false);
+        currentSystem = null;
+        transform.localScale = Vector3.one;
+        OnDoneEvent?.Invoke(this);
     }
 }

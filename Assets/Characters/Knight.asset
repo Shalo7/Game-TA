@@ -18,6 +18,7 @@ MonoBehaviour:
   attack: 100
   defense: 156
   speed: 50
+  height: 4
   moves:
   - {fileID: 11400000, guid: cd5def24b161ff94f8414385fe444907, type: 2}
   - {fileID: 11400000, guid: b11ff3971892269449bf8ab1c5d65851, type: 2}
@@ -26,7 +27,7 @@ MonoBehaviour:
     scale: {x: 3, y: 3, z: 3}
   - positionOffset: {x: 0, y: 2, z: 0}
     scale: {x: 3, y: 3, z: 3}
-  - positionOffset: {x: 0, y: 2, z: 0}
+  - positionOffset: {x: 0, y: 0, z: 0}
     scale: {x: 18, y: 18, z: 18}
   - positionOffset: {x: 0, y: 2, z: 0}
     scale: {x: 3, y: 3, z: 3}

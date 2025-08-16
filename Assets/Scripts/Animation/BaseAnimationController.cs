@@ -116,12 +116,20 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     private void OnActiveAnimationParticleDone(ParticleFXController controller)
     {
-        foreach (ParticleAnimStatePair pssp in currentActiveParticles)
+        for (int i = 0; i < currentActiveParticles.Count; i++)
+        {
+            ParticleAnimStatePair animStatePair = currentActiveParticles[i];
+            if (animStatePair.particleFXController != controller) continue;
+            animStatePair.particleFXController.OnDoneEvent -= OnActiveAnimationParticleDone;
+            currentActiveParticles.Remove(animStatePair);
+            break;
+        }
+        /*foreach (ParticleAnimStatePair pssp in currentActiveParticles)
         {
             if (pssp.particleFXController != controller) continue;
             pssp.particleFXController.OnDoneEvent -= OnActiveAnimationParticleDone;
             currentActiveParticles.Remove(pssp);
-        }
+        }*/
     }
 
 

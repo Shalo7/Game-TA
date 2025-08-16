@@ -11,6 +11,7 @@ public class Charas : ScriptableObject
     public int attack;
     public int defense;
     public int speed;
+    public float height;
 
     public Moves[] moves;
 

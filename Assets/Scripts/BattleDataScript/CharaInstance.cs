@@ -13,6 +13,7 @@ public class CharaInstance
     public int curAtt;
     public int curDef;
     public int curSpd;
+    public float curHeight;
     public Transform curTransform;
     public Transform targetTransform;
     public Transform GetTargetTransform() => targetTransform;
@@ -47,6 +48,7 @@ public class CharaInstance
         curAtt = baseData.attack;
         curDef = baseData.defense;
         curSpd = baseData.speed;
+        curHeight = baseData.height;
         this.charParticleTransformArray = baseData.charParticleTransformArray;
         activeEffects.Clear();
     }
@@ -95,6 +97,14 @@ public class CharaInstance
                 curHP += finalPower;
                 curHP = Mathf.Min(curHP, baseData.maxHP);
 
+                Vector3 targetCenter = Vector3.zero;
+                if (curHeight > 0)
+                {
+                        float h = curHeight / 2f;
+                        targetCenter += curTransform.position + new Vector3(0, h, 0);
+                }
+                ExecuteAbilityOutput(finalPower, targetCenter, AbilityOutputTypes.Heal);
+
                 ParticleEnum healparticleType = ParticleEnum.EntityHeal;
                 CharInstanceParticleTransform cipTransform = charParticleTransformArray[(int)healparticleType];
                 Vector3 particlePos = curTransform.position + (curTransform.up * cipTransform.positionOffset.y);
@@ -110,6 +120,12 @@ public class CharaInstance
     {
         if (ParticlePoolManager.instance == null) return;
         ParticlePoolManager.instance.ActivateParticleFX(data);
+    }
+
+    void ExecuteAbilityOutput(int dmg, Vector3 pos, AbilityOutputTypes colorType)
+    {
+        if (DMGOutputPoolManager.instance == null) return;
+        DMGOutputPoolManager.instance.RequestActivateDMGOutput(dmg, pos, colorType);
     }
 
     private void ApplyStatEffect(StatType stat, int amount, int duration, Moves move)

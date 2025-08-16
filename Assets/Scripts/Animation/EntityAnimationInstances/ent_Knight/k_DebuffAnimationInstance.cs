@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class k_DebuffAnimationInstance : AnimationStateInstance
 {
-    public k_DebuffAnimationInstance(BaseBodyPartHandler bodyParts, BaseAnimationController bac) : base(bodyParts, bac) { }
+    public k_DebuffAnimationInstance( BaseAnimationController bac) : base(bac) { }
     public override void OnAnimationEvent(int index)
     {
         switch (index)

@@ -351,7 +351,7 @@ public class BattleSystem : MonoBehaviour
                 if (currentTarget.isBlocking)
                 {
                     ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
-                    Debug.LogError(shieldParticle);
+                    //Debug.LogError(shieldParticle);
                     
                     if (shieldParticle != null) { shieldParticle.ForceStop(); }
                     ParticleEnum particleType = ParticleEnum.EntityShieldHit;
@@ -364,6 +364,13 @@ public class BattleSystem : MonoBehaviour
                     CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
 
                     damage = 0;
+                    Vector3 targetCenter = Vector3.zero;
+                    if (currentTarget.curHeight > 0)
+                    {
+                        float h = currentTarget.curHeight / 2f;
+                        targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
+                    }
+                    //ExecuteDMGOutput(damage, targetCenter);
                     currentTarget.isBlocking = false;
                 }
                 else
@@ -374,6 +381,14 @@ public class BattleSystem : MonoBehaviour
                     currentTarget.curHP -= damage;
 
                     ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
+
+                    Vector3 targetCenter = Vector3.zero;
+                    if (currentTarget.curHeight > 0)
+                    {
+                        float h = currentTarget.curHeight / 2f;
+                        targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
+                    }
+                    ExecuteDMGOutput(damage, targetCenter, AbilityOutputTypes.Damage);
 
                     ExecuteParticleEffects(data);
                     if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }
@@ -406,6 +421,12 @@ public class BattleSystem : MonoBehaviour
     {
         if (ParticlePoolManager.instance == null) return;
         ParticlePoolManager.instance.ActivateParticleFX(data);
+    }
+
+    void ExecuteDMGOutput(int dmg, Vector3 pos, AbilityOutputTypes colorType)
+    {
+        if (DMGOutputPoolManager.instance == null) return;
+        DMGOutputPoolManager.instance.RequestActivateDMGOutput(dmg, pos, colorType);
     }
 
     void UpdateHPUI()
