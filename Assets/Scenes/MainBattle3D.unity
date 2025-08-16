@@ -5092,6 +5092,79 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742503295}
   m_CullTransparentMesh: 1
+--- !u!1001 &803154393
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.40043187
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.40043187
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.40043187
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.4192
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.96258
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1539
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.46306753
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.886323
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -124.83
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -804731622281664130, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b02b235cd5fee744f80c056255e6bdda, type: 2}
+    - target: {fileID: 919132149155446097, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
+      propertyPath: m_Name
+      value: Cultist
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9189b4c5f69ff64dad7610867f9a704, type: 3}
 --- !u!1 &812588302
 GameObject:
   m_ObjectHideFlags: 0
@@ -7528,6 +7601,7 @@ MonoBehaviour:
   fadeTurnIndicator: {fileID: 1609260351}
   fadePlayerInfo: {fileID: 1666839281}
   fadeEnemyInfo: {fileID: 1542058978}
+  inputEnabled: 0
 --- !u!114 &1103825441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20485,3 +20559,4 @@ SceneRoots:
   - {fileID: 457570516}
   - {fileID: 1450674651}
   - {fileID: 1311796896}
+  - {fileID: 803154393}
