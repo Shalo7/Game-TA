@@ -16,6 +16,7 @@ public class TypewritingManager : MonoBehaviour
     public TMP_Text typedText_Player;
     public TMP_Text shadowText_Enemy;
     public TMP_Text typedText_Enemy;
+    [SerializeField] TMP_Text counterText;
 
     [Header("Font Settings")]
     public float baseFontSize = 36f;
@@ -302,6 +303,8 @@ public class TypewritingManager : MonoBehaviour
         yield return new WaitForSeconds(bounceDuration + fadeOutDuration + 0.1f);
 
         correctTypedCount++;
+        counterText.gameObject.SetActive(true);
+        counterText.text = correctTypedCount.ToString();
         wordIndex++;
 
         if (wordIndex < wordList.Count)
@@ -345,6 +348,7 @@ public class TypewritingManager : MonoBehaviour
     void EndTypingSession()
     {
         Debug.Log("➡ Semua kata selesai diketik! Sekarang giliran musuh!");
+        counterText.gameObject.SetActive(false);
         shadowText_Player.gameObject.SetActive(false);
         typedText_Player.gameObject.SetActive(false);
         shadowText_Enemy.gameObject.SetActive(false);

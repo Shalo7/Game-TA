@@ -61,7 +61,7 @@ public class BattleUIManager : MonoBehaviour
         UI_OptionSelector.SetActive(false);
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
-        Debug.Log("SetActive Health Bar Kedua");
+        //Debug.Log("SetActive Health Bar Kedua");
         UI_TurnIndicator.SetActive(false);
     }
 
