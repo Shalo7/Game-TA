@@ -15,7 +15,7 @@ public class k_AttackAnimationInstance : AnimationStateInstance
                 Debug.LogError("No anim index!");
                 break;
             case 0:
-                swordTrail = FindTrailRendererInObject(animCtrl.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));
+                swordTrail = FindTrailRendererInObject(animationController.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));
                 if (swordTrail == null) break;
                 swordTrail.EnableTrail();
                 break;
@@ -24,7 +24,7 @@ public class k_AttackAnimationInstance : AnimationStateInstance
                 //Debug.LogWarning("V Ataku!");
                 break;
             case 2:
-                if (swordTrail == null ) {swordTrail = FindTrailRendererInObject(animCtrl.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));}
+                if (swordTrail == null ) {swordTrail = FindTrailRendererInObject(animationController.GetBodyParts().GetPart(BodyParts.WEAPON_MIDDLE));}
                 swordTrail.DisableTrailFade(BattleSystem.instance, 0.75f);
                 break;
         }

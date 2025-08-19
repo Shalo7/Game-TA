@@ -41,7 +41,6 @@ public class DMGOutputController : MonoBehaviour
         string newColor = "";
         if (abilityColorOutput.TryGetValue(type, out string col)) { newColor = col; }
         if (ColorUtility.TryParseHtmlString(newColor, out Color colorHex)) { dmgTxt.color = colorHex; }
-
         currentVelocity = GetRandomDirection();
         Invoke("DisableDMGOutputText", 1.5f);
     }

@@ -15,15 +15,15 @@ public class w_DefendAnimationInstance : AnimationStateInstance
             case 0:
                 AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
                 ParticleEnum shieldParticle = ParticleEnum.EntityShield;
-                CharInstanceParticleTransform charInstanceParticleTransform = animCtrl.GetCharaInstance().GetCharInstanceParticleTransform((int)shieldParticle);
+                CharInstanceParticleTransform charInstanceParticleTransform = animationController.GetCharaInstance().GetCharInstanceParticleTransform((int)shieldParticle);
 
-                Transform charTransform = animCtrl.GetCharaInstance().curTransform;
+                Transform charTransform = animationController.GetCharaInstance().curTransform;
                 Vector3 shieldOffsetPos = charTransform.position + charInstanceParticleTransform.positionOffset;
                 Vector3 shieldScale = charInstanceParticleTransform.scale;
                 ParticleSpawnData shieldData = new ParticleSpawnData(charTransform, shieldOffsetPos, Vector3.one, shieldScale, shieldParticle, false, true);
 
                 ParticleFXController shieldFXController = ParticlePoolManager.instance.ActivateParticleFX(shieldData);
-                animCtrl.AddActiveAnimationParticles(this, shieldFXController);
+                animationController.AddActiveAnimationParticles(this, shieldFXController);
                 break;
         }
     }

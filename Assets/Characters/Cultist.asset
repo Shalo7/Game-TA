@@ -18,8 +18,17 @@ MonoBehaviour:
   attack: 76
   defense: 100
   speed: 50
+  height: 3.7
   moves:
   - {fileID: 11400000, guid: c26d15d1ed34cbd42bf0304de2342233, type: 2}
   - {fileID: 11400000, guid: 811f9387094a4434287893b946992834, type: 2}
   - {fileID: 11400000, guid: c888399468136624288886ee9b7989e8, type: 2}
-  charParticleTransformArray: []
+  charParticleTransformArray:
+  - positionOffset: {x: 0, y: 1.85, z: 0}
+    scale: {x: 2, y: 2, z: 2}
+  - positionOffset: {x: 0, y: 1.85, z: 0}
+    scale: {x: 2, y: 2, z: 2}
+  - positionOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 4, y: 4, z: 4}
+  - positionOffset: {x: 0, y: 1.85, z: 0}
+    scale: {x: 2, y: 2, z: 2}

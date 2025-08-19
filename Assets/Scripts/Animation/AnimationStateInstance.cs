@@ -5,11 +5,11 @@ using UnityEngine;
 public abstract class AnimationStateInstance
 {
     public Action<AnimEventTypes> AnimationStateEvents;
-    protected BaseAnimationController animCtrl;
+    protected BaseAnimationController animationController;
 
     public AnimationStateInstance(BaseAnimationController bac)
     {
-        this.animCtrl = bac;
+        this.animationController = bac;
     }
 
     public abstract void OnAnimationEvent(int index);

@@ -30,6 +30,11 @@ public class TypewritingManager : MonoBehaviour
     public float bounceDuration = 0.4f;
     public float fadeOutDuration = 0.3f;
 
+    [SerializeField] AnimationCurve colorTransitionCurve;
+    [SerializeField] Gradient colorTransition;
+    [SerializeField] AnimationCurve resizeAnimationCurve;
+    [SerializeField] List<TypewriteEffects> activeTypeWriteEffects = new List<TypewriteEffects>();
+
     [Header("Colors")]
     public bool useGradientForTypedText = false;
     public VertexGradient typedTextGradient;
@@ -244,7 +249,10 @@ public class TypewritingManager : MonoBehaviour
         else if (!hasMistake && inputBuffer.Length < currentWord.Length && !hasFailedEarly)
         {
             ShakeCameraOnType();
-            if (ParticlePoolManager.instance == null) { return;}
+            typedText.ForceMeshUpdate();
+            AddActiveTypewriteEffect(typedText);
+            //StartCoroutine(DoTextScaleBounce(typedText));
+            if (ParticlePoolManager.instance == null) { return; }
             /*typedText.ForceMeshUpdate();
             string theText = typedText.text;
             if (theText == "") return;
@@ -264,6 +272,64 @@ public class TypewritingManager : MonoBehaviour
 
             if (inputBuffer.Length == currentWord.Length) return;
             ParticlePoolManager.instance.ActivateParticleFX(datas);*/
+        }
+    }
+
+    private void AddActiveTypewriteEffect(TMP_Text txt)
+    {
+        activeTypeWriteEffects.Add(new TypewriteEffects(txt, txt.text.Length - 1, resizeAnimationCurve));
+        if (StartDoTextScaleBounce != null) return;
+        StartDoTextScaleBounce = StartCoroutine(DoTextScaleBounce());
+    }
+
+    Coroutine StartDoTextScaleBounce;
+    IEnumerator DoTextScaleBounce()
+    {
+        while (activeTypeWriteEffects.Count > 0)
+        {
+            for (int i = 0; i < activeTypeWriteEffects.Count; i++)
+            {
+                TypewriteEffects index = activeTypeWriteEffects[i];
+                if (index == null)
+                {
+                    activeTypeWriteEffects[i] = null;
+                    activeTypeWriteEffects.Remove(index);
+                    continue;
+                }
+                index.timer += Time.deltaTime;
+
+                if (index.timer > index.duration)
+                {
+                    activeTypeWriteEffects[i] = null;
+                    activeTypeWriteEffects.Remove(index);
+                    continue;
+                }
+
+                var flt_t = Mathf.Clamp01(index.timer / index.duration);
+                var flt_Scale = index.animCurve.Evaluate(flt_t);
+                //index.txt.ForceMeshUpdate();
+                TMP_TextInfo textInfo = index.txt.textInfo;
+                TMP_CharacterInfo charInfo = textInfo.characterInfo[index.charIndex];
+                if (!charInfo.isVisible) continue;
+
+                int meshIndex = charInfo.materialReferenceIndex;
+                int vertexIndex = charInfo.vertexIndex;
+
+                Vector3 v0 = index.baseVerts[0];
+                Vector3 v2 = index.baseVerts[2];
+                Vector3 centre = (v0 + v2) / 2f;
+
+                Vector3[] verts = textInfo.meshInfo[meshIndex].vertices;
+                for (int k = 0; k < 4; k++)
+                {
+                    Vector3 offSet = index.baseVerts[k] - centre;
+                    verts[vertexIndex + k] = centre + offSet * flt_Scale;
+                }
+
+                index.txt.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
+            }
+            StartDoTextScaleBounce = null;
+            yield return null;
         }
     }
 

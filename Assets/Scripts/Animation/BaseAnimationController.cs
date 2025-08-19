@@ -78,7 +78,7 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     public virtual void OnAnimationEnd(string parse)
     {
-        //layer:animEnum:isLock:canPass:sameAnimAction
+        //layer:animState:isLock:canPass:sameAnimAction
         //Debug.LogWarning("Animation ended!");
         string[] parsed = parse.Split(":");
         if (parsed.Length < 1 || parsed.Length > 5) return;
@@ -124,12 +124,6 @@ public abstract class BaseAnimationController : MonoBehaviour
             currentActiveParticles.Remove(animStatePair);
             break;
         }
-        /*foreach (ParticleAnimStatePair pssp in currentActiveParticles)
-        {
-            if (pssp.particleFXController != controller) continue;
-            pssp.particleFXController.OnDoneEvent -= OnActiveAnimationParticleDone;
-            currentActiveParticles.Remove(pssp);
-        }*/
     }
 
 
