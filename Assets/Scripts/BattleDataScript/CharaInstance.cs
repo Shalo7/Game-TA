@@ -14,6 +14,8 @@ public class CharaInstance
     public int curDef;
     public int curSpd;
     public float curHeight;
+    public int shieldHP;
+    public float shieldDmgReduc = 0.05f; //5%
     public Transform curTransform;
     public Transform targetTransform;
     public Transform GetTargetTransform() => targetTransform;
@@ -83,7 +85,10 @@ public class CharaInstance
 
             case MoveType.Defend:
                 isBlocking = true;
-                Debug.Log($"{this} is blocking!");
+                int shieldAmount = Mathf.RoundToInt(finalPower * 0.2f);
+                shieldHP += shieldAmount;
+
+                Debug.Log($"{this} shield {shieldAmount} HP!");
                 break;
             case MoveType.Buff:
                 ApplyStatEffect(move.affectedStat, finalPower, move.duration, move);

@@ -17,6 +17,9 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image playerImage;
     [SerializeField] Image enemyImage;
 
+    [SerializeField] Image buffIndicator;
+    [SerializeField] Image debuffIndicator;
+
     [SerializeField] HealthBarAnimation playerHpBar;
     [SerializeField] HealthBarAnimation enemyHpBar;
 
@@ -352,7 +355,7 @@ public class BattleSystem : MonoBehaviour
                 {
                     ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
                     //Debug.LogError(shieldParticle);
-                    
+
                     if (shieldParticle != null) { shieldParticle.ForceStop(); }
                     ParticleEnum particleType = ParticleEnum.EntityShieldHit;
                     CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
@@ -363,7 +366,27 @@ public class BattleSystem : MonoBehaviour
 
                     CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
 
-                    damage = 0;
+                    if (currentTarget.shieldHP > 0)
+                    {
+                        int reducedDmg = Mathf.RoundToInt(damage * (1f - currentTarget.shieldDmgReduc));
+
+                        if (currentTarget.shieldHP >= reducedDmg)
+                        {
+                            currentTarget.shieldHP -= reducedDmg;
+                            Debug.Log($"{this} shield {reducedDmg}! Remaining shield: {currentTarget.shieldHP}");
+                            return;
+                        }
+                        else
+                        {
+                            int leftover = reducedDmg - currentTarget.shieldHP;
+                            currentTarget.shieldHP = 0;
+                            currentTarget.curHP -= leftover;
+                            Debug.Log($"{this} shield broke! Took {leftover} dmg!");
+                            return;
+                        }
+                    }
+                    //currentTarget.curHP -= damage;
+                    //damage = 0;
                     Vector3 targetCenter = Vector3.zero;
                     if (currentTarget.curHeight > 0)
                     {
@@ -378,7 +401,7 @@ public class BattleSystem : MonoBehaviour
                     ParticleEnum particleType = ParticleEnum.EntityDamage;
                     CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
                     Vector3 particlePos = currentTarget.curTransform.position + (currentTarget.curTransform.up * cipTransform.positionOffset.y);
-                    currentTarget.curHP -= damage;
+                    //currentTarget.curHP -= damage;
 
                     ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
 
@@ -395,7 +418,12 @@ public class BattleSystem : MonoBehaviour
                     else { CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 1.5f, 0f), 0.3f, 0.75f); }
                 }
             }
-            else if (currentMove.moveType == MoveType.Debuff || currentMove.moveType == MoveType.Heal)
+            else if (currentMove.moveType == MoveType.Debuff)
+            {
+                currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
+                debuffIndicator.gameObject.SetActive(true);
+            }
+            else if (currentMove.moveType == MoveType.Heal)
             {
                 currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
             }
@@ -439,7 +467,8 @@ public class BattleSystem : MonoBehaviour
         plrStats.text =
             $"HP: {player.curHP}/{player.baseData.maxHP}\n" +
             $"ATK: {player.curAtt}\n" +
-            $"DEF: {player.curDef}";
+            $"DEF: {player.curDef}\n" +
+            $"SHD: {player.shieldHP}";
 
         enemyStats.text =
             $"HP: {enemy.curHP}/{enemy.baseData.maxHP}\n" +
