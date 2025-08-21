@@ -11,7 +11,14 @@ public class c_BuffAnimationInstance : AnimationStateInstance
                 Debug.LogError("No anim index!");
                 break;
             case 0:
+
+                break;
+            case 1:
                 AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
+                Debug.LogWarning("Cultist buff!");
+                break;
+            case 2:
+                
                 break;
         }
     }

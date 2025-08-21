@@ -11,6 +11,7 @@ public enum ParticleEnum
     EntityShieldHit,
     W_StickGlow,
     W_ThunderAttack,
+    C_GroundHit,
     OnTextTyped
 }
 
