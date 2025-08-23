@@ -6035,6 +6035,8 @@ MonoBehaviour:
   enemyStats: {fileID: 1274606213}
   winScreen: {fileID: 1988508528}
   loseScreen: {fileID: 612594230}
+  shieldSlider: {fileID: 2052241080}
+  maxShieldHP: 50
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingManager: {fileID: 996873120}

@@ -84,11 +84,13 @@ public class CharaInstance
                 break;
 
             case MoveType.Defend:
-                isBlocking = true;
-                int shieldAmount = Mathf.RoundToInt(finalPower * 0.2f);
-                shieldHP += shieldAmount;
+                // isBlocking = true;
+                // int shieldAmount = Mathf.RoundToInt(finalPower * 0.2f);
+                // shieldHP += shieldAmount;
 
-                Debug.Log($"{this} shield {shieldAmount} HP!");
+                // Debug.Log($"{this} shield {shieldAmount} HP!");
+
+                //handled in battle logic
                 break;
             case MoveType.Buff:
                 ApplyStatEffect(move.affectedStat, finalPower, move.duration, move);

@@ -14,7 +14,11 @@ public class w_DefendAnimationInstance : AnimationStateInstance
                 break;
             case 0:
                 AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
+
                 ParticleEnum shieldParticle = ParticleEnum.EntityShield;
+                ParticleFXController activeShield = animationController.GetSpecificActiveAnimationParticle(this, shieldParticle);
+                if (activeShield != null) return;
+
                 CharInstanceParticleTransform charInstanceParticleTransform = animationController.GetCharaInstance().GetCharInstanceParticleTransform((int)shieldParticle);
 
                 Transform charTransform = animationController.GetCharaInstance().curTransform;

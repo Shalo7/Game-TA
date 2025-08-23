@@ -20,7 +20,7 @@ public class BattleUIManager : MonoBehaviour
     public TypingIntroAnimator typingIntroAnimator;
 
     [Header("Timing")]
-    public float enemyTurnDuration = 2f;
+    public float enemyTurnDuration = 3f;
 
     [Header("Health")]
     public HealthBarAnimation playerHealthBarAnim;
