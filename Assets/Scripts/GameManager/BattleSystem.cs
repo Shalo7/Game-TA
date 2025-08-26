@@ -50,7 +50,7 @@ public class BattleSystem : MonoBehaviour
     private Moves currentMove;
     private int currentFinalPower;
     private int damagePower;
-    int turnCount = 1;
+    int debuffTurnCount = 1;
 
     BaseAnimationController currentAnimMonitored;
     AnimationStateInstance currentAnimStateMonitored;
@@ -139,8 +139,10 @@ public class BattleSystem : MonoBehaviour
 
             if (isPlayerTurn)
             {
-                battleLog.text = $"Turn {turnCount}";
-                turnCount++;
+                if (isDebuffing)
+                    debuffTurnCounter();
+                    // battleLog.text = $"Turn {turnCount}";
+                    // turnCount++;
                 yield return PlayerTurn();
                 if (enemy.IsFainted()) break;
                 //yield return WaitTurnDone();
@@ -346,6 +348,7 @@ public class BattleSystem : MonoBehaviour
         source.curHP = Mathf.Clamp(source.curHP, 0, source.baseData.maxHP);
     }
 
+    private bool isDebuffing = false;
     private void OnAnimationStateEvents(AnimEventTypes types)
     {
         if (types == AnimEventTypes.GENERICMOVE)
@@ -419,7 +422,7 @@ public class BattleSystem : MonoBehaviour
                 int shieldAmount = Mathf.RoundToInt(currentFinalPower * 0.2f);
                 currentAttacker.shieldHP += shieldAmount;
                 currentAttacker.shieldHP = Mathf.Clamp(currentAttacker.shieldHP, 0, maxShieldHP);
-                
+
                 shieldSlider.value = currentAttacker.shieldHP;
                 Debug.Log($"{this} shield {shieldAmount} HP!");
                 Debug.Log(currentAttacker.shieldHP);
@@ -444,7 +447,13 @@ public class BattleSystem : MonoBehaviour
                 if (!currentTarget.isBlocking)
                 {
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
+                    isDebuffing = true;
                     debuffIndicator.gameObject.SetActive(true);
+                    if (debuffTurnCount == 3)
+                    {
+                        debuffIndicator.gameObject.SetActive(false);
+                        isDebuffing = false;
+                    }
                 }
 
             }
@@ -459,6 +468,12 @@ public class BattleSystem : MonoBehaviour
         }
 
         UpdateHPUI();
+    }
+
+    private void debuffTurnCounter()
+    {
+        battleLog.text = $"Turn {debuffTurnCount}";
+        debuffTurnCount++;
     }
 
     private void OnTurnAnimationEnds()
