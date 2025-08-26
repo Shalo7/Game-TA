@@ -61,7 +61,7 @@ public class LevelSelectorController : MonoBehaviour
 
     void Start()
     {
-        StartRotatingIndicator();
+        //StartRotatingIndicator();
         UpdateUI(true);
         if (optionsPanel != null) optionsPanel.SetActive(false);
         settingsIcon.color = settingsNormalColor;
