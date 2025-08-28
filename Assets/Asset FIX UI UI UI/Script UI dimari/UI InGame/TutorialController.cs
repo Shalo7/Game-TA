@@ -127,17 +127,17 @@ public class TutorialController : MonoBehaviour
 
             case 6:
                 uiOptionSelector.DisableSelection();
-                Debug.Log("Hello!!");
+                //Debug.Log("Hello!!");
                 break; // handled externally
 
             case 7:
                 StartCoroutine(ShowFinalStep7Image());
-                Debug.Log("Hello 2!!");
+                //Debug.Log("Hello 2!!");
                 playerHealthBarAnim.TakeDamage(-50f);
                 break;
             case 8:
                 StartCoroutine(Flow10ToFlow11());
-                Debug.LogError("Case 8!!");
+                //Debug.LogError("Case 8!!");
                 waitingForFinalStep = true;
                 skipAllowed = false;
                 break;
@@ -157,7 +157,7 @@ public class TutorialController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Step 7 (index 6) tidak ditemukan di array tutorialSteps.");
+            //Debug.LogError("Step 7 (index 6) tidak ditemukan di array tutorialSteps.");
         }
 
         // Pastikan UI tetap aktif dan di posisi yang benar
@@ -184,7 +184,7 @@ public class TutorialController : MonoBehaviour
     {
         if (flow11Triggered) yield break;
         flow11Triggered = true;
-        Debug.LogError("DONE!");
+        //Debug.LogError("DONE!");
 
         waitingForFinalStep = false;
         spaceSkipPrompt.SetActive(false);
@@ -201,7 +201,7 @@ public class TutorialController : MonoBehaviour
 
         //HideAllTutorialUI();
         //optionsGroup.SetActive(false);
-        Debug.Log("Jalan");
+        //Debug.Log("Jalan");
 
         // Hanya jalankan typing intro jika belum pernah dimulai
         /*if (!typingIntroStarted)
@@ -263,7 +263,7 @@ public class TutorialController : MonoBehaviour
         if (tutorialSteps.Length > 5)
             tutorialSteps[5].gameObject.SetActive(true);
         else
-            Debug.LogError("Step 6 (index 5) tidak ditemukan di array tutorialSteps.");
+            //Debug.LogError("Step 6 (index 5) tidak ditemukan di array tutorialSteps.");
 
         // Pindahkan UI ke zona tutorial tanpa fade out
         optionsGroup.transform.SetParent(zonaTutorial.transform, false);
