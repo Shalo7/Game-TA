@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PsoglavAnimationController
+  m_Controller: {fileID: 9100000, guid: 115eccc4519cd324c980ab1d24790949, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d80b268f9e727d94198c75a8c7a1048c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 74be277308ee2194488ec00159920e9d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 70fc23286e869dc409fca30b1e81966a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ccce1eb2afffd904eb8f272e1b73686c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0da9a082b65602141ba2adde0d9e397a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a21ddb07f92ed4840b7b3d153a7102e4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c115c1ba861d1754cb590455488e3b56, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bc48a0edcf9888e42bed66ad8c9181c2, type: 2}

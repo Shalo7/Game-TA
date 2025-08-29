@@ -67,6 +67,7 @@ public class BattleSystem : MonoBehaviour
     void Start()
     {
         SetupBattle();
+        isAnimationDone = true;
     }
 
     public void SetupBattle()
@@ -219,7 +220,7 @@ public class BattleSystem : MonoBehaviour
 
         ExecuteMove(player, enemy, selectedMove, finalPower);
 
-        yield return new WaitForSeconds(1f);
+        yield return WaitTurnDone();
     }
 
     IEnumerator EnemyTurn()
@@ -233,10 +234,10 @@ public class BattleSystem : MonoBehaviour
         Debug.Log(moveIndex);
 
 
-        yield return new WaitForSeconds(1f);
+        yield return WaitTurnDone();
     }
 
-    IEnumerator WaitTurnDone()
+    public IEnumerator WaitTurnDone()
     {
         while (!isAnimationDone)
         {
@@ -247,7 +248,7 @@ public class BattleSystem : MonoBehaviour
 
     void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
     {
-        Debug.LogWarning("ExecuteMove!");
+        isAnimationDone = false;
         /*//isAnimationDone = false;
         int finalPower = Mathf.RoundToInt(modifiedPower);
 
@@ -368,7 +369,7 @@ public class BattleSystem : MonoBehaviour
                     {
                         currentTarget.shieldHP -= reducedDmg;
                         shieldSlider.value = currentTarget.shieldHP;
-                        Debug.LogError($"{currentTarget.curTransform.name} shielded {reducedDmg}! Remaining shield: {currentTarget.shieldHP}");
+                        //Debug.LogError($"{currentTarget.curTransform.name} shielded {reducedDmg}! Remaining shield: {currentTarget.shieldHP}");
                     }
                     else
                     {
@@ -376,7 +377,7 @@ public class BattleSystem : MonoBehaviour
                         currentTarget.shieldHP = 0;
                         shieldSlider.value = currentTarget.shieldHP;
                         currentTarget.curHP -= leftover;
-                        Debug.LogError($"shield broke! Took {leftover} dmg!");
+                        //Debug.LogError($"shield broke! Took {leftover} dmg!");
                         currentTarget.isBlocking = false;
                         Debug.LogError(currentTarget.isBlocking);
                         ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
@@ -400,7 +401,7 @@ public class BattleSystem : MonoBehaviour
                     currentTarget.curHP -= damagePower;
                 }
                 //currentTarget.curHP -= damagePower;
-                Debug.LogError($"{currentAttacker.curTransform.name} is attacking {currentTarget.curTransform.name}!");
+                //Debug.LogError($"{currentAttacker.curTransform.name} is attacking {currentTarget.curTransform.name}!");
 
                 ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
 
@@ -424,8 +425,8 @@ public class BattleSystem : MonoBehaviour
                 currentAttacker.shieldHP = Mathf.Clamp(currentAttacker.shieldHP, 0, maxShieldHP);
 
                 shieldSlider.value = currentAttacker.shieldHP;
-                Debug.Log($"{this} shield {shieldAmount} HP!");
-                Debug.Log(currentAttacker.shieldHP);
+                //Debug.Log($"{this} shield {shieldAmount} HP!");
+                //Debug.Log(currentAttacker.shieldHP);
                 /*if (currentAttacker.isBlocking)
                 {
                     ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
@@ -482,6 +483,7 @@ public class BattleSystem : MonoBehaviour
         currentAnimStateMonitored.AnimationStateEvents -= OnAnimationStateEvents;
         currentAnimMonitored = null;
         currentAnimStateMonitored = null;
+        isAnimationDone = true;
         Debug.LogWarning("Animation ended!");
     }
 

@@ -72,6 +72,7 @@ public class BattleUIManager : MonoBehaviour
 
     IEnumerator EnemyTurnRoutine()
     {
+        yield return BattleSystem.instance.WaitTurnDone();
         Debug.Log("Giliran musuh dimulai...");
 
         UI_EnemyTurnIndicator.SetActive(true);
@@ -105,11 +106,12 @@ public class BattleUIManager : MonoBehaviour
             yield break;
         }
 
-        BackToPlayerSelection();
+        StartCoroutine(BackToPlayerSelection());
     }
 
-    public void BackToPlayerSelection()
+    public IEnumerator BackToPlayerSelection()
     {
+        yield return BattleSystem.instance.WaitTurnDone();
         if (playerNotDone)
         {
             Debug.Log("Giliran pemain kembali");
@@ -121,7 +123,8 @@ public class BattleUIManager : MonoBehaviour
             UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
             UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
 
-            uiOptionSelectorScript.EnableSelection();   
+            uiOptionSelectorScript.EnableSelection();
         }
+        yield return null;
     }
 }

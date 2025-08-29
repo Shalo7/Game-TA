@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ff82a68263c14040a7b35c09310eb9c, type: 3}
+  m_Name: Psoglav
+  m_EditorClassIdentifier: 
+  charaName: Psoglav
+  charaSprite: {fileID: 0}
+  maxHP: 1500
+  attack: 110
+  defense: 175
+  speed: 50
+  height: 4
+  moves:
+  - {fileID: 11400000, guid: f7db08fae4a5678458683ce92d749eee, type: 2}
+  - {fileID: 11400000, guid: e0d16f3771e13934097942370f8b198b, type: 2}
+  - {fileID: 11400000, guid: 1776df44dafc67b4fbd22a51188f6a5c, type: 2}
+  charParticleTransformArray:
+  - positionOffset: {x: 0, y: 2, z: 0}
+    scale: {x: 3, y: 3, z: 3}
+  - positionOffset: {x: 0, y: 2, z: 0}
+    scale: {x: 3, y: 3, z: 3}
+  - positionOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 18, y: 18, z: 18}
+  - positionOffset: {x: 0, y: 2, z: 0}
+    scale: {x: 3, y: 3, z: 3}
