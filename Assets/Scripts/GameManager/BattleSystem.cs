@@ -449,11 +449,11 @@ public class BattleSystem : MonoBehaviour
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
                     isDebuffing = true;
                     debuffIndicator.gameObject.SetActive(true);
-                    if (debuffTurnCount == 3)
-                    {
-                        debuffIndicator.gameObject.SetActive(false);
-                        isDebuffing = false;
-                    }
+                }
+                if (debuffTurnCount == 3)
+                {
+                    debuffIndicator.gameObject.SetActive(false);
+                    isDebuffing = false;
                 }
 
             }
