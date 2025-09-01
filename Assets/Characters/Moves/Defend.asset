@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveName: Defend
   moveType: 1
-  power: 50
+  power: 66
   desc: 
   affectedStat: 1
   isPercentageChange: 1

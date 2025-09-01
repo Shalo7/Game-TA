@@ -29,6 +29,7 @@ public class BattleUIManager : MonoBehaviour
     public TutorialController tutorialController;
 
     public bool playerNotDone = true;
+    public bool isTutorial = false;
 
     private bool isInTutorial = false;
     private bool hasDealtFirstEnemyDamage = false;
@@ -72,7 +73,7 @@ public class BattleUIManager : MonoBehaviour
 
     IEnumerator EnemyTurnRoutine()
     {
-        yield return BattleSystem.instance.WaitTurnDone();
+        
         Debug.Log("Giliran musuh dimulai...");
 
         UI_EnemyTurnIndicator.SetActive(true);
@@ -84,12 +85,13 @@ public class BattleUIManager : MonoBehaviour
         UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         Debug.Log("SetActive Health Bar");
+        yield return BattleSystem.instance.WaitTurnDone();
         UI_OptionSelector.SetActive(false);
         UI_TurnIndicator.SetActive(false);
         typingTimerUI.Hide();
 
         // ⚠️ Kurangi darah player hanya di giliran musuh pertama (flow 8)
-        if (!hasDealtFirstEnemyDamage && playerHealthBarAnim != null)
+        if (isTutorial && !hasDealtFirstEnemyDamage && playerHealthBarAnim != null)
         {
             yield return new WaitForSeconds(0.5f);
             playerHealthBarAnim.TakeDamage(50f);
@@ -100,7 +102,7 @@ public class BattleUIManager : MonoBehaviour
 
         EnemyTurnFinished = true;
 
-        if (tutorialController != null && tutorialController.enabled && tutorialController.IsTutorialInStep5OrBelow())
+        if (isTutorial && tutorialController != null && tutorialController.enabled && tutorialController.IsTutorialInStep5OrBelow())
         {
             tutorialController.TriggerStep6AfterEnemyTurn();
             yield break;

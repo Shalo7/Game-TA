@@ -4423,7 +4423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &660498397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5510,9 +5510,10 @@ MonoBehaviour:
   winScreen: {fileID: 1988508528}
   loseScreen: {fileID: 612594230}
   shieldSlider: {fileID: 1333551195}
-  maxShieldHP: 50
+  maxShieldHP: 66
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
+  nextLevel: 3
   typingManager: {fileID: 996873120}
 --- !u!4 &812588305
 Transform:
@@ -6883,6 +6884,7 @@ MonoBehaviour:
   playerHealthBarAnim: {fileID: 1804393566}
   tutorialController: {fileID: 660498397}
   playerNotDone: 1
+  isTutorial: 0
 --- !u!114 &996873120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8357,7 +8359,7 @@ MonoBehaviour:
   fadeTurnIndicator: {fileID: 1609260351}
   fadePlayerInfo: {fileID: 1666839281}
   fadeEnemyInfo: {fileID: 1542058978}
-  inputEnabled: 0
+  inputEnabled: 1
 --- !u!114 &1103825441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9639,7 +9641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1274606213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14955,7 +14957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1861376116
 RectTransform:
   m_ObjectHideFlags: 0

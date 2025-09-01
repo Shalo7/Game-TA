@@ -14,14 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaName: Psoglav
   charaSprite: {fileID: 0}
-  maxHP: 1500
+  maxHP: 767
   attack: 110
-  defense: 175
+  defense: 163
   speed: 50
   height: 4
   moves:
   - {fileID: 11400000, guid: f7db08fae4a5678458683ce92d749eee, type: 2}
-  - {fileID: 11400000, guid: e0d16f3771e13934097942370f8b198b, type: 2}
   - {fileID: 11400000, guid: 1776df44dafc67b4fbd22a51188f6a5c, type: 2}
   charParticleTransformArray:
   - positionOffset: {x: 0, y: 2, z: 0}

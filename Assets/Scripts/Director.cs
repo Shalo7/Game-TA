@@ -13,6 +13,8 @@ public class Director : MonoBehaviour
     private SceneTransitioneerPair currentPair;
     private string nextScene;
     public Action<int> transitionHashEvent;
+    [SerializeField] private int currentLevel = 0;
+    public int GetCurrentLevel() => currentLevel;
     Dictionary<SceneTransitionPairingsEnum, SceneTransitioneerPair> transitionPairing = new Dictionary<SceneTransitionPairingsEnum, SceneTransitioneerPair>
     {
         {SceneTransitionPairingsEnum.STP_FILLED2LEFT, new SceneTransitioneerPair(SceneTransitionEnums.ST_FILLED, SceneTransitionEnums.ST_LEFTEXIT)},
@@ -27,12 +29,18 @@ public class Director : MonoBehaviour
     {
         if (instance != null) return;
         instance = this;
-        
     }
 
     void Start()
     {
+        Cursor.visible = false;
         DoTransition(SceneTransitionPairingsEnum.STP_FILLED2RIGHT, "MainMenu");
+    }
+
+    public void UpdateCurrentLevel(int nextLevel)
+    {
+        if (currentLevel > nextLevel) return;
+        currentLevel = nextLevel;
     }
 
     public void DoTransition(SceneTransitionPairingsEnum wantedPair, string sceneName)

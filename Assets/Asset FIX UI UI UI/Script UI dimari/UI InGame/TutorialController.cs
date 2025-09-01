@@ -41,6 +41,7 @@ public class TutorialController : MonoBehaviour
 
     void Start()
     {
+        battleUIManager.isTutorial = true;
         originalParent_PlayerHB = playerHealthBar.transform.parent;
         originalParent_EnemyHB = enemyHealthBar.transform.parent;
         originalParent_BannerYourTurn = bannerYourTurn.transform.parent;

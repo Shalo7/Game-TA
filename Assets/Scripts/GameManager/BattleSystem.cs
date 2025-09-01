@@ -51,6 +51,8 @@ public class BattleSystem : MonoBehaviour
     private int currentFinalPower;
     private int damagePower;
     int debuffTurnCount = 1;
+    int buffTurnCount = 1;
+    [SerializeField] int nextLevel = 0;
 
     BaseAnimationController currentAnimMonitored;
     AnimationStateInstance currentAnimStateMonitored;
@@ -142,8 +144,10 @@ public class BattleSystem : MonoBehaviour
             {
                 if (isDebuffing)
                     debuffTurnCounter();
-                    // battleLog.text = $"Turn {turnCount}";
-                    // turnCount++;
+                // battleLog.text = $"Turn {turnCount}";
+                // turnCount++;
+                if (isBuffing)
+                    buffTurnCounter();
                 yield return PlayerTurn();
                 if (enemy.IsFainted()) break;
                 //yield return WaitTurnDone();
@@ -175,6 +179,7 @@ public class BattleSystem : MonoBehaviour
             AudioManager.Instance.StopBGM();
             battleUIManager.playerNotDone = false;
             winScreen.SetActive(true);
+            Director.instance.UpdateCurrentLevel(nextLevel);
         }
         else
         {
@@ -350,6 +355,7 @@ public class BattleSystem : MonoBehaviour
     }
 
     private bool isDebuffing = false;
+    private bool isBuffing = false;
     private void OnAnimationStateEvents(AnimEventTypes types)
     {
         if (types == AnimEventTypes.GENERICMOVE)
@@ -462,9 +468,16 @@ public class BattleSystem : MonoBehaviour
             {
                 currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
             }
-            else
+            else if (currentMove.moveType == MoveType.Buff)
             {
                 currentAttacker.ApplyMoveEffect(currentMove, false, null, currentFinalPower);
+                isBuffing = true;
+                //buffIndicator.gameObject.SetActive(true);
+                if (buffTurnCount == 3)
+                {
+                    //buffIndicator.gameObject.SetActive(false);
+                    isBuffing = false;
+                }
             }
         }
 
@@ -475,6 +488,12 @@ public class BattleSystem : MonoBehaviour
     {
         battleLog.text = $"Turn {debuffTurnCount}";
         debuffTurnCount++;
+    }
+
+    private void buffTurnCounter()
+    {
+        battleLog.text = $"Turn {buffTurnCount}";
+        buffTurnCount++;
     }
 
     private void OnTurnAnimationEnds()
