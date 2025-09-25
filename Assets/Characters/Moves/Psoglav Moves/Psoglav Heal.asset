@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aaf44c78ec7de24ea0b1ae4b2ecbb56, type: 3}
-  m_Name: Defend
+  m_Name: Psoglav Heal
   m_EditorClassIdentifier: 
-  moveName: Defend
-  moveType: 1
-  power: 66
-  desc: 
-  affectedStat: 1
-  isPercentageChange: 1
+  moveName: Heal
+  moveType: 2
+  power: 80
+  desc: Healing
+  affectedStat: 0
+  isPercentageChange: 0
   statChangeAmount: 0
-  duration: -1
+  duration: 0

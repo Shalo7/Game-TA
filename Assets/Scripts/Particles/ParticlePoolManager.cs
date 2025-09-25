@@ -74,9 +74,8 @@ public class ParticlePoolManager : MonoBehaviour
             }
         }
 
-        fXController.ChangeLoop(datas.isLoop);
-
         fXController.InitializeParticleFX(datas);
+
         return fXController;
     }
 

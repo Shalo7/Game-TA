@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class WinLoseManager : MonoBehaviour
+public class LoseManager : MonoBehaviour
 {
     public AudioSource winOrLoseSFX;
 

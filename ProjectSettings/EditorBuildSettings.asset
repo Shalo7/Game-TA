@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainBattle.unity
     guid: 5ade6f5c9b9f08042910f2294d32d8ce
+  - enabled: 1
+    path: Assets/Scenes/MainBattle_TechArt1.unity
+    guid: d5305ef0101782044bf7dafa499d4a9f
+  - enabled: 1
+    path: Assets/Scenes/MainBattle_TechArt2.unity
+    guid: 3b4af61be823685499a68304e4a74081
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

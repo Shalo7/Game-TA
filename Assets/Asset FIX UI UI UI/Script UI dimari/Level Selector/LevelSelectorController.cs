@@ -7,6 +7,8 @@ using System;
 
 public class LevelSelectorController : MonoBehaviour
 {
+    public static LevelSelectorController instance;
+
     [Header("Stages")]
     public RectTransform[] stagePositions;
     public CanvasGroup[] roomNameGroups;
@@ -58,6 +60,14 @@ public class LevelSelectorController : MonoBehaviour
     private bool isChanging = false;
     private bool inOptions = false;
     private bool inputLocked = false;
+    int levelUnlock = 0;
+
+    private void Awake()
+    {
+        if (instance != this && instance != null) return;
+        instance = this;
+    }
+
 
     void Start()
     {
@@ -177,10 +187,21 @@ public class LevelSelectorController : MonoBehaviour
 
     void SelectLevel()
     {
-        if (currentIndex == 0)
+        //if (currentIndex == 0)
+        if (Director.instance?.GetCurrentLevel() >= 0 && currentIndex == 0)
         {
-            if (Director.instance == null) {SceneManager.LoadScene("MainBattle"); return;}
+            if (Director.instance == null) { SceneManager.LoadScene("MainBattle"); return; }
             Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle");
+        }
+        if (Director.instance?.GetCurrentLevel() >= 1 && currentIndex == 1)
+        {
+            if (Director.instance == null) {SceneManager.LoadScene("MainBattle_TechArt1"); return;}
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle_TechArt1");
+        }
+        if (Director.instance?.GetCurrentLevel() >= 2 && currentIndex == 2)
+        {
+            if (Director.instance == null) {SceneManager.LoadScene("MainBattle_TechArt2"); return;}
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle_TechArt2");
         }
         else
         {
