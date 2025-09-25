@@ -3780,7 +3780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &565167852
 Transform:
   m_ObjectHideFlags: 0
@@ -9641,7 +9641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1274606213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14502,6 +14502,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1340179008}
     m_Modifications:
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 335.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -343.16348
+      objectReference: {fileID: 0}
     - target: {fileID: 3858612319798470524, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -14668,6 +14680,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8851797882091141634, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095150107371876632, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14957,7 +14973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1861376116
 RectTransform:
   m_ObjectHideFlags: 0

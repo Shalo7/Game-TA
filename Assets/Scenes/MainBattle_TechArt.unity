@@ -4031,7 +4031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &565167852
 Transform:
   m_ObjectHideFlags: 0
@@ -5977,6 +5977,7 @@ MonoBehaviour:
   maxShieldHP: 50
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
+  nextLevel: 0
   typingManager: {fileID: 996873120}
 --- !u!4 &812588305
 Transform:
@@ -7783,6 +7784,7 @@ MonoBehaviour:
   playerHealthBarAnim: {fileID: 1804393566}
   tutorialController: {fileID: 660498397}
   playerNotDone: 1
+  isTutorial: 0
 --- !u!114 &996873120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14804,6 +14806,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1340179008}
     m_Modifications:
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 335.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 162.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3858612319798470524, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -14970,6 +14980,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8851797882091141634, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095150107371876632, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
