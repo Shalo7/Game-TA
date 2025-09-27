@@ -22,6 +22,9 @@ MonoBehaviour:
   moves:
   - {fileID: 11400000, guid: cd5def24b161ff94f8414385fe444907, type: 2}
   - {fileID: 11400000, guid: b11ff3971892269449bf8ab1c5d65851, type: 2}
+  moveAudio:
+  - {fileID: 8300000, guid: 271df6b227c7c8347884f613e85e4031, type: 3}
+  - {fileID: 8300000, guid: b5bc858f263bd5a4b8e55949cb3999d3, type: 3}
   charParticleTransformArray:
   - positionOffset: {x: 0, y: 2, z: 0}
     scale: {x: 3, y: 3, z: 3}

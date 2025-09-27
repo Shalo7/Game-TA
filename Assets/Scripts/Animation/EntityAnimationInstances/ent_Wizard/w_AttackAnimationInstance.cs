@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ParticleData.SpawnData;
+using AudioData;
 using UnityEngine;
 
 public class w_AttackAnimationInstance : AnimationStateInstance
@@ -24,10 +25,17 @@ public class w_AttackAnimationInstance : AnimationStateInstance
                 animationController.AddActiveAnimationParticles(this, enter_glowStickPFXC);
                 break;
             case 1:
+                if (AudioPoolManager.instance == null) return;
+                if (animationController.GetCharaInstance().baseData.moveAudio.Length < 1) return;
+                AudioClip attackAudClip = animationController.GetCharaInstance().baseData.moveAudio[0];
+                AudioSpawnData attackAudioSpawnData = new AudioSpawnData(attackAudClip, false, animationController.GetCharaInstance().curTransform.position);
+                AudioPoolManager.instance.RequestPlayAudio(attackAudioSpawnData);
+                break;
+            case 2:
                 ParticleSpawnData thunder = new ParticleSpawnData(null, animationController.GetCharaInstance().targetTransform.position, Vector3.zero, Vector3.one, ParticleEnum.W_ThunderAttack, false, false);
                 ParticlePoolManager.instance.ActivateParticleFX(thunder);
                 break;
-            case 2:
+            case 3:
                 AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
                 ParticleFXController exit_glowStickPFXC = animationController.GetSpecificActiveAnimationParticle(this, ParticleEnum.W_StickGlow);
                 if (exit_glowStickPFXC == null) return;

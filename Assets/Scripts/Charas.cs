@@ -14,6 +14,7 @@ public class Charas : ScriptableObject
     public float height;
 
     public Moves[] moves;
+    public AudioClip[] moveAudio;
 
     public CharInstanceParticleTransform[] charParticleTransformArray;
 }

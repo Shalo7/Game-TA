@@ -5788,7 +5788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &565167852
 Transform:
   m_ObjectHideFlags: 0
@@ -7610,8 +7610,8 @@ MonoBehaviour:
   maxShieldHP: 50
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
-  nextLevel: 2
   typingManager: {fileID: 996873120}
+  nextLevel: 2
 --- !u!4 &812588305
 Transform:
   m_ObjectHideFlags: 0
@@ -10456,6 +10456,8 @@ MonoBehaviour:
   fadeTurnIndicator: {fileID: 1609260351}
   fadePlayerInfo: {fileID: 1666839281}
   fadeEnemyInfo: {fileID: 1542058978}
+  optSelect: {fileID: 8300000, guid: ce5605fe91090e24aaedc1af0c4e3deb, type: 3}
+  optHover: {fileID: 8300000, guid: 735f76b985165ae40a7643e1a3f53938, type: 3}
   inputEnabled: 1
 --- !u!114 &1103825441
 MonoBehaviour:
@@ -11681,7 +11683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1274606213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15815,7 +15817,36 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   baseScale: {x: 0, y: 0, z: 0}
-  maxScaleOffset: 1.5
+  currentColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!1 &1724868281
 GameObject:
   m_ObjectHideFlags: 0
@@ -16990,7 +17021,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1861376116
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18824,7 +18855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2050149125
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -190,8 +190,8 @@ public class LevelSelectorController : MonoBehaviour
         //if (currentIndex == 0)
         if (Director.instance?.GetCurrentLevel() >= 0 && currentIndex == 0)
         {
-            if (Director.instance == null) { SceneManager.LoadScene("MainBattle"); return; }
-            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle");
+            if (Director.instance == null) { SceneManager.LoadScene("MainBattle_TechArt"); return; }
+            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle_TechArt");
         }
         if (Director.instance?.GetCurrentLevel() >= 1 && currentIndex == 1)
         {
