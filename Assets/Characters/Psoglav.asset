@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaName: Psoglav
   charaSprite: {fileID: 0}
-  maxHP: 767
-  attack: 110
-  defense: 163
+  maxHP: 666
+  attack: 100
+  defense: 133
   speed: 50
   height: 4
   moves:

@@ -15,8 +15,8 @@ MonoBehaviour:
   charaName: Accursed Knight
   charaSprite: {fileID: 21300000, guid: 74b0d2638ac47f6448d0f516b64e9e94, type: 3}
   maxHP: 560
-  attack: 100
-  defense: 156
+  attack: 95
+  defense: 136
   speed: 50
   height: 4
   moves:

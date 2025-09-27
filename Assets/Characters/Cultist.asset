@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charaName: Cultist
   charaSprite: {fileID: 0}
-  maxHP: 600
-  attack: 90
-  defense: 150
+  maxHP: 767
+  attack: 85
+  defense: 140
   speed: 50
   height: 3.7
   moves:
