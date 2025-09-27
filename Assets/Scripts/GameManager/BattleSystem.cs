@@ -39,6 +39,7 @@ public class BattleSystem : MonoBehaviour
 
     [SerializeField] UIOptionSelector selector;
     [SerializeField] BattleUIManager battleUIManager;
+    [SerializeField] TypewritingManager typingManager;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -190,7 +191,6 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    [SerializeField] TypewritingManager typingManager;
     IEnumerator PlayerTurn()
     {
         Debug.Log("▶ PlayerTurn started");
@@ -201,6 +201,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitUntil(() => moveChosen);
         EnableMoveButtons(false);
         moveChosen = false;
+        typingManager.AddColorGradient(selectedMove.counterColor);
 
         yield return new WaitForSeconds(2f);
         bool typingComplete = false;
@@ -231,6 +232,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         Debug.Log("Enemy Turn");
+        typingManager.EmptyCounterText();
         yield return new WaitForSeconds(1f);
 
         int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
@@ -394,7 +396,7 @@ public class BattleSystem : MonoBehaviour
                         CharInstanceParticleTransform particleTransform = currentTarget.charParticleTransformArray[(int)shieldBreakType];
                         Vector3 shieldBreakPos = currentTarget.curTransform.position + (currentTarget.curTransform.up * particleTransform.positionOffset.y);
 
-                        ParticleSpawnData shieldBreakData = new ParticleSpawnData(null, shieldBreakPos, Vector3.zero, cipTransform.scale, particleType, false, false);
+                        ParticleSpawnData shieldBreakData = new ParticleSpawnData(null, shieldBreakPos, Vector3.zero, cipTransform.scale, shieldBreakType, false, false);
                         ExecuteParticleEffects(shieldBreakData);
 
                         CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);

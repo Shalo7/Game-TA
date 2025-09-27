@@ -1,3 +1,4 @@
+using AudioData;
 using ParticleData.SpawnData;
 using UnityEngine;
 
@@ -19,6 +20,12 @@ public class c_AttackAnimationInstance : AnimationStateInstance
                 if (backTip == null) return;
                 ParticleSpawnData groundImpact = new ParticleSpawnData(null, backTip.transform.position, Vector3.zero, Vector3.one, ParticleEnum.C_GroundHit, false, false);
                 if (ParticlePoolManager.instance != null) { ParticlePoolManager.instance.ActivateParticleFX(groundImpact); }
+
+                if (AudioPoolManager.instance == null) return;
+                if (animationController.GetCharaInstance().baseData.moveAudio.Length < 1) return;
+                AudioClip attackAudClip = animationController.GetCharaInstance().baseData.moveAudio[0];
+                AudioSpawnData attackAudioSpawnData = new AudioSpawnData(attackAudClip, false, animationController.GetCharaInstance().curTransform.position);
+                AudioPoolManager.instance.RequestPlayAudio(attackAudioSpawnData);
                 break;
         }
     }

@@ -11,7 +11,7 @@ public class TextCounterUIController : MonoBehaviour
     [Header("Animation Setting")]
     [SerializeField] AnimationCurve resizeCounterCurve;
     [SerializeField] Vector3 baseScale;
-    [SerializeField] float maxScaleOffset;
+    [SerializeField] Gradient currentColorGradient;
 
     void OnEnable()
     {
@@ -26,17 +26,22 @@ public class TextCounterUIController : MonoBehaviour
             if (counterText == null) { Debug.LogError("No Counter Text!"); return; }
         }
         baseScale = rectTrans.localScale;
+        StartTextAnimation = null;
     }
 
 
-    public void UpdateTextCounter(int counter)
+    public void UpdateTextCounter(int counter, Color c)
     {
-        if (counter > 0)
-        { counterText.text = counter.ToString(); }
-        else { counterText.text = ""; return; }
+        if (counter >= 0)
+        { counterText.text = counter.ToString(); counterText.color = c; }
 
         if (StartTextAnimation != null) return;
         StartTextAnimation = StartCoroutine(DoStartTextAnimation());
+    }
+
+    public void EmptyText()
+    {
+        counterText.text = "";
     }
 
 

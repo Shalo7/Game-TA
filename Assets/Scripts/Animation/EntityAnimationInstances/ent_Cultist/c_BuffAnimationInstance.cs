@@ -1,3 +1,4 @@
+using AudioData;
 using UnityEngine;
 
 public class c_BuffAnimationInstance : AnimationStateInstance
@@ -15,7 +16,11 @@ public class c_BuffAnimationInstance : AnimationStateInstance
                 break;
             case 1:
                 AnimationStateEvents?.Invoke(AnimEventTypes.GENERICMOVE);
-                Debug.LogWarning("Cultist buff!");
+                if (AudioPoolManager.instance == null) return;
+                if (animationController.GetCharaInstance().baseData.moveAudio.Length < 1) return;
+                AudioClip buffAudClip = animationController.GetCharaInstance().baseData.moveAudio[1];
+                AudioSpawnData buffAudioSpawnData = new AudioSpawnData(buffAudClip, false, animationController.GetCharaInstance().curTransform.position);
+                AudioPoolManager.instance.RequestPlayAudio(buffAudioSpawnData);
                 break;
             case 2:
                 

@@ -1,3 +1,4 @@
+using AudioData;
 using ParticleData.SpawnData;
 using UnityEngine;
 
@@ -28,6 +29,12 @@ public class w_DefendAnimationInstance : AnimationStateInstance
 
                 ParticleFXController shieldFXController = ParticlePoolManager.instance.ActivateParticleFX(shieldData);
                 animationController.AddActiveAnimationParticles(this, shieldFXController);
+
+                if (AudioPoolManager.instance == null) return;
+                if (animationController.GetCharaInstance().baseData.moveAudio.Length < 1) return;
+                AudioClip defAudio = animationController.GetCharaInstance().baseData.moveAudio[1];
+                AudioSpawnData defAudioSpawnData = new AudioSpawnData(defAudio, false, Vector3.zero);
+                AudioPoolManager.instance.RequestPlayAudio(defAudioSpawnData);
                 break;
         }
     }

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using DG.Tweening;
 using ParticleData.SpawnData;
+using System;
 
 public class TypewritingManager : MonoBehaviour
 {
@@ -45,6 +47,7 @@ public class TypewritingManager : MonoBehaviour
     563921
     331A00*/
     public Color shadowTextColor = new Color(1f, 1f, 1f, 22f / 255f);
+    [SerializeField] Color correctCharacterColor;
 
     [Header("Sounds")]
     public AudioSource audioSource;
@@ -62,6 +65,7 @@ public class TypewritingManager : MonoBehaviour
     private string inputBuffer = "";
     private bool isTypingActive = false;
     private bool hasFailedEarly = false;
+    private Gradient currentColorGradient;
 
     KeyCode[] validKeys =
     {
@@ -224,8 +228,10 @@ public class TypewritingManager : MonoBehaviour
 
             if (typedChar == correctChar)
             {
+                //shadowText.ForceMeshUpdate();
                 correctCount++;
                 renderedTyped += typedChar;
+                //OnCorrectType(i);
             }
             else
             {
@@ -281,6 +287,51 @@ public class TypewritingManager : MonoBehaviour
         activeTypeWriteEffects.Add(new TypewriteEffects(txt, txt.text.Length - 1, resizeAnimationCurve));
         if (StartDoTextScaleBounce != null) return;
         StartDoTextScaleBounce = StartCoroutine(DoTextScaleBounce());
+    }
+
+
+    private void OnCorrectType(int charIndex)
+    {
+        TMP_Text textFocus;
+        if (!shadowText_Enemy.gameObject.activeInHierarchy)
+        {
+            textFocus = shadowText_Player;
+        }
+        else if (!shadowText_Player.gameObject.activeInHierarchy)
+        {
+            textFocus = shadowText_Enemy;
+        }
+        else
+        {
+            Debug.LogError("No text focus!!");
+            return;
+        }
+        Debug.LogError($"has TextFocus! {textFocus.text}");
+
+        TMP_TextInfo textInfo = textFocus.textInfo;
+        if (charIndex >= textInfo.characterCount) return;
+        TMP_CharacterInfo charInfo = textInfo.characterInfo[charIndex];
+        if (!charInfo.isVisible) return;
+        int meshIndex = charInfo.materialReferenceIndex;
+        int vertexIndex = charInfo.vertexIndex;
+        Color32[] vertexColors = textInfo.meshInfo[meshIndex].colors32;
+
+        for (int i = 0; i < 4; i++)
+        {
+            vertexColors[vertexIndex + i] = correctCharacterColor;
+            Debug.LogError(vertexColors[vertexIndex + i]);
+        }
+        textFocus.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
+    }
+
+    public void AddColorGradient(Gradient newGradient)
+    {
+        currentColorGradient = newGradient;
+    }
+
+    public void EmptyCounterText()
+    {
+        counterUIController.EmptyText();
     }
 
     Coroutine StartDoTextScaleBounce;
@@ -372,8 +423,21 @@ public class TypewritingManager : MonoBehaviour
         correctTypedCount++;
         /*counterText.gameObject.SetActive(true);
         counterText.text = correctTypedCount.ToString();*/
-        counterUIController.UpdateTextCounter(correctTypedCount);
         wordIndex++;
+        int inverseWordIndex = 0;
+        if (wordIndex >= 1) { inverseWordIndex = wordList.Count - wordIndex; }
+        int gradientVal = 0;
+        gradientVal = Mathf.Clamp(inverseWordIndex, 1, wordList.Count);
+        float t = Mathf.InverseLerp(0, wordList.Count, gradientVal);
+        if (currentColorGradient == null)
+        {
+            counterUIController.UpdateTextCounter(correctTypedCount, Color.white);
+        }
+        else
+        {
+            Color c = currentColorGradient.Evaluate(t);
+            counterUIController.UpdateTextCounter(correctTypedCount, c);
+        }
 
         if (wordIndex < wordList.Count)
         {
@@ -417,7 +481,6 @@ public class TypewritingManager : MonoBehaviour
     {
         Debug.Log("➡ Semua kata selesai diketik! Sekarang giliran musuh!");
         //counterText.gameObject.SetActive(false);
-        counterUIController.UpdateTextCounter(0);
         shadowText_Player.gameObject.SetActive(false);
         typedText_Player.gameObject.SetActive(false);
         shadowText_Enemy.gameObject.SetActive(false);

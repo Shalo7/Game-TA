@@ -22,6 +22,8 @@ public class Moves : ScriptableObject
     public bool isPercentageChange = false;
     public int statChangeAmount;
     public int duration;
+
+    public Gradient counterColor;
 }
 
 public enum StatType
