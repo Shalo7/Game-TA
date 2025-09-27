@@ -438,7 +438,7 @@ MonoBehaviour:
   roomFadeDuration: 0.32
   roomScaleDuration: 0.53
   roomMoveYAmount: 22.6
-  optionsPanel: {fileID: 1301447874}
+  optionsPanel: {fileID: 653591555}
   optionsButtons:
   - {fileID: 240642059}
   - {fileID: 1501599812}
@@ -478,11 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4287672486998290884, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4332994853379845061, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4332994853379845061, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -494,7 +494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5989461244502741638, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5989461244502741638, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -506,7 +506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092398456033271917, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6092398456033271917, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -518,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781470252407153666, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6781470252407153666, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -613,6 +613,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+--- !u!225 &653591555 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 9138277947620270997, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+  m_PrefabInstance: {fileID: 653591554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &659720656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,11 +1356,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1301447874 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4287672486998290884, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
-  m_PrefabInstance: {fileID: 653591554}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1379862373
 PrefabInstance:
   m_ObjectHideFlags: 0

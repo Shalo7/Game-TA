@@ -245532,21 +245532,21 @@ AnimationClip:
     messageOptions: 0
   - time: 0.5833333
     functionName: OnAnimationEvent
-    data: ATTACK:0
+    data: ATTACK:1
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.75
     functionName: OnAnimationEvent
-    data: ATTACK:1
+    data: ATTACK:2
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1
     functionName: OnAnimationEvent
-    data: ATTACK:2
+    data: ATTACK:3
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

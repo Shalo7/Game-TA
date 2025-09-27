@@ -42,11 +42,13 @@ public class InGameOptionsMenuController : MonoBehaviour
 
     void Start()
     {
-        pausePanel.SetActive(false);
+        pausePanel.SetActive(true);
         pausePanelGroup.alpha = 0f;
 
         if (tutorialCanvasGroup != null)
             tutorialCanvasGroup.alpha = 0f;
+        
+        
     }
 
     void Update()
@@ -99,7 +101,7 @@ public class InGameOptionsMenuController : MonoBehaviour
     {
         pausePanelGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).OnComplete(() =>
         {
-            pausePanel.SetActive(false);
+            //pausePanel.SetActive(false);
         });
 
         isPaused = false;

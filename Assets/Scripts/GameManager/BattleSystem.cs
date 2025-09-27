@@ -377,7 +377,24 @@ public class BattleSystem : MonoBehaviour
                     {
                         currentTarget.shieldHP -= reducedDmg;
                         shieldSlider.value = currentTarget.shieldHP;
-                        //Debug.LogError($"{currentTarget.curTransform.name} shielded {reducedDmg}! Remaining shield: {currentTarget.shieldHP}");
+                        CameraShakeManager.instance.ActivateCamShake(new Vector3(0.25f, 0f, 0f), 0.3f, 0.75f);
+                        if (currentTarget.shieldHP < Mathf.Abs(0.001f))
+                        {
+                            currentTarget.isBlocking = false;
+                            Debug.LogError(currentTarget.isBlocking);
+                            ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
+                            //Debug.LogError(shieldParticle);
+
+                            if (shieldParticle != null) { shieldParticle.ForceStop(); }
+                            ParticleEnum shieldBreakType = ParticleEnum.EntityShieldHit;
+                            CharInstanceParticleTransform particleTransform = currentTarget.charParticleTransformArray[(int)shieldBreakType];
+                            Vector3 shieldBreakPos = currentTarget.curTransform.position + (currentTarget.curTransform.up * particleTransform.positionOffset.y);
+
+                            ParticleSpawnData shieldBreakData = new ParticleSpawnData(null, shieldBreakPos, Vector3.zero, cipTransform.scale, shieldBreakType, false, false);
+                            ExecuteParticleEffects(shieldBreakData);
+
+                            CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
+                        }
                     }
                     else
                     {
@@ -407,21 +424,22 @@ public class BattleSystem : MonoBehaviour
                 else
                 {
                     currentTarget.curHP -= damagePower;
+                    ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
+
+                    Vector3 targetCenter = Vector3.zero;
+                    if (currentTarget.curHeight > 0)
+                    {
+                        float h = currentTarget.curHeight / 2f;
+                        targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
+                    }
+                    ExecuteDMGOutput(damagePower, targetCenter, AbilityOutputTypes.Damage);
+
+                    ExecuteParticleEffects(data);
                 }
                 //currentTarget.curHP -= damagePower;
                 //Debug.LogError($"{currentAttacker.curTransform.name} is attacking {currentTarget.curTransform.name}!");
 
-                ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
 
-                Vector3 targetCenter = Vector3.zero;
-                if (currentTarget.curHeight > 0)
-                {
-                    float h = currentTarget.curHeight / 2f;
-                    targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
-                }
-                ExecuteDMGOutput(damagePower, targetCenter, AbilityOutputTypes.Damage);
-
-                ExecuteParticleEffects(data);
                 if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }
                 else { CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 1.5f, 0f), 0.3f, 0.75f); }
             }
