@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 public class TutorialBookController : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class TutorialBookController : MonoBehaviour
     public Vector3 targetScale = Vector3.one;
     public float spaceBlinkSpeed = 1.5f;
 
-    private int currentIndex = 1; // Start dari element 1
+    public int currentIndex = 1; // Start dari element 1
     private Tween blinkTween;
     private System.Action onComplete;
     private string originatingSceneName;
@@ -39,7 +40,7 @@ public class TutorialBookController : MonoBehaviour
     {
         if (!bukuTutorialGO.activeSelf) return;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) && currentIndex < 5)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && currentIndex < 4)
         {
             AnimateButtonPress(nextButtonImage);
             OnClickNext();
@@ -119,26 +120,37 @@ public class TutorialBookController : MonoBehaviour
             });
     }
 
+    private bool canClick = true;
+    private float clickCooldown = 0.5f;
     public void OnClickNext()
     {
-        if (currentIndex < 5)
+        if (!canClick) return;
+        if (currentIndex < 4)
         {
             currentIndex++;
             autoFlip.FlipRightPage();
             UpdateNavigationButtons();
             UpdateSpecialElements();
+            StartCoroutine(ClickCooldownRoutine());
         }
     }
-
     public void OnClickPrevious()
     {
+        if (!canClick) return;
         if (currentIndex > 1)
         {
             currentIndex--;
             autoFlip.FlipLeftPage();
             UpdateNavigationButtons();
             UpdateSpecialElements();
+            StartCoroutine(ClickCooldownRoutine());
         }
+    }
+    private IEnumerator ClickCooldownRoutine()
+    {
+        canClick = false;
+        yield return new WaitForSeconds(clickCooldown);
+        canClick = true;
     }
 
     void UpdateNavigationButtons()

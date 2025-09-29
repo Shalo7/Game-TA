@@ -219,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 653035137954806627, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3467946270814394209, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: canvas
@@ -240,6 +240,14 @@ PrefabInstance:
     - target: {fileID: 3467946270846717497, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: m_CullTransparentMesh
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160121215483011900, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: TimeBetweenPages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160121215483011900, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: AnimationFramesCount
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6904273233940557318, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: m_Pivot.x
@@ -5443,8 +5451,8 @@ MonoBehaviour:
   maxShieldHP: 66
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
-  nextLevel: 1
   typingManager: {fileID: 996873120}
+  nextLevel: 1
 --- !u!4 &812588305
 Transform:
   m_ObjectHideFlags: 0
@@ -7032,6 +7040,7 @@ MonoBehaviour:
     bottomLeft: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
     bottomRight: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
   shadowTextColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0.7058824}
+  correctCharacterColor: {r: 0, g: 0, b: 0, a: 0}
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
@@ -8340,8 +8349,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1103825439}
   - component: {fileID: 1103825442}
-  - component: {fileID: 1103825441}
   - component: {fileID: 1103825440}
+  - component: {fileID: 1103825441}
   m_Layer: 5
   m_Name: OptionsGroup
   m_TagString: Untagged
@@ -8402,6 +8411,8 @@ MonoBehaviour:
   fadeTurnIndicator: {fileID: 1609260351}
   fadePlayerInfo: {fileID: 1666839281}
   fadeEnemyInfo: {fileID: 1542058978}
+  optSelect: {fileID: 0}
+  optHover: {fileID: 0}
   inputEnabled: 0
 --- !u!114 &1103825441
 MonoBehaviour:
@@ -9556,7 +9567,36 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   baseScale: {x: 0, y: 0, z: 0}
-  maxScaleOffset: 1.5
+  currentColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!1001 &1254587107
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9829,7 +9869,7 @@ MonoBehaviour:
   - {fileID: 660498397}
   - {fileID: 996873121}
   - {fileID: 721961003}
-  - {fileID: 1103825441}
+  - {fileID: 1103825440}
   pauseFadeDuration: 0.25
   quitFadeDuration: 0.5
   musicSlider: {fileID: 527931044}
