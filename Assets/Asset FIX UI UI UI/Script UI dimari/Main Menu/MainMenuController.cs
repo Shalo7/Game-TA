@@ -11,7 +11,7 @@ public class MainMenuController : MonoBehaviour
     public Color confirmedColor = Color.green;
 
     [Header("Options")]
-    public GameObject optionsPanel;
+    public CanvasGroup optionsPanel;
     public Button[] optionsButtons;
 
     [Header("Volume Sliders (embedded in button parents)")]
@@ -40,7 +40,8 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        optionsPanel.SetActive(false);
+        optionsPanel.gameObject.SetActive(true);
+        optionsPanel.alpha = 0f;
         HighlightButtons(mainButtons, mainIndex);
         MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
         EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
@@ -150,7 +151,8 @@ public class MainMenuController : MonoBehaviour
             case 1: // Options
                 audioManager.PlaySFX(audioManager.sfxClips[2]);
                 inOptions = true;
-                optionsPanel.SetActive(true);
+                //optionsPanel.SetActive(true);
+                optionsPanel.alpha = 1f;
                 optionsIndex = 0;
                 HighlightButtons(optionsButtons, optionsIndex);
                 MovePointer(optionsButtons[optionsIndex].GetComponent<RectTransform>());
@@ -190,7 +192,7 @@ public class MainMenuController : MonoBehaviour
                     if (tutorialBook.bukuTutorialGO != null && !tutorialBook.bukuTutorialGO.activeSelf)
                         tutorialBook.bukuTutorialGO.SetActive(true);
 
-                    optionsPanel.SetActive(false);
+                    optionsPanel.alpha = 0f;
                     tutorialBook.StartTutorial(() =>
                     {
                         inOptions = false;
@@ -209,7 +211,7 @@ public class MainMenuController : MonoBehaviour
 
             case 3: // Back
                 audioManager.PlaySFX(audioManager.sfxClips[2]);
-                optionsPanel.SetActive(false);
+                optionsPanel.alpha = 0f;
                 inOptions = false;
                 HighlightButtons(mainButtons, mainIndex = 0);
                 MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());

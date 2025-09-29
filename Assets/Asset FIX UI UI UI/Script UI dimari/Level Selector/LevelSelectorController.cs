@@ -26,7 +26,7 @@ public class LevelSelectorController : MonoBehaviour
     public float roomMoveYAmount = 30f;
 
     [Header("Settings Panel")]
-    public GameObject optionsPanel;
+    public CanvasGroup optionsPanel;
     public Button[] optionsButtons;
     public RectTransform selectorPointer;
     public float pointerOffsetX = -60f;
@@ -73,7 +73,7 @@ public class LevelSelectorController : MonoBehaviour
     {
         //StartRotatingIndicator();
         UpdateUI(true);
-        if (optionsPanel != null) optionsPanel.SetActive(false);
+        if (optionsPanel != null) optionsPanel.gameObject.SetActive(true);
         settingsIcon.color = settingsNormalColor;
         backArrowIcon.color = backNormalColor;
     }
@@ -222,7 +222,7 @@ public class LevelSelectorController : MonoBehaviour
     void OpenOptionsPanel()
     {
         inOptions = true;
-        optionsPanel.SetActive(true);
+        optionsPanel.alpha = 1f;
         optionsIndex = 0;
         HighlightOptions();
         MovePointer();
@@ -233,7 +233,7 @@ public class LevelSelectorController : MonoBehaviour
     void CloseOptionsPanel()
     {
         inOptions = false;
-        optionsPanel.SetActive(false);
+        optionsPanel.alpha = 0f;
         inputLocked = false;
     }
 
@@ -324,7 +324,7 @@ public class LevelSelectorController : MonoBehaviour
 
         if (optionsIndex == 2) // Tutorial
         {
-            optionsPanel.SetActive(false);
+            optionsPanel.alpha = 0f;
             if (tutorialBook != null)
             {
                 if (!tutorialBook.gameObject.activeSelf)
