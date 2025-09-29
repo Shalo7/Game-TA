@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using ParticleData.SpawnData;
+using AudioData;
 
 public class TypingIntroAnimator : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TypingIntroAnimator : MonoBehaviour
     public Vector3 fromScale = Vector3.one * 2f;
     public Vector3 toScale = Vector3.one;
     public float delayBetweenTexts = 0.5f;
+    [SerializeField] AudioClip conSFX;
+    [SerializeField] AudioClip jureSFX;
 
     public System.Action onComplete;
 
@@ -26,11 +29,13 @@ public class TypingIntroAnimator : MonoBehaviour
 
         textLets.transform.DOScale(toScale, stompDuration).SetEase(Ease.InExpo).OnComplete(() =>
         {
+            if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(conSFX, false, Vector3.zero)); }
             if (CameraShakeManager.instance != null) {CameraShakeManager.instance.ActivateCamShake(new Vector3(0.3f, 0.3f, 0f), 0.125f, 0.125f);}
             textBegin.gameObject.SetActive(true);
             textBegin.transform.DOScale(toScale, stompDuration).SetEase(Ease.InExpo).SetDelay(delayBetweenTexts).OnComplete(() =>
             {
-                if (CameraShakeManager.instance != null) {CameraShakeManager.instance.ActivateCamShake(new Vector3(0.3f, 0.3f, 0f), 0.125f, 0.125f);}
+                if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(jureSFX, false, Vector3.zero)); }
+                if (CameraShakeManager.instance != null) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0.3f, 0.3f, 0f), 0.125f, 0.125f); }
                 DOVirtual.DelayedCall(0.3f, () =>
                 {
                     panelGroup.DOFade(0, 0.3f).OnComplete(() =>

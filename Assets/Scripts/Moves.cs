@@ -28,6 +28,7 @@ public class Moves : ScriptableObject
 
 public enum StatType
 {
+    None,
     Attack,
     Defense
 }

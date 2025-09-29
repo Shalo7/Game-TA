@@ -16,7 +16,8 @@ public class DMGOutputController : MonoBehaviour
     {
         {AbilityOutputTypes.Damage, "#FF0000"},
         {AbilityOutputTypes.Heal, "#4AFF0B"},
-        {AbilityOutputTypes.Shield, "#FFFFFF"}
+        {AbilityOutputTypes.Shield, "#FFFFFF"},
+        {AbilityOutputTypes.ShieldDMG, "#FF7100"}
     };
 
     void OnEnable()

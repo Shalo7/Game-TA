@@ -6,6 +6,7 @@ using ParticleData.SpawnData;
 using AnimationLoading.LoadStruct;
 using System;
 using Random = UnityEngine.Random;
+using AudioData;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] UIOptionSelector selector;
     [SerializeField] BattleUIManager battleUIManager;
     [SerializeField] TypewritingManager typingManager;
+    [SerializeField] AudioClip entityHurt;
+    [SerializeField] AudioClip entityDeath;
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -79,6 +82,8 @@ public class BattleSystem : MonoBehaviour
         enemyTransform = GetCharacterTransform(CharType.Enemy);
         player = new CharaInstance(playerChara, playerTransform, enemyTransform);
         enemy = new CharaInstance(enemyChara, enemyTransform, playerTransform);
+        AssignStatEffectUI(player, CharType.Player);
+        AssignStatEffectUI(enemy, CharType.Enemy);
 
         plrName.text = player.baseData.charaName;
         enemyName.text = enemy.baseData.charaName;
@@ -115,6 +120,20 @@ public class BattleSystem : MonoBehaviour
 
         if (chosenCharMark.GetCharType() != type) return null;
         else return chosenCharMark.GetTransform();
+    }
+
+    public void AssignStatEffectUI(CharaInstance instance, CharType charType)
+    {
+        EntityStatEffectsManager[] entityStatEffectsManagers = FindObjectsByType<EntityStatEffectsManager>(FindObjectsSortMode.None);
+
+        EntityStatEffectsManager chosenManager = null;
+        foreach (EntityStatEffectsManager marks in entityStatEffectsManagers)
+        {
+            chosenManager = marks;
+            if (chosenManager.GetCharacterType() != charType) continue;
+            instance.AssignStatEffectUI(chosenManager);
+            break;
+        }
     }
 
     void SetupMoveButtons()
@@ -364,6 +383,13 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentMove.moveType == MoveType.Attack)
             {
+                Vector3 targetCenter = Vector3.zero;
+                if (currentTarget.curHeight > 0)
+                {
+                    float h = currentTarget.curHeight / 2f;
+                    targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
+                }
+
                 damagePower = Mathf.Max(1, currentFinalPower + currentAttacker.curAtt - currentTarget.curDef);
                 ParticleEnum particleType = ParticleEnum.EntityDamage;
                 CharInstanceParticleTransform cipTransform = currentTarget.charParticleTransformArray[(int)particleType];
@@ -395,6 +421,8 @@ public class BattleSystem : MonoBehaviour
 
                             CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
                         }
+                        ExecuteDMGOutput(reducedDmg, targetCenter, AbilityOutputTypes.ShieldDMG);
+
                     }
                     else
                     {
@@ -404,7 +432,7 @@ public class BattleSystem : MonoBehaviour
                         currentTarget.curHP -= leftover;
                         //Debug.LogError($"shield broke! Took {leftover} dmg!");
                         currentTarget.isBlocking = false;
-                        Debug.LogError(currentTarget.isBlocking);
+                        //Debug.LogError(currentTarget.isBlocking);
                         ParticleFXController shieldParticle = currentTarget.GetCurrentAnimCtrl().GetSpecificActiveAnimationParticle(null, ParticleEnum.EntityShield);
                         //Debug.LogError(shieldParticle);
 
@@ -416,6 +444,9 @@ public class BattleSystem : MonoBehaviour
                         ParticleSpawnData shieldBreakData = new ParticleSpawnData(null, shieldBreakPos, Vector3.zero, cipTransform.scale, shieldBreakType, false, false);
                         ExecuteParticleEffects(shieldBreakData);
 
+                        ExecuteDMGOutput(reducedDmg, targetCenter, AbilityOutputTypes.ShieldDMG);
+                        ExecuteDMGOutput(leftover, targetCenter, AbilityOutputTypes.Damage);
+
                         CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 0f, 0f), 0.3f, 0.75f);
 
                         if (shieldParticle != null) { shieldParticle.ForceStop(); }
@@ -426,12 +457,6 @@ public class BattleSystem : MonoBehaviour
                     currentTarget.curHP -= damagePower;
                     ParticleSpawnData data = new ParticleSpawnData(null, particlePos, Vector3.zero, cipTransform.scale, particleType, false, false);
 
-                    Vector3 targetCenter = Vector3.zero;
-                    if (currentTarget.curHeight > 0)
-                    {
-                        float h = currentTarget.curHeight / 2f;
-                        targetCenter += currentTarget.curTransform.position + new Vector3(0, h, 0);
-                    }
                     ExecuteDMGOutput(damagePower, targetCenter, AbilityOutputTypes.Damage);
 
                     ExecuteParticleEffects(data);
@@ -442,7 +467,19 @@ public class BattleSystem : MonoBehaviour
 
                 if (currentAttacker == player) { CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f)); }
                 else { CameraShakeManager.instance.ActivateCamShake(new Vector3(1f, 1.5f, 0f), 0.3f, 0.75f); }
+
+
+                if (currentTarget.curHP < Mathf.Abs(0.001f))
+                {
+                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(entityDeath, false, Vector3.zero)); Debug.LogError("Death!"); }
+                    currentTarget.curTransform.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(entityHurt, false, Vector3.zero)); Debug.LogError("Hurt!"); }
+                }
             }
+
             else if (currentMove.moveType == MoveType.Defend)
             {
                 currentAttacker.isBlocking = true;
@@ -451,6 +488,15 @@ public class BattleSystem : MonoBehaviour
                 currentAttacker.shieldHP = Mathf.Clamp(currentAttacker.shieldHP, 0, maxShieldHP);
 
                 shieldSlider.value = currentAttacker.shieldHP;
+
+                Vector3 targetCenter = Vector3.zero;
+                if (currentAttacker.curHeight > 0)
+                {
+                    float h = currentAttacker.curHeight / 2f;
+                    targetCenter += currentAttacker.curTransform.position + new Vector3(0, h, 0);
+                }
+
+                ExecuteDMGOutput(shieldAmount, targetCenter, AbilityOutputTypes.Shield);
                 //Debug.Log($"{this} shield {shieldAmount} HP!");
                 //Debug.Log(currentAttacker.shieldHP);
                 /*if (currentAttacker.isBlocking)
@@ -475,12 +521,12 @@ public class BattleSystem : MonoBehaviour
                 {
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
                     isDebuffing = true;
-                    debuffIndicator.gameObject.SetActive(true);
+                    //debuffIndicator.gameObject.SetActive(true);
                 }
                 if (debuffTurnCount == 3)
                 {
                     debuffIndicator.gameObject.SetActive(false);
-                    isDebuffing = false;
+                    //isDebuffing = false;
                 }
 
             }

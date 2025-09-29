@@ -4,5 +4,6 @@ public enum AbilityOutputTypes
 {
     Damage,
     Heal,
-    Shield
+    Shield,
+    ShieldDMG
 }

@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ActiveEffect
 {
-    public StatType stat;
+    public Moves move;
     public int amount;
     public int duration;
 
-    public ActiveEffect(StatType stat, int amount, int duration)
+    public ActiveEffect(Moves move, int amount, int duration)
     {
-        this.stat = stat;
+        this.move = move;
         this.amount = amount;
         this.duration = duration;
     }

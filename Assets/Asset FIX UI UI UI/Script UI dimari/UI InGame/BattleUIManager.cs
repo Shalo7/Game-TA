@@ -14,6 +14,7 @@ public class BattleUIManager : MonoBehaviour
     public GameObject UI_PlayerInfo;
     public GameObject UI_EnemyInfo;
     public GameObject UI_EnemyTurnIndicator;
+    [SerializeField] GameObject UI_StatEffects;
 
     [Header("Component References")]
     public UIOptionSelector uiOptionSelectorScript;
@@ -50,6 +51,7 @@ public class BattleUIManager : MonoBehaviour
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
         UI_EnemyTurnIndicator.SetActive(false);
+        UI_StatEffects.SetActive(false);
 
         typingIntroAnimator.onComplete = () =>
         {
@@ -62,6 +64,7 @@ public class BattleUIManager : MonoBehaviour
         UI_OptionSelector.SetActive(false);
         UI_PlayerInfo.SetActive(true);
         UI_EnemyInfo.SetActive(true);
+        UI_StatEffects.SetActive(true);
         //Debug.Log("SetActive Health Bar Kedua");
         UI_TurnIndicator.SetActive(false);
     }
@@ -84,6 +87,7 @@ public class BattleUIManager : MonoBehaviour
         UI_EnemyInfo.SetActive(true);
         UI_PlayerInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
         UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
+        UI_StatEffects.GetComponent<UIFadeOut>()?.StartFadeIn();
         Debug.Log("SetActive Health Bar");
         yield return BattleSystem.instance.WaitTurnDone();
         UI_OptionSelector.SetActive(false);
@@ -124,6 +128,7 @@ public class BattleUIManager : MonoBehaviour
             // UI_EnemyInfo.GetComponent<UIFadeOut>()?.StartFadeIn();
             UI_OptionSelector.GetComponent<UIFadeOut>()?.StartFadeIn();
             UI_TurnIndicator.GetComponent<UIFadeOut>()?.StartFadeIn();
+            UI_StatEffects.GetComponent<UIFadeOut>()?.StartFadeIn();
 
             uiOptionSelectorScript.EnableSelection();
         }

@@ -23,6 +23,7 @@ public class UIOptionSelector : MonoBehaviour
     public UIFadeOut fadeTurnIndicator;
     public UIFadeOut fadePlayerInfo;
     public UIFadeOut fadeEnemyInfo;
+    [SerializeField] UIFadeOut fadeStatEffects;
 
     [Header("Sound")]
     [SerializeField] AudioClip optSelect;
@@ -105,6 +106,7 @@ public class UIOptionSelector : MonoBehaviour
         fadeTurnIndicator?.StartFadeOut();
         fadePlayerInfo?.StartFadeOut();
         fadeEnemyInfo?.StartFadeOut();
+        fadeStatEffects?.StartFadeOut();
 
         if (AudioPoolManager.instance == null || optSelect == null) return;
         AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(optSelect, false, Vector3.zero));
@@ -148,6 +150,7 @@ public class UIOptionSelector : MonoBehaviour
         fadeTurnIndicator?.ResetFade();
         fadePlayerInfo?.ResetFade();
         fadeEnemyInfo?.ResetFade();
+        fadeStatEffects?.ResetFade();
     }
 
     public void DisableSelection()

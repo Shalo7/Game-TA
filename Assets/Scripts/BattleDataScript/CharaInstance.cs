@@ -22,26 +22,31 @@ public class CharaInstance
     public CharInstanceParticleTransform[] charParticleTransformArray;
     private BaseAnimationController animCtrl;
     public BaseAnimationController GetCurrentAnimCtrl() => animCtrl;
+    CharacterMarker characterMarker;
+    EntityStatEffectsManager entityStatEffectsManager;
 
     public bool isBlocking = false;
 
-    private List<ActiveEffect> activeEffects = new();
+    private List<ActiveEffect> activeEffects = new List<ActiveEffect>();
 
     public CharaInstance(Charas baseData, Transform transform, Transform target)
     {
         this.baseData = baseData;
         this.curTransform = transform;
         this.targetTransform = target;
+        if (curTransform.TryGetComponent(out characterMarker)) { AssignCharaInstance(this);}
         this.animCtrl = GetAnimationController();
-        AssignCharaInstance(this);
         ResetStats();
     }
 
     private void AssignCharaInstance(CharaInstance charaInstance)
     {
-        CharacterMarker characterMarker;
-        if (!curTransform.TryGetComponent(out characterMarker)) return;
         characterMarker.InitializeCharacterInstance(charaInstance);
+    }
+
+    public void AssignStatEffectUI(EntityStatEffectsManager chosenManager)
+    {
+        entityStatEffectsManager = chosenManager;
     }
 
     public void ResetStats()
@@ -60,7 +65,6 @@ public class CharaInstance
         if (curTransform == null) return null;
         animCtrl = curTransform.GetComponentInChildren<BaseAnimationController>();
         if (animCtrl == null) return null;
-        Debug.LogWarning($"{animCtrl} found it!");
         return animCtrl;
     }
 
@@ -149,6 +153,12 @@ public class CharaInstance
             }
 
             effectiveAmount = Mathf.RoundToInt(baseStat * (amount / 100f));
+
+            if (entityStatEffectsManager != null)
+            {
+                entityStatEffectsManager.UpdateStatEffectUI(move, false);
+                Debug.LogError("entity exist and has status effect!");
+            }
         }
 
         //Apply stat change
@@ -161,7 +171,7 @@ public class CharaInstance
 
         if (duration != -1)
         {
-            activeEffects.Add(new ActiveEffect(stat, effectiveAmount, duration));
+            activeEffects.Add(new ActiveEffect(move, effectiveAmount, duration));
         }
     }
 
@@ -175,13 +185,19 @@ public class CharaInstance
 
             if (effect.duration <= 0)
             {
-                switch (effect.stat)
+                switch (effect.move.affectedStat)
                 {
                     case StatType.Attack: curAtt -= effect.amount; break;
                     case StatType.Defense: curDef -= effect.amount; break;
                 }
 
                 expiredEffects.Add(effect);
+
+                if (entityStatEffectsManager != null)
+                {
+                    entityStatEffectsManager.UpdateStatEffectUI(effect.move, true);
+                }
+
             }
         }
 
@@ -189,6 +205,8 @@ public class CharaInstance
         {
             activeEffects.Remove(effect);
         }
+
+
     }
 
     public bool IsFainted()
