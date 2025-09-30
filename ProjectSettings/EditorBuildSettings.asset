@@ -21,9 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainBattle.unity
     guid: 5ade6f5c9b9f08042910f2294d32d8ce
   - enabled: 1
-    path: Assets/Scenes/MainBattle_TechArt.unity
-    guid: 818e76d997f94de46b73e9307927ebf2
-  - enabled: 1
     path: Assets/Scenes/MainBattle_TechArt1.unity
     guid: d5305ef0101782044bf7dafa499d4a9f
   - enabled: 1

@@ -6007,6 +6007,8 @@ MonoBehaviour:
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingManager: {fileID: 996873120}
+  entityHurt: {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
+  entityDeath: {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
   nextLevel: 0
 --- !u!4 &812588305
 Transform:
@@ -6292,6 +6294,8 @@ MonoBehaviour:
   fromScale: {x: 2, y: 2, z: 2}
   toScale: {x: 1, y: 1, z: 1}
   delayBetweenTexts: 0.3
+  conSFX: {fileID: 0}
+  jureSFX: {fileID: 0}
 --- !u!1 &852872560
 GameObject:
   m_ObjectHideFlags: 0
@@ -7807,6 +7811,7 @@ MonoBehaviour:
   UI_PlayerInfo: {fileID: 1666839278}
   UI_EnemyInfo: {fileID: 1542058975}
   UI_EnemyTurnIndicator: {fileID: 1088077722}
+  UI_StatEffects: {fileID: 0}
   uiOptionSelectorScript: {fileID: 1103825440}
   typingIntroAnimator: {fileID: 846540371}
   enemyTurnDuration: 3
@@ -9033,6 +9038,7 @@ MonoBehaviour:
   fadeTurnIndicator: {fileID: 1609260351}
   fadePlayerInfo: {fileID: 1666839281}
   fadeEnemyInfo: {fileID: 1542058978}
+  fadeStatEffects: {fileID: 0}
   optSelect: {fileID: 8300000, guid: ce5605fe91090e24aaedc1af0c4e3deb, type: 3}
   optHover: {fileID: 8300000, guid: 735f76b985165ae40a7643e1a3f53938, type: 3}
   inputEnabled: 0

@@ -4,10 +4,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using System;
+using AudioData;
 
 public class LevelSelectorController : MonoBehaviour
 {
     public static LevelSelectorController instance;
+    [SerializeField] AudioManager audioManager;
 
     [Header("Stages")]
     public RectTransform[] stagePositions;
@@ -151,6 +153,8 @@ public class LevelSelectorController : MonoBehaviour
                 isChanging = false;
             });
         });
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[1], false, Vector3.zero));}
+        else {audioManager.PlaySFX(audioManager.sfxClips[1]);}
     }
 
     void UpdateUI(bool initial = false)
@@ -187,6 +191,9 @@ public class LevelSelectorController : MonoBehaviour
 
     void SelectLevel()
     {
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[0], false, Vector3.zero)); }
+        else {audioManager.PlaySFX(audioManager.sfxClips[0]);}
+
         //if (currentIndex == 0)
         if (Director.instance?.GetCurrentLevel() >= 0 && currentIndex == 0)
         {
@@ -232,6 +239,8 @@ public class LevelSelectorController : MonoBehaviour
 
     void CloseOptionsPanel()
     {
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
+
         inOptions = false;
         optionsPanel.alpha = 0f;
         inputLocked = false;
@@ -256,12 +265,16 @@ public class LevelSelectorController : MonoBehaviour
         {
             HighlightOptions();
             MovePointer();
+            if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[3], false, Vector3.zero)); }
+            else {audioManager.PlaySFX(audioManager.sfxClips[3]);}
+
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            
             ConfirmOptionsMenu();
         }
 
@@ -352,6 +365,9 @@ public class LevelSelectorController : MonoBehaviour
         {
             CloseOptionsPanel();
         }
+
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
+        else {audioManager.PlaySFX(audioManager.sfxClips[2]);}
     }
 
     void SetConfirmed(Button btn)

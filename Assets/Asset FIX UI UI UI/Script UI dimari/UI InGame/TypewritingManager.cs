@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 using DG.Tweening;
 using ParticleData.SpawnData;
 using System;
+using AudioData;
 
 public class TypewritingManager : MonoBehaviour
 {
@@ -54,6 +55,7 @@ public class TypewritingManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip typeSound;
     public AudioClip wrongTypeSound;
+    [SerializeField] AudioClip wordDoneSuccess;
 
     [Header("Early Fail Settings")]
     public float earlyFailDelay = 2f;
@@ -488,6 +490,7 @@ public class TypewritingManager : MonoBehaviour
         isTypingActive = false;
         typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(wordDoneSuccess, false, Vector3.zero)); }
         bool isNowPlayerTarget = wordIndex % 2 == 0;
         TMP_Text shadowText = isNowPlayerTarget ? shadowText_Player : shadowText_Enemy;
         TMP_Text typedText = isNowPlayerTarget ? typedText_Player : typedText_Enemy;

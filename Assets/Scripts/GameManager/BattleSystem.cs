@@ -7,6 +7,7 @@ using AnimationLoading.LoadStruct;
 using System;
 using Random = UnityEngine.Random;
 using AudioData;
+using System.Collections.Generic;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -41,8 +42,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] UIOptionSelector selector;
     [SerializeField] BattleUIManager battleUIManager;
     [SerializeField] TypewritingManager typingManager;
-    [SerializeField] AudioClip entityHurt;
-    [SerializeField] AudioClip entityDeath;
+    [SerializeField] List<AudioClip> gameplaySounds = new List<AudioClip>();
 
     private CharaInstance player;
     private CharaInstance enemy;
@@ -212,6 +212,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerTurn()
     {
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(gameplaySounds[0], false, Vector3.zero)); }
         Debug.Log("▶ PlayerTurn started");
         selector.SetAvailableOptions(new[] {"Attack", "Defend", "Heal"} );
         EnableMoveButtons(true);
@@ -250,6 +251,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(gameplaySounds[0], false, Vector3.zero)); }
+
         Debug.Log("Enemy Turn");
         typingManager.EmptyCounterText();
         yield return new WaitForSeconds(1f);
@@ -361,6 +364,7 @@ public class BattleSystem : MonoBehaviour
                 break;
 
             case MoveType.Debuff:
+                if (currentAttacker == enemy) { Debug.LogError("Enemy debuffs!"); }
                 AnimationLoadStruct debuffAnimStruct = new AnimationLoadStruct(0, GenericAnimationStates.DEBUFF, true, true, SameAnimActionEnum.None);
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
@@ -471,12 +475,12 @@ public class BattleSystem : MonoBehaviour
 
                 if (currentTarget.curHP < Mathf.Abs(0.001f))
                 {
-                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(entityDeath, false, Vector3.zero)); Debug.LogError("Death!"); }
+                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(gameplaySounds[2], false, Vector3.zero)); }
                     currentTarget.curTransform.gameObject.SetActive(false);
                 }
                 else
                 {
-                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(entityHurt, false, Vector3.zero)); Debug.LogError("Hurt!"); }
+                    if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(gameplaySounds[1], false, Vector3.zero)); }
                 }
             }
 
@@ -517,17 +521,18 @@ public class BattleSystem : MonoBehaviour
             }
             else if (currentMove.moveType == MoveType.Debuff)
             {
-                if (!currentTarget.isBlocking)
+                currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
+                /*if (!currentTarget.isBlocking)
                 {
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
                     isDebuffing = true;
                     //debuffIndicator.gameObject.SetActive(true);
-                }
-                if (debuffTurnCount == 3)
+                }*/
+                /*if (debuffTurnCount == 3)
                 {
                     debuffIndicator.gameObject.SetActive(false);
                     //isDebuffing = false;
-                }
+                }*/
 
             }
             else if (currentMove.moveType == MoveType.Heal)

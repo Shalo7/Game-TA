@@ -1491,8 +1491,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1892287697}
-  - {fileID: 1776713863}
   - {fileID: 1871079395}
+  - {fileID: 1776713863}
   - {fileID: 372802531}
   - {fileID: 1689080901}
   - {fileID: 1857823199}
@@ -1636,11 +1636,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1466808466}
   SFXSource: {fileID: 1420336110}
-  background: {fileID: 8300000, guid: 21c417c5973d30c4ca11e9d9a78a43f9, type: 3}
+  background: {fileID: 8300000, guid: d987cd681e430c34c97f89616ef10b5b, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
-  - {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
-  - {fileID: 8300000, guid: 71806a04db62b1f4fa4749b8f8612d62, type: 3}
+  - {fileID: 8300000, guid: 735f76b985165ae40a7643e1a3f53938, type: 3}
+  - {fileID: 8300000, guid: c3b1bfda0790ceb4da5bccee5d46f28a, type: 3}
 --- !u!1 &1892287696
 GameObject:
   m_ObjectHideFlags: 0

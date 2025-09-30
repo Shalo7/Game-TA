@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55bc6836b31763042b27b96eb610b874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 1708548266}
   stagePositions:
   - {fileID: 2127380021}
   - {fileID: 1855322788}
@@ -1982,11 +1983,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 926506717}
   SFXSource: {fileID: 2101718971}
-  background: {fileID: 8300000, guid: 696561ef361d16b478052508fe70f4f9, type: 3}
+  background: {fileID: 8300000, guid: 96e0b36fa6342be4aa32477b0051c9be, type: 3}
   sfxClips:
-  - {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
-  - {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
-  - {fileID: 8300000, guid: 71806a04db62b1f4fa4749b8f8612d62, type: 3}
+  - {fileID: 8300000, guid: 9a8396e12d05f1d47bd67a6ee95ac5e8, type: 3}
+  - {fileID: 8300000, guid: 4111283fec8d6984f969c4fd0c31495e, type: 3}
+  - {fileID: 8300000, guid: c3b1bfda0790ceb4da5bccee5d46f28a, type: 3}
+  - {fileID: 8300000, guid: 735f76b985165ae40a7643e1a3f53938, type: 3}
 --- !u!224 &1708548267
 RectTransform:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class UIOptionSelector : MonoBehaviour
 
     void Update()
     {
-        if (!inputEnabled || selectionMade || !gameObject.activeSelf) return;
+        if (!inputEnabled || selectionMade || !gameObject.activeSelf || transform.gameObject.GetComponent<CanvasGroup>()?.alpha < 1f) return;
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {

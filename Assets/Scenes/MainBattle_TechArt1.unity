@@ -8013,8 +8013,10 @@ MonoBehaviour:
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingManager: {fileID: 996873120}
-  entityHurt: {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
-  entityDeath: {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
+  gameplaySounds:
+  - {fileID: 8300000, guid: 1928494e9acd9a643ba877ca91988032, type: 3}
+  - {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
+  - {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
   nextLevel: 2
 --- !u!4 &812588305
 Transform:
@@ -9602,6 +9604,7 @@ MonoBehaviour:
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
+  wordDoneSuccess: {fileID: 0}
   earlyFailDelay: 1
   typingTimerUI: {fileID: 721961003}
 --- !u!114 &996873121

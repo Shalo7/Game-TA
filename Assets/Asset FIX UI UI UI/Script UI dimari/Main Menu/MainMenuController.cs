@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using AudioData;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class MainMenuController : MonoBehaviour
         {
             HighlightButtons(buttons, index);
             MovePointer(buttons[index].GetComponent<RectTransform>());
+            if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[1], false, Vector3.zero)); }
 
             // Set current selected object untuk EventSystem agar W/S terus bekerja
             EventSystem.current.SetSelectedGameObject(null); // optional reset
@@ -113,6 +115,8 @@ public class MainMenuController : MonoBehaviour
 
     void HighlightButtons(Button[] buttons, int selectedIndex)
     {
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[1], false, Vector3.zero)); }
+        else {audioManager.PlaySFX(audioManager.sfxClips[1]);}
         for (int i = 0; i < buttons.Length; i++)
         {
             var img = buttons[i].GetComponent<Image>();
@@ -139,17 +143,18 @@ public class MainMenuController : MonoBehaviour
     {
         inputLocked = true;
         SetConfirmed(mainButtons[mainIndex]);
+        
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
+        else { audioManager.PlaySFX(audioManager.sfxClips[2]); }
 
         switch (mainIndex)
         {
             case 0: // Play
-                audioManager.PlaySFX(audioManager.sfxClips[2]);
-                if (Director.instance == null) {SceneController.Instance?.NextLevel("LevelSelector"); return;}
+                if (Director.instance == null) { SceneController.Instance?.NextLevel("LevelSelector"); return; }
                 Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "LevelSelector");
                 break;
 
             case 1: // Options
-                audioManager.PlaySFX(audioManager.sfxClips[2]);
                 inOptions = true;
                 //optionsPanel.SetActive(true);
                 optionsPanel.alpha = 1f;
@@ -180,7 +185,8 @@ public class MainMenuController : MonoBehaviour
         switch (optionsIndex)
         {
             case 2: // Tutorial
-                audioManager.PlaySFX(audioManager.sfxClips[2]);
+                if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
+                else {audioManager.PlaySFX(audioManager.sfxClips[2]);}
 
                 // Pastikan GameObject TutorialBook aktif sebelum digunakan
                 if (tutorialBook != null)
@@ -210,7 +216,9 @@ public class MainMenuController : MonoBehaviour
                 break;
 
             case 3: // Back
-                audioManager.PlaySFX(audioManager.sfxClips[2]);
+                if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
+                else {audioManager.PlaySFX(audioManager.sfxClips[2]);}
+
                 optionsPanel.alpha = 0f;
                 inOptions = false;
                 HighlightButtons(mainButtons, mainIndex = 0);

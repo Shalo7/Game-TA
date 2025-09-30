@@ -157,8 +157,9 @@ public class CharaInstance
             if (entityStatEffectsManager != null)
             {
                 entityStatEffectsManager.UpdateStatEffectUI(move, false);
-                Debug.LogError("entity exist and has status effect!");
+                //Debug.LogError("entity exist and has status effect!");
             }
+
         }
 
         //Apply stat change
@@ -167,7 +168,7 @@ public class CharaInstance
             case StatType.Attack: curAtt += effectiveAmount; break;
             case StatType.Defense: curDef += effectiveAmount; break;
         }
-
+        //Debug.LogError("This character is afflicted with a status effect!");
 
         if (duration != -1)
         {

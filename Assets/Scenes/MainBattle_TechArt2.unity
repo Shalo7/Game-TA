@@ -5558,8 +5558,10 @@ MonoBehaviour:
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingManager: {fileID: 996873120}
-  entityHurt: {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
-  entityDeath: {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
+  gameplaySounds:
+  - {fileID: 8300000, guid: 1928494e9acd9a643ba877ca91988032, type: 3}
+  - {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
+  - {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
   nextLevel: 3
 --- !u!4 &812588305
 Transform:
@@ -7130,7 +7132,7 @@ MonoBehaviour:
     bottomLeft: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
     bottomRight: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
   shadowTextColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
-  correctCharacterColor: {r: 0, g: 0, b: 0, a: 0}
+  correctCharacterColor: {r: 1, g: 0.8392157, b: 0, a: 1}
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
