@@ -19,9 +19,6 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image playerImage;
     [SerializeField] Image enemyImage;
 
-    [SerializeField] Image buffIndicator;
-    [SerializeField] Image debuffIndicator;
-
     [SerializeField] HealthBarAnimation playerHpBar;
     [SerializeField] HealthBarAnimation enemyHpBar;
 
@@ -251,8 +248,6 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(gameplaySounds[0], false, Vector3.zero)); }
-
         Debug.Log("Enemy Turn");
         typingManager.EmptyCounterText();
         yield return new WaitForSeconds(1f);
