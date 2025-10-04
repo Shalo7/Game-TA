@@ -516,13 +516,13 @@ public class BattleSystem : MonoBehaviour
             }
             else if (currentMove.moveType == MoveType.Debuff)
             {
-                currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
-                /*if (!currentTarget.isBlocking)
+                //currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
+                if (!currentTarget.isBlocking)
                 {
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
                     isDebuffing = true;
                     //debuffIndicator.gameObject.SetActive(true);
-                }*/
+                }
                 /*if (debuffTurnCount == 3)
                 {
                     debuffIndicator.gameObject.SetActive(false);
