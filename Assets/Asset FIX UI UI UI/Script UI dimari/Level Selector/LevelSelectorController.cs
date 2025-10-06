@@ -98,13 +98,13 @@ public class LevelSelectorController : MonoBehaviour
 
     void HandleStageInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             currentIndex = Mathf.Max(0, currentIndex - 1);
             AnimateIndicatorTransition();
             UpdateUI();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             currentIndex = Mathf.Min(stagePositions.Length - 1, currentIndex + 1);
             AnimateIndicatorTransition();
@@ -250,12 +250,12 @@ public class LevelSelectorController : MonoBehaviour
     {
         bool moved = false;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             optionsIndex = (optionsIndex - 1 + optionsButtons.Length) % optionsButtons.Length;
             moved = true;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             optionsIndex = (optionsIndex + 1) % optionsButtons.Length;
             moved = true;
@@ -288,16 +288,16 @@ public class LevelSelectorController : MonoBehaviour
 
         if (currentName.Contains("music") && musicSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.D))
                 musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.A))
                 musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
         }
         else if (currentName.Contains("sfx") && sfxSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.D))
                 sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.A))
                 sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
         }
     }
