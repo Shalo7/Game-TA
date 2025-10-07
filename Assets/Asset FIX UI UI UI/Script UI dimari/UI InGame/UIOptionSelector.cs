@@ -44,11 +44,11 @@ public class UIOptionSelector : MonoBehaviour
     {
         if (!inputEnabled || selectionMade || !gameObject.activeSelf || transform.gameObject.GetComponent<CanvasGroup>()?.alpha < 1f) return;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             MoveSelection(-1);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             MoveSelection(1);
         }
