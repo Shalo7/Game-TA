@@ -670,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &619505065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1887,7 +1887,7 @@ MonoBehaviour:
   - {fileID: 954836848}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0.9764706, g: 0.79607844, b: 0, a: 1}
-  confirmedColor: {r: 0.47798735, g: 0.47798735, b: 0.47798735, a: 1}
+  confirmedColor: {r: 0.97647065, g: 0.7960785, b: 0, a: 1}
   optionsPanel: {fileID: 1689080902}
   optionsButtons:
   - {fileID: 213133902}
@@ -2613,7 +2613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5808079936717768738, guid: 0b6e088871756784ab11bf44beabf8c7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6071704278395197239, guid: 0b6e088871756784ab11bf44beabf8c7, type: 3}
       propertyPath: m_Pivot.x

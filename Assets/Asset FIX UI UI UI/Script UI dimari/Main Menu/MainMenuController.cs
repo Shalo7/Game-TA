@@ -43,6 +43,10 @@ public class MainMenuController : MonoBehaviour
     {
         optionsPanel.gameObject.SetActive(true);
         optionsPanel.alpha = 0f;
+        // TAMBAHAN: Pastikan panel tidak bisa berinteraksi saat tersembunyi
+        optionsPanel.interactable = false;
+        optionsPanel.blocksRaycasts = false;
+
         HighlightButtons(mainButtons, mainIndex);
         MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
         EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
@@ -159,6 +163,8 @@ public class MainMenuController : MonoBehaviour
                 //optionsPanel.SetActive(true);
                 optionsPanel.alpha = 1f;
                 optionsIndex = 0;
+                optionsPanel.interactable = true;
+                optionsPanel.blocksRaycasts = true;
                 HighlightButtons(optionsButtons, optionsIndex);
                 MovePointer(optionsButtons[optionsIndex].GetComponent<RectTransform>());
 
@@ -186,15 +192,13 @@ public class MainMenuController : MonoBehaviour
         {
             case 2: // Tutorial
                 if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
-                else {audioManager.PlaySFX(audioManager.sfxClips[2]);}
+                else { audioManager.PlaySFX(audioManager.sfxClips[2]); }
 
-                // Pastikan GameObject TutorialBook aktif sebelum digunakan
                 if (tutorialBook != null)
                 {
                     if (!tutorialBook.gameObject.activeSelf)
                         tutorialBook.gameObject.SetActive(true);
 
-                    // Jika ada GameObject khusus (seperti bukuTutorialGO), aktifkan juga
                     if (tutorialBook.bukuTutorialGO != null && !tutorialBook.bukuTutorialGO.activeSelf)
                         tutorialBook.bukuTutorialGO.SetActive(true);
 
@@ -217,13 +221,18 @@ public class MainMenuController : MonoBehaviour
 
             case 3: // Back
                 if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(audioManager.sfxClips[2], false, Vector3.zero)); }
-                else {audioManager.PlaySFX(audioManager.sfxClips[2]);}
+                else { audioManager.PlaySFX(audioManager.sfxClips[2]); }
 
                 optionsPanel.alpha = 0f;
                 inOptions = false;
                 HighlightButtons(mainButtons, mainIndex = 0);
                 MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
                 EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
+                inputLocked = false;
+                break;
+
+            // --- biar ga FREEZE ---
+            default:
                 inputLocked = false;
                 break;
         }
