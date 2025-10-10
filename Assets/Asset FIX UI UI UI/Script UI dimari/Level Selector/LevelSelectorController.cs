@@ -2,63 +2,54 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using DG.Tweening; 
+using DG.Tweening;
 using System;
-using System.Collections; 
+using System.Collections;
 using AudioData;
 
 public class LevelSelectorController : MonoBehaviour
 {
+    // ... (Semua variabel tetap sama) ...
     public static LevelSelectorController instance;
     [SerializeField] AudioManager audioManager;
-
     [Header("Stages")]
     public RectTransform[] stagePositions;
     public CanvasGroup[] roomNameGroups;
-
     [Header("Indicator")]
     public RectTransform levelIndicator;
     public CanvasGroup indicatorCanvasGroup;
     public Vector3 indicatorOffset;
     public float indicatorFadeDuration = 0.3f;
     public float indicatorRotationSpeed = 30f;
-
     [Header("Room Name Animation")]
     public float roomFadeDuration = 0.5f;
     public float roomScaleDuration = 0.5f;
     public float roomMoveYAmount = 30f;
-
     [Header("Settings Panel")]
     public CanvasGroup optionsPanel;
-    public float panelAnimDuration = 0.3f; // Durasi animasi fade
+    public float panelAnimDuration = 0.3f;
     public Button[] optionsButtons;
     public RectTransform selectorPointer;
     public float pointerOffsetX = -60f;
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
     public Color confirmedColor = Color.green;
-
     [Header("Settings Icon")]
     public Image settingsIcon;
     public Color settingsNormalColor = Color.white;
     public Color settingsSelectedColor = Color.green;
-
     [Header("Back Arrow")]
     public Image backArrowIcon;
     public Color backNormalColor = Color.white;
     public Color backSelectedColor = Color.red;
-
     [Header("Tutorial System")]
     public TutorialBookController tutorialBook;
-
     [Header("Visual Feedback")]
     public float feedbackDuration = 0.25f;
-
     [Header("Volume Sliders")]
     public Slider musicSlider;
     public Slider sfxSlider;
     public float sliderStep = 0.05f;
-
     private int currentIndex = 0;
     private int optionsIndex = 0;
     private bool isChanging = false;
@@ -78,10 +69,7 @@ public class LevelSelectorController : MonoBehaviour
         if (optionsPanel != null)
         {
             optionsPanel.gameObject.SetActive(true);
-            optionsPanel.alpha = 0f; // Panel dibuat transparan
-
-            // --- TAMBAHAN PENTING ---
-            // Pastikan panel tidak bisa berinteraksi dan tidak memblokir input saat tersembunyi
+            optionsPanel.alpha = 0f;
             optionsPanel.interactable = false;
             optionsPanel.blocksRaycasts = false;
         }
@@ -92,7 +80,6 @@ public class LevelSelectorController : MonoBehaviour
     void Update()
     {
         if (inputLocked) return;
-
         if (inOptions)
         {
             HandleOptionsInput();
@@ -105,6 +92,7 @@ public class LevelSelectorController : MonoBehaviour
 
     #region === Stage Navigation ===
 
+    // --- PERBAIKAN STRUKTUR INPUT ---
     void HandleStageInput()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -113,22 +101,26 @@ public class LevelSelectorController : MonoBehaviour
             AnimateIndicatorTransition();
             UpdateUI();
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+
+        if (Input.GetKeyDown(KeyCode.D))
         {
             currentIndex = Mathf.Min(stagePositions.Length - 1, currentIndex + 1);
             AnimateIndicatorTransition();
             UpdateUI();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             SelectLevel();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ShowVisualFeedback(settingsIcon, settingsSelectedColor, settingsNormalColor);
             OpenOptionsPanel();
         }
-        else if (Input.GetKeyDown(KeyCode.Tab))
+
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             ShowVisualFeedback(backArrowIcon, backSelectedColor, backNormalColor);
             ReturnToMainMenu();
@@ -143,7 +135,7 @@ public class LevelSelectorController : MonoBehaviour
             if (icon != null) icon.color = returnColor;
         });
     }
-    
+
     void AnimateIndicatorTransition()
     {
         isChanging = true;
@@ -167,7 +159,6 @@ public class LevelSelectorController : MonoBehaviour
                 roomNameGroups[i].transform.localScale = Vector3.one;
             }
         }
-
         if (initial)
             levelIndicator.position = stagePositions[currentIndex].position + indicatorOffset;
     }
@@ -179,28 +170,44 @@ public class LevelSelectorController : MonoBehaviour
         Vector2 originalPos = rt.anchoredPosition;
         rt.anchoredPosition = originalPos - new Vector2(0, roomMoveYAmount);
         rt.localScale = Vector3.one * 0.85f;
-
         Sequence seq = DOTween.Sequence();
         seq.Append(cg.DOFade(1, roomFadeDuration));
         seq.Join(rt.DOAnchorPos(originalPos, roomFadeDuration).SetEase(Ease.OutCubic));
         seq.Join(rt.DOScale(1f, roomScaleDuration).SetEase(Ease.OutBack));
     }
 
+    // --- PERBAIKAN LOGIKA TRANSISI ---
     void SelectLevel()
     {
         if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[0]);
+        int currentUnlockedLevel = Director.instance != null ? Director.instance.GetCurrentLevel() : 3;
 
-        if (Director.instance?.GetCurrentLevel() >= 0 && currentIndex == 0)
+        string sceneToLoad = "";
+
+        if (currentIndex == 0 && currentUnlockedLevel >= 0)
         {
-            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle");
+            sceneToLoad = "MainBattle";
         }
-        else if (Director.instance?.GetCurrentLevel() >= 1 && currentIndex == 1)
+        else if (currentIndex == 1 && currentUnlockedLevel >= 1)
         {
-            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle_TechArt1");
+            sceneToLoad = "MainBattle_TechArt1";
         }
-        else if (Director.instance?.GetCurrentLevel() >= 2 && currentIndex == 2)
+        else if (currentIndex == 2 && currentUnlockedLevel >= 2)
         {
-            Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "MainBattle_TechArt2");
+            sceneToLoad = "MainBattle_TechArt2";
+        }
+
+        if (!string.IsNullOrEmpty(sceneToLoad))
+        {
+            if (Director.instance != null)
+            {
+                Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, sceneToLoad);
+            }
+            else
+            {
+                // Fallback jika Director tidak ada
+                SceneManager.LoadScene(sceneToLoad);
+            }
         }
         else
         {
@@ -208,19 +215,26 @@ public class LevelSelectorController : MonoBehaviour
         }
     }
 
+    // --- PERBAIKAN LOGIKA TRANSISI ---
     void ReturnToMainMenu()
     {
-        Director.instance?.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "MainMenu");
+        if (Director.instance != null)
+        {
+            Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "MainMenu");
+        }
+        else
+        {
+            // Fallback jika Director tidak ada
+            SceneManager.LoadScene("MainMenu");
+        }
     }
-
     #endregion
 
-    #region === Options Panel (Coroutine Version) ===
-
+    #region === Options Panel (Tidak Perlu Diubah) ===
     void OpenOptionsPanel()
     {
         if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
-        
+
         inOptions = true;
         optionsIndex = 0;
         HighlightOptions();
@@ -234,7 +248,7 @@ public class LevelSelectorController : MonoBehaviour
     void CloseOptionsPanel()
     {
         if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
-        
+
         if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
         _fadeCoroutine = StartCoroutine(FadePanel(false));
     }
@@ -242,17 +256,14 @@ public class LevelSelectorController : MonoBehaviour
     IEnumerator FadePanel(bool fadeIn)
     {
         inputLocked = true;
-
         if (fadeIn)
         {
             optionsPanel.interactable = true;
             optionsPanel.blocksRaycasts = true;
         }
-
         float targetAlpha = fadeIn ? 1f : 0f;
         float startAlpha = optionsPanel.alpha;
         float elapsedTime = 0f;
-
         while (elapsedTime < panelAnimDuration)
         {
             elapsedTime += Time.unscaledDeltaTime;
@@ -260,18 +271,14 @@ public class LevelSelectorController : MonoBehaviour
             optionsPanel.alpha = newAlpha;
             yield return null;
         }
-
         optionsPanel.alpha = targetAlpha;
-
         if (!fadeIn)
         {
             optionsPanel.interactable = false;
             optionsPanel.blocksRaycasts = false;
             inOptions = false;
-
             EventSystem.current.SetSelectedGameObject(null);
         }
-
         inputLocked = false;
         _fadeCoroutine = null;
     }
@@ -283,7 +290,6 @@ public class LevelSelectorController : MonoBehaviour
             CloseOptionsPanel();
             return;
         }
-
         bool moved = false;
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -295,7 +301,6 @@ public class LevelSelectorController : MonoBehaviour
             optionsIndex = (optionsIndex + 1) % optionsButtons.Length;
             moved = true;
         }
-
         if (moved)
         {
             HighlightOptions();
@@ -303,12 +308,10 @@ public class LevelSelectorController : MonoBehaviour
             if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[3]);
             EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
         }
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ConfirmOptionsMenu();
         }
-
         HandleSliderAdjustment();
     }
 
@@ -316,20 +319,15 @@ public class LevelSelectorController : MonoBehaviour
     {
         GameObject current = optionsButtons[optionsIndex].gameObject;
         string currentName = current.name.ToLower();
-
         if (currentName.Contains("music") && musicSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.D))
-                musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A))
-                musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
+            if (Input.GetKeyDown(KeyCode.D)) musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
+            else if (Input.GetKeyDown(KeyCode.A)) musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
         }
         else if (currentName.Contains("sfx") && sfxSlider != null)
         {
-            if (Input.GetKeyDown(KeyCode.D))
-                sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A))
-                sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
+            if (Input.GetKeyDown(KeyCode.D)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
+            else if (Input.GetKeyDown(KeyCode.A)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
         }
     }
 
@@ -353,19 +351,16 @@ public class LevelSelectorController : MonoBehaviour
 
     void ConfirmOptionsMenu()
     {
-        // ... (Fungsi ini tidak perlu diubah, biarkan seperti semula)
         inputLocked = true;
         SetConfirmed(optionsButtons[optionsIndex]);
-
         GameObject current = optionsButtons[optionsIndex].gameObject;
         string name = current.name.ToLower();
-
         if (name.Contains("music") || name.Contains("sfx"))
         {
             inputLocked = false;
             return;
         }
-        if (optionsIndex == 2) // Tutorial
+        if (optionsIndex == 2)
         {
             optionsPanel.alpha = 0f;
             if (tutorialBook != null)
@@ -379,15 +374,17 @@ public class LevelSelectorController : MonoBehaviour
                     HighlightOptions();
                     MovePointer();
                 });
-            } else {
+            }
+            else
+            {
                 Debug.LogWarning("TutorialBook reference is missing!");
                 inputLocked = false;
             }
-        } else if (optionsIndex == 3) // Back
+        }
+        else if (optionsIndex == 3)
         {
             CloseOptionsPanel();
         }
-
         if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
     }
 
@@ -396,6 +393,5 @@ public class LevelSelectorController : MonoBehaviour
         var img = btn.GetComponent<Image>();
         if (img != null) img.color = confirmedColor;
     }
-
     #endregion
 }

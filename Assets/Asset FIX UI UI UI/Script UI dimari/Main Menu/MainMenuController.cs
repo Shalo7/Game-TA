@@ -9,47 +9,47 @@ using DG.Tweening;
 
 public class MainMenuController : MonoBehaviour
 {
+    // ... (Semua variabel tetap sama) ...
     [Header("Main Menu")]
     public Button[] mainButtons;
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
     public Color confirmedColor = Color.green;
-
     [Header("Typing Mechanic")]
     public GameObject typingContainer;
     public TextMeshProUGUI ghostText;
     public TextMeshProUGUI typedText;
+    public TextMeshProUGUI typeToPlayText;
     public string targetWord = "play";
     public Color typingErrorColor = Color.red;
-    public Color ghostTextIdleColor = Color.grey; // Warna ghostText saat tidak di-hover
+    public Color ghostTextIdleColor = Color.grey;
+    [Tooltip("Durasi animasi fade untuk teks 'Type to Play'")]
+    public float typeToPlayFadeDuration = 0.5f;
     [Tooltip("Jeda abis typo salah ketik sebelum reset otomatis.")]
     public float typoResetDelay = 1f;
     private string currentTypedWord = "";
     private Color defaultTypedTextColor;
     private Coroutine _errorResetCoroutine;
     private Tween _ghostTextFadeTween;
-
+    private Tween _typeToPlayBlinkTween;
     [Header("Options")]
     public CanvasGroup optionsPanel;
+    public float optionsPanelFadeDuration = 0.3f;
     public Button[] optionsButtons;
-
+    private Coroutine _optionsFadeCoroutine;
     [Header("Volume Sliders")]
     public Slider musicSlider;
     public Slider sfxSlider;
     public float sliderStep = 0.05f;
-
     [Header("Selector")]
     public RectTransform selectorPointer;
     public float pointerOffsetX = -60f;
-
     [Header("Tutorial")]
     public TutorialBookController tutorialBook;
-
     private int mainIndex = 0;
     private int optionsIndex = 0;
     private bool inOptions = false;
     private bool inputLocked = false;
-
     AudioManager audioManager;
 
     private void Awake()
@@ -73,6 +73,12 @@ public class MainMenuController : MonoBehaviour
             _ghostTextFadeTween = ghostText.DOFade(0.3f, 1.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }
 
+        if (typeToPlayText != null)
+        {
+            typeToPlayText.alpha = 0f;
+            _typeToPlayBlinkTween = typeToPlayText.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).Pause();
+        }
+
         HighlightButtons(mainButtons, mainIndex);
         MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
         EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
@@ -81,22 +87,11 @@ public class MainMenuController : MonoBehaviour
     void Update()
     {
         if (inputLocked) return;
-
         if (!inOptions)
         {
             HandleNavigation(mainButtons, ref mainIndex);
-
-            if (mainIndex == 0)
-            {
-                HandleTypingInput();
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    ConfirmMainMenu();
-                }
-            }
+            if (mainIndex == 0) { HandleTypingInput(); }
+            else { if (Input.GetKeyDown(KeyCode.Space)) { ConfirmMainMenu(); } }
         }
         else
         {
@@ -119,182 +114,98 @@ public class MainMenuController : MonoBehaviour
             index = (index + 1) % buttons.Length;
             moved = true;
         }
-
         if (moved)
         {
             HighlightButtons(buttons, index);
             MovePointer(buttons[index].GetComponent<RectTransform>());
             if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[1]);
             EventSystem.current.SetSelectedGameObject(buttons[index].gameObject);
-
             if (buttons == mainButtons) ResetTyping();
         }
     }
 
-    #region === Typing Mechanic Implementation ===
-
-    void HandleTypingInput()
-    {
-        if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S))
-        {
-            string inputString = Input.inputString.ToLower();
-            if (inputString.Length > 0)
-            {
-                char pressedChar = inputString[0];
-                if (char.IsLetter(pressedChar))
-                {
-                    if (_errorResetCoroutine != null)
-                    {
-                        StopCoroutine(_errorResetCoroutine);
-                        _errorResetCoroutine = null;
-                        inputLocked = false;
-                    }
-                    ProcessTypedChar(pressedChar);
-                }
-            }
-        }
-    }
-
-    void ProcessTypedChar(char typedChar)
-    {
-        if (typedText.color == typingErrorColor)
-        {
-            ResetTyping();
-        }
-
-        currentTypedWord += typedChar;
-        typedText.text = currentTypedWord;
-
-        if (targetWord.StartsWith(currentTypedWord))
-        {
-            if (currentTypedWord.Length == targetWord.Length)
-            {
-                StartCoroutine(OnTypingSuccess());
-            }
-        }
-        else
-        {
-            OnTypingError();
-        }
-    }
-
-    void OnTypingError()
-    {
-        if (_errorResetCoroutine == null)
-        {
-            _errorResetCoroutine = StartCoroutine(ErrorResetSequence());
-        }
-    }
-
-    IEnumerator ErrorResetSequence()
-    {
-        inputLocked = true;
-        typedText.color = typingErrorColor;
-
-        yield return new WaitForSeconds(typoResetDelay);
-
-        ResetTyping();
-        inputLocked = false;
-        _errorResetCoroutine = null;
-    }
-
-    IEnumerator OnTypingSuccess()
-    {
-        inputLocked = true;
-        SetConfirmed(mainButtons[0]);
-        if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (Director.instance != null)
-        {
-            Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "LevelSelector");
-        }
-        else
-        {
-            SceneManager.LoadScene("LevelSelector");
-        }
-    }
-
-    void ResetTyping()
-    {
-        currentTypedWord = "";
-        if (typedText != null)
-        {
-            typedText.text = "";
-            typedText.color = defaultTypedTextColor;
-        }
-    }
-
+    #region === Typing Mechanic (Tidak Berubah) ===
+    void HandleTypingInput() { if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S)) { string a = Input.inputString.ToLower(); if (a.Length > 0) { char b = a[0]; if (char.IsLetter(b)) { if (_errorResetCoroutine != null) { StopCoroutine(_errorResetCoroutine); _errorResetCoroutine = null; inputLocked = false; } ProcessTypedChar(b); } } } }
+    void ProcessTypedChar(char a) { if (typedText.color == typingErrorColor) { ResetTyping(); } currentTypedWord += a; typedText.text = currentTypedWord; if (targetWord.StartsWith(currentTypedWord)) { if (currentTypedWord.Length == targetWord.Length) { StartCoroutine(OnTypingSuccess()); } } else { OnTypingError(); } }
+    void OnTypingError() { if (_errorResetCoroutine == null) { _errorResetCoroutine = StartCoroutine(ErrorResetSequence()); } }
+    IEnumerator ErrorResetSequence() { inputLocked = true; typedText.color = typingErrorColor; yield return new WaitForSeconds(typoResetDelay); ResetTyping(); inputLocked = false; _errorResetCoroutine = null; }
+    IEnumerator OnTypingSuccess() { inputLocked = true; SetConfirmed(mainButtons[0]); if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]); yield return new WaitForSeconds(0.5f); if (Director.instance != null) { Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_RIGHT2LEFT, "LevelSelector"); } else { SceneManager.LoadScene("LevelSelector"); } }
+    void ResetTyping() { currentTypedWord = ""; if (typedText != null) { typedText.text = ""; typedText.color = defaultTypedTextColor; } }
     #endregion
 
+    // --- FUNGSI INI DIUBAH SECARA SIGNIFIKAN ---
     void HighlightButtons(Button[] buttons, int selectedIndex)
     {
         bool isMainMenu = (buttons == mainButtons);
-        if (typingContainer != null) typingContainer.SetActive(isMainMenu);
 
+        // Atur visibilitas elemen typing secara individual
+        if (typedText != null) typedText.gameObject.SetActive(isMainMenu);
+        if (typeToPlayText != null) typeToPlayText.gameObject.SetActive(isMainMenu);
+
+        // Warnai tombol yang dipilih
         for (int i = 0; i < buttons.Length; i++)
         {
             var img = buttons[i].GetComponent<Image>();
-            if (img != null)
-            {
-                img.color = (i == selectedIndex) ? selectedColor : normalColor;
-            }
+            if (img != null) { img.color = (i == selectedIndex) ? selectedColor : normalColor; }
         }
 
-        if (isMainMenu && ghostText != null)
+        // Kelola animasi teks HANYA jika ghostText ada
+        if (ghostText != null)
         {
-            bool isPlayButtonSelected = (selectedIndex == 0);
-            if (isPlayButtonSelected)
+            if (isMainMenu)
             {
-                _ghostTextFadeTween.Pause();
-                ghostText.color = selectedColor;
-                ghostText.text = targetWord;
+                bool isPlayButtonSelected = (selectedIndex == 0);
+                if (isPlayButtonSelected)
+                {
+                    _ghostTextFadeTween.Pause();
+                    ghostText.color = selectedColor;
+                    ghostText.text = targetWord;
+                }
+                else
+                {
+                    ghostText.color = ghostTextIdleColor;
+                    ghostText.text = "play";
+                    _ghostTextFadeTween.Play();
+                }
+
+                // Kelola animasi typeToPlayText
+                if (typeToPlayText != null)
+                {
+                    typeToPlayText.DOKill();
+                    _typeToPlayBlinkTween.Pause();
+                    if (isPlayButtonSelected)
+                    {
+                        typeToPlayText.DOFade(1f, typeToPlayFadeDuration).SetEase(Ease.OutQuad).OnComplete(() => _typeToPlayBlinkTween.Play());
+                    }
+                    else
+                    {
+                        typeToPlayText.DOFade(0f, typeToPlayFadeDuration).SetEase(Ease.InQuad);
+                    }
+                }
             }
-            else
+            else // Jika kita di menu Opsi
             {
-                // Menggunakan warna idle baru saat tidak di-hover
+                // Pastikan ghostText tetap berkedip di latar belakang
                 ghostText.color = ghostTextIdleColor;
-                ghostText.text = "play";
                 _ghostTextFadeTween.Play();
             }
         }
     }
 
-    void SetConfirmed(Button button)
-    {
-        var img = button.GetComponent<Image>();
-        if (img != null)
-            img.color = confirmedColor;
-    }
-
-    void MovePointer(RectTransform target)
-    {
-        if (selectorPointer == null || target == null) return;
-        Vector2 newPos = new Vector2(pointerOffsetX, target.anchoredPosition.y);
-        selectorPointer.anchoredPosition = newPos;
-    }
+    void SetConfirmed(Button button) { var img = button.GetComponent<Image>(); if (img != null) img.color = confirmedColor; }
+    void MovePointer(RectTransform target) { if (selectorPointer == null || target == null) return; Vector2 newPos = new Vector2(pointerOffsetX, target.anchoredPosition.y); selectorPointer.anchoredPosition = newPos; }
 
     void ConfirmMainMenu()
     {
         if (mainIndex == 0) return;
-
         inputLocked = true;
         SetConfirmed(mainButtons[mainIndex]);
         if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
-
         switch (mainIndex)
         {
             case 1:
-                inOptions = true;
-                optionsPanel.alpha = 1f;
-                optionsPanel.interactable = true;
-                optionsPanel.blocksRaycasts = true;
-                optionsIndex = 0;
-                HighlightButtons(optionsButtons, optionsIndex);
-                MovePointer(optionsButtons[optionsIndex].GetComponent<RectTransform>());
-                EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
-                inputLocked = false;
+                if (_optionsFadeCoroutine != null) StopCoroutine(_optionsFadeCoroutine);
+                _optionsFadeCoroutine = StartCoroutine(FadeOptionsPanel(true));
                 break;
             case 2:
                 Application.Quit();
@@ -305,23 +216,45 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    #region === Options Panel (Tidak diubah) ===
+    #region === Options Panel (Fokus kembali sudah benar) ===
 
-    void HandleSliderAdjustment()
+    IEnumerator FadeOptionsPanel(bool fadeIn)
     {
-        GameObject current = optionsButtons[optionsIndex].gameObject;
-        string currentName = current.name.ToLower();
-        if (currentName.Contains("music") && musicSlider != null)
+        inputLocked = true;
+        if (fadeIn)
         {
-            if (Input.GetKeyDown(KeyCode.D)) musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A)) musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep);
+            inOptions = true;
+            optionsIndex = 0;
+            optionsPanel.interactable = true;
+            optionsPanel.blocksRaycasts = true;
+            HighlightButtons(optionsButtons, optionsIndex);
+            MovePointer(optionsButtons[optionsIndex].GetComponent<RectTransform>());
+            EventSystem.current.SetSelectedGameObject(optionsButtons[optionsIndex].gameObject);
         }
-        else if (currentName.Contains("sfx") && sfxSlider != null)
+        float targetAlpha = fadeIn ? 1f : 0f;
+        float startAlpha = optionsPanel.alpha;
+        float elapsedTime = 0f;
+        while (elapsedTime < optionsPanelFadeDuration)
         {
-            if (Input.GetKeyDown(KeyCode.D)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep);
-            else if (Input.GetKeyDown(KeyCode.A)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep);
+            elapsedTime += Time.unscaledDeltaTime;
+            optionsPanel.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / optionsPanelFadeDuration);
+            yield return null;
         }
+        optionsPanel.alpha = targetAlpha;
+        if (!fadeIn)
+        {
+            optionsPanel.interactable = false;
+            optionsPanel.blocksRaycasts = false;
+            inOptions = false;
+            HighlightButtons(mainButtons, mainIndex);
+            MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
+            EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
+        }
+        inputLocked = false;
+        _optionsFadeCoroutine = null;
     }
+
+    void HandleSliderAdjustment() { GameObject a = optionsButtons[optionsIndex].gameObject; string b = a.name.ToLower(); if (b.Contains("music") && musicSlider != null) { if (Input.GetKeyDown(KeyCode.D)) musicSlider.value = Mathf.Clamp01(musicSlider.value + sliderStep); else if (Input.GetKeyDown(KeyCode.A)) musicSlider.value = Mathf.Clamp01(musicSlider.value - sliderStep); } else if (b.Contains("sfx") && sfxSlider != null) { if (Input.GetKeyDown(KeyCode.D)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value + sliderStep); else if (Input.GetKeyDown(KeyCode.A)) sfxSlider.value = Mathf.Clamp01(sfxSlider.value - sliderStep); } }
 
     void ConfirmOptionsMenu()
     {
@@ -333,14 +266,17 @@ public class MainMenuController : MonoBehaviour
                 if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
                 if (tutorialBook != null)
                 {
+                    optionsPanel.alpha = 0f;
+                    optionsPanel.interactable = false;
+                    optionsPanel.blocksRaycasts = false;
                     tutorialBook.gameObject.SetActive(true);
                     if (tutorialBook.bukuTutorialGO != null) tutorialBook.bukuTutorialGO.SetActive(true);
-                    optionsPanel.alpha = 0f;
+
                     tutorialBook.StartTutorial(() =>
                     {
                         inOptions = false;
                         inputLocked = false;
-                        HighlightButtons(mainButtons, mainIndex = 0);
+                        HighlightButtons(mainButtons, mainIndex);
                         MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
                         EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
                     });
@@ -353,14 +289,8 @@ public class MainMenuController : MonoBehaviour
                 break;
             case 3:
                 if (audioManager != null) audioManager.PlaySFX(audioManager.sfxClips[2]);
-                optionsPanel.alpha = 0f;
-                optionsPanel.interactable = false;
-                optionsPanel.blocksRaycasts = false;
-                inOptions = false;
-                HighlightButtons(mainButtons, mainIndex = 0);
-                MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
-                EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
-                inputLocked = false;
+                if (_optionsFadeCoroutine != null) StopCoroutine(_optionsFadeCoroutine);
+                _optionsFadeCoroutine = StartCoroutine(FadeOptionsPanel(false));
                 break;
             default:
                 inputLocked = false;

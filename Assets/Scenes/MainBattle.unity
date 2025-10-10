@@ -219,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 653035137954806627, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3467946270814394209, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: canvas
@@ -3901,15 +3901,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Accursed Knights
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
+  m_sharedMaterial: {fileID: -8338705477391033617, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284722908
+  m_fontColor: {r: 0.8627451, g: 0.68235296, b: 0.3882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10265,15 +10265,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: CON
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
+  m_sharedMaterial: {fileID: -8338705477391033617, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285838298
-  m_fontColor: {r: 0.85490197, g: 0.7019608, b: 0.45490196, a: 1}
+    rgba: 4284520119
+  m_fontColor: {r: 0.7169812, g: 0.58680785, b: 0.37652782, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14049,15 +14049,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: JURE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
+  m_sharedMaterial: {fileID: -8338705477391033617, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285838298
-  m_fontColor: {r: 0.85490197, g: 0.7019608, b: 0.45490196, a: 1}
+    rgba: 4284520119
+  m_fontColor: {r: 0.7169812, g: 0.58680785, b: 0.37652782, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15251,15 +15251,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Darin Dragan
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
+  m_sharedMaterial: {fileID: -8338705477391033617, guid: 8eff6d1403692d24690dd18c4d52fe8f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284722908
+  m_fontColor: {r: 0.8616352, g: 0.68202525, b: 0.38746482, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
