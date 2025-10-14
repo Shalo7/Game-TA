@@ -33,7 +33,7 @@ public class Director : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
         DoTransition(SceneTransitionPairingsEnum.STP_FILLED2RIGHT, "MainMenu");
     }
 

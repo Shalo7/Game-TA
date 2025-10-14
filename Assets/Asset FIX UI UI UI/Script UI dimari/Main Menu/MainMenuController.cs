@@ -6,6 +6,7 @@ using AudioData;
 using TMPro;
 using System.Collections;
 using DG.Tweening;
+using System;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class MainMenuController : MonoBehaviour
     private bool inOptions = false;
     private bool inputLocked = false;
     AudioManager audioManager;
+    public UIButtonEventComms buttonEventComms;
 
     private void Awake()
     {
@@ -79,9 +81,55 @@ public class MainMenuController : MonoBehaviour
             _typeToPlayBlinkTween = typeToPlayText.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).Pause();
         }
 
+        buttonEventComms.OnClickButton += OnClickButton;
+        buttonEventComms.OnHoveredButton += OnHoverButton;
+        buttonEventComms.OnExitButton += OnExitHoverButton;
+
         HighlightButtons(mainButtons, mainIndex);
         MovePointer(mainButtons[mainIndex].GetComponent<RectTransform>());
         EventSystem.current.SetSelectedGameObject(mainButtons[mainIndex].gameObject);
+    }
+
+
+    private void OnExitHoverButton(Button button)
+    {
+        Debug.Log("Exited hover on button: " + button.name);
+    }
+
+    private void OnHoverButton(Button button)
+    {
+        if (!inOptions)
+        {
+            for (int i = 0; i < mainButtons.Length; i++)
+            {
+                if (mainButtons[i] == button)
+                {
+                    mainIndex = i;
+                    HighlightButtons(mainButtons, mainIndex);
+                    break;
+                }
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < optionsButtons.Length; i++)
+            {
+                if (optionsButtons[i] == button)
+                {
+                    optionsIndex = i;
+                    HighlightButtons(optionsButtons, optionsIndex);
+                    break;
+                }
+            }
+
+        }
+    }
+    private void OnClickButton(Button obj)
+    {
+        if(!inOptions)
+        { ConfirmMainMenu(); return; }
+        ConfirmOptionsMenu();
     }
 
     void Update()
