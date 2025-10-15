@@ -93,7 +93,7 @@ public class MainMenuController : MonoBehaviour
 
     private void OnExitHoverButton(Button button)
     {
-        Debug.Log("Exited hover on button: " + button.name);
+        
     }
 
     private void OnHoverButton(Button button)
@@ -127,9 +127,24 @@ public class MainMenuController : MonoBehaviour
     }
     private void OnClickButton(Button obj)
     {
+
         if(!inOptions)
-        { ConfirmMainMenu(); return; }
-        ConfirmOptionsMenu();
+        {
+            if (mainIndex < mainButtons.Length)
+            {
+                if (mainButtons[mainIndex] != obj) return;
+                ConfirmMainMenu(); 
+            }
+        }
+        else
+        {
+            if (optionsIndex < optionsButtons.Length)
+            {
+                if (optionsButtons[optionsIndex] != obj) return;
+                ConfirmOptionsMenu();
+            }
+            
+        }
     }
 
     void Update()

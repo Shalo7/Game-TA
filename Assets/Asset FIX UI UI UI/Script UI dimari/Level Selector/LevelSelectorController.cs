@@ -56,6 +56,7 @@ public class LevelSelectorController : MonoBehaviour
     private bool inOptions = false;
     private bool inputLocked = false;
     private Coroutine _fadeCoroutine;
+    public UIButtonEventComms buttonEventComms;
 
     private void Awake()
     {
@@ -75,6 +76,67 @@ public class LevelSelectorController : MonoBehaviour
         }
         settingsIcon.color = settingsNormalColor;
         backArrowIcon.color = backNormalColor;
+
+        buttonEventComms.OnClickButton += OnClickButton;
+        buttonEventComms.OnHoveredButton += OnHoveredButton;
+        buttonEventComms.OnExitButton += OnExitButton;
+    }
+
+    private void OnExitButton(Button button)
+    {
+        
+    }
+
+    private void OnHoveredButton(Button button)
+    {
+        if (!inOptions)
+        {
+            RectTransform hoveredButton = button.gameObject?.GetComponent<RectTransform>();
+            if (hoveredButton == null) return;
+            for (int i = 0; i < stagePositions.Length; i++)
+            {
+                if (hoveredButton == stagePositions[i])
+                {
+                    currentIndex = i;
+                    AnimateIndicatorTransition();
+                    UpdateUI();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < optionsButtons.Length; i++)
+            {
+                if (optionsButtons[i] == button)
+                {
+                    optionsIndex = i;
+                    HighlightOptions();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void OnClickButton(Button obj)
+    {
+        if (!inOptions)
+        {
+            if (currentIndex < stagePositions.Length)
+            {
+                if (stagePositions[currentIndex] != obj.gameObject?.GetComponent<RectTransform>()) return;
+                SelectLevel();
+            }
+        }
+        else
+        {
+            if (optionsIndex < optionsButtons.Length)
+            {
+                if (optionsButtons[optionsIndex] != obj) return;
+                ConfirmOptionsMenu();
+            }
+
+        }
     }
 
     void Update()
@@ -93,6 +155,8 @@ public class LevelSelectorController : MonoBehaviour
     #region === Stage Navigation ===
 
     // --- PERBAIKAN STRUKTUR INPUT ---
+    
+
     void HandleStageInput()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -216,7 +280,7 @@ public class LevelSelectorController : MonoBehaviour
     }
 
     // --- PERBAIKAN LOGIKA TRANSISI ---
-    void ReturnToMainMenu()
+    public void ReturnToMainMenu()
     {
         if (Director.instance != null)
         {
@@ -231,7 +295,7 @@ public class LevelSelectorController : MonoBehaviour
     #endregion
 
     #region === Options Panel (Tidak Perlu Diubah) ===
-    void OpenOptionsPanel()
+    public void OpenOptionsPanel()
     {
         if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
 

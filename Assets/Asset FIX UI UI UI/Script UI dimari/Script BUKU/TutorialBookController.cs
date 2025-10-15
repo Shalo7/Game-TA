@@ -75,12 +75,13 @@ public class TutorialBookController : MonoBehaviour
 
         nextButtonGroup.alpha = 0;
         prevButtonGroup.alpha = 0;
-        nextButtonGroup.interactable = false;
-        prevButtonGroup.interactable = false;
+        nextButtonGroup.interactable = true;
+        prevButtonGroup.interactable = true;
         nextButtonGroup.blocksRaycasts = false;
         prevButtonGroup.blocksRaycasts = false;
 
         book.currentPage = 1;
+        book.UpdateSprites();
         currentIndex = 1;
 
         ShowBook();
@@ -102,7 +103,7 @@ public class TutorialBookController : MonoBehaviour
             });
     }
 
-    void HideBook()
+    public void HideBook()
     {
         darkPanelGroup.DOFade(0f, fadeDuration).SetUpdate(true);
         bookCanvasGroup.DOFade(0f, fadeDuration).SetUpdate(true);
@@ -120,10 +121,12 @@ public class TutorialBookController : MonoBehaviour
             });
     }
 
-    private bool canClick = true;
-    private float clickCooldown = 0.5f;
+    public bool canClick = true;
+    private float clickCooldown = 1f;
     public void OnClickNext()
     {
+        Debug.LogError("NexT!");
+        if (nextButtonGroup.alpha < 1f) return;
         if (!canClick) return;
         if (currentIndex < 4)
         {
@@ -136,6 +139,8 @@ public class TutorialBookController : MonoBehaviour
     }
     public void OnClickPrevious()
     {
+        Debug.LogError("Prev!");
+        if (prevButtonGroup.alpha < 1f) return;
         if (!canClick) return;
         if (currentIndex > 1)
         {
@@ -157,24 +162,26 @@ public class TutorialBookController : MonoBehaviour
     {
         bool showNext = currentIndex >= 1 && currentIndex <= 3;
         nextButtonGroup.DOFade(showNext ? 1f : 0f, 0.3f);
-        nextButtonGroup.interactable = false;
-        nextButtonGroup.blocksRaycasts = false;
+        nextButtonGroup.interactable = true;
+        nextButtonGroup.blocksRaycasts = true;
 
         bool showPrev = currentIndex >= 2 && currentIndex <= 5;
         prevButtonGroup.DOFade(showPrev ? 1f : 0f, 0.3f);
-        prevButtonGroup.interactable = false;
-        prevButtonGroup.blocksRaycasts = false;
+        prevButtonGroup.interactable = true;
+        prevButtonGroup.blocksRaycasts = true;
     }
 
     void UpdateSpecialElements()
     {
         if (currentIndex >= 4 && currentIndex <= 5)
         {
+            Debug.Log("Appear!");
             spaceContinueGroup.DOFade(1f, 0.5f);
             StartBlinking();
         }
         else
         {
+            Debug.Log("Gone!");
             spaceContinueGroup.DOFade(0f, 0.3f);
             StopBlinking();
         }
@@ -186,7 +193,7 @@ public class TutorialBookController : MonoBehaviour
         blinkTween = spaceContinueGroup.DOFade(0.2f, spaceBlinkSpeed).SetLoops(-1, LoopType.Yoyo).SetUpdate(true);
     }
 
-    void StopBlinking()
+    public void StopBlinking()
     {
         if (blinkTween != null) blinkTween.Kill();
         blinkTween = null;
