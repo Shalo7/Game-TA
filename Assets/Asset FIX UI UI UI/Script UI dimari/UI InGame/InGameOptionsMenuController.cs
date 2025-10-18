@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using System;
 
 public class InGameOptionsMenuController : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class InGameOptionsMenuController : MonoBehaviour
     private bool isReadingBook = false;
     private bool suppressNextTab = false;
 
+    [SerializeField] UIButtonEventComms UIButtonEventComms;
+
     void Start()
     {
         pausePanel.SetActive(true);
@@ -47,10 +50,49 @@ public class InGameOptionsMenuController : MonoBehaviour
 
         if (tutorialCanvasGroup != null)
             tutorialCanvasGroup.alpha = 0f;
-        
-        
+
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            var img = optionButtons[i].GetComponent<Image>();
+            if (img != null)
+            {
+                img.raycastTarget = false;
+                img.maskable = false;
+            }
+        }
     }
 
+    private void OnHoveredButtonEvent(Button button)
+    {
+        Debug.LogError("Hovered Button: " + button.name);
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            if (optionButtons[i] == button)
+            {
+                optionIndex = i;
+                HighlightButtons(optionButtons, optionIndex);
+                break;
+            }
+            
+        }
+    }
+
+    private void OnExitButtonEvent(Button button)
+    {
+     
+    }
+
+    private void OnClickButtonEvent(Button button)
+    {
+        Debug.LogError("Clicked Button: " + button.name);
+        if (optionIndex < optionButtons.Length)
+        {
+            if (optionButtons[optionIndex] != button) return;
+            ConfirmOption();
+        }
+    }
+
+  
     void Update()
     {
         if (!isReadingBook)
@@ -84,8 +126,21 @@ public class InGameOptionsMenuController : MonoBehaviour
         isPaused = true;
         inputLocked = false;
 
+
         pausePanel.SetActive(true);
         pausePanelGroup.DOFade(1f, pauseFadeDuration).SetUpdate(true);
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            var img = optionButtons[i].GetComponent<Image>();
+            if (img != null)
+            {
+                img.raycastTarget = true;
+                img.maskable = true;
+            }
+        }
+        UIButtonEventComms.OnClickButton += OnClickButtonEvent;
+        UIButtonEventComms.OnExitButton += OnExitButtonEvent;
+        UIButtonEventComms.OnHoveredButton += OnHoveredButtonEvent;
 
         foreach (var script in scriptsToDisable)
             if (script != null) script.enabled = false;
@@ -103,6 +158,19 @@ public class InGameOptionsMenuController : MonoBehaviour
         {
             //pausePanel.SetActive(false);
         });
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            var img = optionButtons[i].GetComponent<Image>();
+            if (img != null)
+            {
+                img.raycastTarget = false;
+                img.maskable = false;
+            }
+        }
+
+        UIButtonEventComms.OnClickButton -= OnClickButtonEvent;
+        UIButtonEventComms.OnExitButton -= OnExitButtonEvent;
+        UIButtonEventComms.OnHoveredButton -= OnHoveredButtonEvent;
 
         isPaused = false;
         inputLocked = false;
