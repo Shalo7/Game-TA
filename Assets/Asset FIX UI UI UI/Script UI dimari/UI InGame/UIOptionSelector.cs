@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIOptionSelector : MonoBehaviour
 {
+    [Header("Scripts")]
+    [SerializeField] UIButtonEventComms buttonEventComms;
     [Header("Option Navigation")]
     public Button[] moveButtons;
     public RectTransform[] optionButtons;
@@ -38,7 +40,11 @@ public class UIOptionSelector : MonoBehaviour
     {
         UpdatePointer();
         ResetButtonColors();
+
+        buttonEventComms.OnHoveredButton += OnHoveredButtonEvent;
+        buttonEventComms.OnClickButton += OnClickButtonEvent;
     }
+
 
     void Update()
     {
@@ -72,6 +78,44 @@ public class UIOptionSelector : MonoBehaviour
         }
     }
 
+
+    private void OnHoveredButtonEvent(Button button)
+    {
+        Debug.LogError("Hovered at " + button.name);
+        if (!inputEnabled) return;
+        for (int i = 0; i < moveButtons.Length; i++)
+        {
+            if (button == moveButtons[i])
+            {
+                var dir = 0;
+                string opt = optionButtons[i].name.Replace("Button_", "");
+                if (!availableOptions.Contains(opt)) continue;
+                if (i > currentIndex)
+                {
+                    dir = 1;
+                    Debug.Log(dir);
+                    MoveSelection(dir);
+                }
+                else if (i < currentIndex)
+                {
+                    dir = -1;
+                    Debug.Log(dir);
+                    MoveSelection(dir);
+                }
+                break;
+            }
+        }
+    }
+
+    private void OnClickButtonEvent(Button button)
+    {
+        Debug.LogError("Clicked at " + button.name);
+        if (!inputEnabled) return;
+        if (button != moveButtons[currentIndex]) return;
+        ConfirmSelection();
+    }
+
+
     void MoveSelection(int direction)
     {
         int start = currentIndex;
@@ -93,6 +137,9 @@ public class UIOptionSelector : MonoBehaviour
     {
         selectionMade = true;
         ResetButtonColors();
+
+        string opt = optionButtons[currentIndex].name.Replace("Button_", "");
+        if (!availableOptions.Contains(opt)) return;
 
         if (optionImages != null && currentIndex < optionImages.Length)
         {

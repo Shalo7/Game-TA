@@ -59,11 +59,13 @@ MonoBehaviour:
   autoFlip: {fileID: 5160121215483011900}
   startPos: {x: 0, y: 0}
   targetPos: {x: 0, y: 0}
-  moveDuration: 1.1
-  fadeDuration: 0.62
+  moveDuration: 0.2
+  fadeDuration: 0.42
   startScale: {x: 0.9, y: 0.9, z: 0.9}
   targetScale: {x: 1.14, y: 1.14, z: 1.14}
   spaceBlinkSpeed: 1.5
+  currentIndex: 1
+  canClick: 1
 --- !u!1 &653035137954806627
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6904273233940557318
 RectTransform:
   m_ObjectHideFlags: 0
@@ -314,7 +316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 598, y: -29.5}
+  m_AnchoredPosition: {x: 608, y: -29.5}
   m_SizeDelta: {x: 127.3362, y: 127.3362}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3852030680345054602
@@ -459,7 +461,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -587, y: -29.5}
+  m_AnchoredPosition: {x: -588, y: -29.5}
   m_SizeDelta: {x: 127.3362, y: 127.3362}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7992379308045305823
@@ -507,7 +509,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3753968853969716155}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -630,7 +632,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 37.49, y: 14.94, z: 38.57, w: 15.03}
+  m_RaycastPadding: {x: 23.71, y: 102.1, z: 19.2, w: 101}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -689,13 +691,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 91974767736051170}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 4372681341662964529}
+        m_TargetAssemblyTypeName: TutorialBookController, Assembly-CSharp
+        m_MethodName: StopBlinking
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4372681341662964529}
+        m_TargetAssemblyTypeName: TutorialBookController, Assembly-CSharp
+        m_MethodName: HideBook
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
