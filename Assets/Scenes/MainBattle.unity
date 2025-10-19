@@ -6047,6 +6047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 812588305}
   - component: {fileID: 812588304}
+  - component: {fileID: 812588306}
   m_Layer: 0
   m_Name: GameManagerGP
   m_TagString: Untagged
@@ -6108,6 +6109,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812588306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812588302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce67f2804af426446a0f4fc13f32d7bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyProfile: {fileID: 11400000, guid: aede47360220026498794a0b8496341f, type: 2}
+  averageSpeed: 0
+  currentStreak: 0
+  maxStreak: 0
+  totalWords: 0
+  successfulWords: 0
+  performanceScore: 0
 --- !u!1 &814884434
 GameObject:
   m_ObjectHideFlags: 0
@@ -7815,6 +7835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glossary: {fileID: 11400000, guid: 7444a48cf164c2349a3a413193f7700f, type: 2}
+  difficultyProfile: {fileID: 11400000, guid: aede47360220026498794a0b8496341f, type: 2}
+  performanceManager: {fileID: 812588306}
   wordList:
   - MAGIC
   - FIREBALL

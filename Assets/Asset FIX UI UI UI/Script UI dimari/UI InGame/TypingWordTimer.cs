@@ -26,6 +26,7 @@ public class TypingWordTimer : MonoBehaviour
     public float blinkSpeed = 0.5f;
 
     private float currentTime;
+    private float startTime;
     private bool isRunning = false;
     private bool isCritical = false;
     private Sequence heartbeatSeq;
@@ -36,9 +37,17 @@ public class TypingWordTimer : MonoBehaviour
     void Start()
     {
         ResetTimer();
+        startTime = Time.time;
         Hide(); // ⛔ Timer tersembunyi saat start
     }
-
+    
+    public float ElapsedTime
+    {
+        get
+        {
+            return isRunning ? (Time.time - startTime) : finalElapsedTime;
+        }
+    }
     public void StartTimer()
     {
         ResetTimer();
@@ -50,9 +59,12 @@ public class TypingWordTimer : MonoBehaviour
         heartbeatSeq.Append(timerSlider.transform.DOScale(1f, heartbeatSpeed).SetEase(Ease.InOutSine));
     }
 
+    private float finalElapsedTime;
     public void StopTimer()
     {
         isRunning = false;
+
+        finalElapsedTime = Time.time - startTime;
 
         heartbeatSeq?.Kill();
         heartbeatSeq = null;

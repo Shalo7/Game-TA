@@ -11,7 +11,9 @@ using AudioData;
 public class TypewritingManager : MonoBehaviour
 {
     [Header("Word Source")]
-    public WordGlossary glossary;
+    [SerializeField] WordGlossary glossary;
+    [SerializeField] DifficultyProfile difficultyProfile;
+    [SerializeField] PerformanceManager performanceManager;
     public List<string> wordList;
 
     [Header("UI References")]
@@ -187,36 +189,50 @@ public class TypewritingManager : MonoBehaviour
 
     System.Action<int> onCompleteCallback;
     int correctTypedCount;
+    int currentWordIndex;
 
     public void StartTyping(System.Action<int> onComplete)
     {
         onCompleteCallback = onComplete;
         correctTypedCount = 0;
+        currentWordIndex = 0;
 
-        LoadWords(5); // pull 5 words from the glossary
+        LoadWords(); // pull 5 words from the glossary
         BeginTypingSession();
     }
 
-    public void LoadWords(int count)
+    public void LoadWords()
     {
         wordList.Clear();
 
-        if (glossary == null || glossary.words.Count == 0)
+        if (glossary == null || difficultyProfile == null || performanceManager == null)
         {
             Debug.LogWarning("No Glossary");
             return;
         }
+        
+        // Get the appropriate tier based on the player's performance score
+        string performanceTier = performanceManager.GetPerformanceTier();
+        float score = performanceManager.performanceScore;
+        DifficultyRatio profile = Array.Find(difficultyProfile.difficultyProfiles, p => p.profileName == performanceTier); //difficultyProfile.GetProfile(score);
 
-        List<string> copy = new List<string>(glossary.words);
-
-        for (int i = 0; i < count && copy.Count > 0; i++)
+        if (profile == null)
         {
-            int index = Random.Range(0, copy.Count);
-            wordList.Add(copy[index].ToUpper()); //uppercase typing
-            copy.RemoveAt(index);
+            Debug.LogWarning($"Difficulty profile not found!");
+            return;
         }
 
-        Debug.Log("✅ Loaded words: " + string.Join(", ", wordList));
+        // Load words based on the profile's ratios
+        wordList.AddRange(glossary.GetRandomWords(Difficulty.Easy, profile.easyCount));
+        wordList.AddRange(glossary.GetRandomWords(Difficulty.Medium, profile.mediumCount));
+        wordList.AddRange(glossary.GetRandomWords(Difficulty.Hard, profile.hardCount));
+        
+        for (int i = 0; i < wordList.Count; i++)
+        {
+            wordList[i] = wordList[i].ToUpper(); //uppercase typing
+        }
+
+        Debug.Log($"✅ Loaded words for tier '{performanceTier}' (Score: {score}): {string.Join(", ", wordList)}");
     }
 
     void UpdateTypedVisual()
@@ -446,8 +462,8 @@ public class TypewritingManager : MonoBehaviour
         typedText.DOFade(0f, fadeOutDuration).SetDelay(bounceDuration);
 
         yield return new WaitForSeconds(bounceDuration + fadeOutDuration + 0.1f);
-        
 
+        performanceManager.RegisterWordResult(true, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f);
         if (wordIndex < wordList.Count)
         {
             isTypingActive = true;
@@ -508,6 +524,7 @@ public class TypewritingManager : MonoBehaviour
 
         yield return new WaitForSeconds(fadeOutDuration + 0.1f);
 
+        performanceManager.RegisterWordResult(false, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f);
         EndTypingSession(); // ❌ Waktu habis → lanjut giliran musuh
     }
 
