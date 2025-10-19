@@ -37,7 +37,7 @@ public class TypewritingManager : MonoBehaviour
     [SerializeField] AnimationCurve colorTransitionCurve;
     [SerializeField] Gradient colorTransition;
     [SerializeField] AnimationCurve resizeAnimationCurve;
-    [SerializeField] List<TypewriteEffects> activeTypeWriteEffects = new List<TypewriteEffects>();
+    [SerializeField] AnimationCurve correctWordVignetteAnimCurve;
     [SerializeField] List<ActiveWritingFX> activeWritingFX = new List<ActiveWritingFX>();
 
     [Header("Colors")]
@@ -50,6 +50,7 @@ public class TypewritingManager : MonoBehaviour
     331A00*/
     public Color shadowTextColor = new Color(1f, 1f, 1f, 22f / 255f);
     [SerializeField] Color correctCharacterColor;
+    [SerializeField] Color correctWordVignetteColor;
 
     [Header("Sounds")]
     public AudioSource audioSource;
@@ -291,46 +292,6 @@ public class TypewritingManager : MonoBehaviour
         }
     }
 
-    private void AddActiveTypewriteEffect(TMP_Text txt)
-    {
-        activeTypeWriteEffects.Add(new TypewriteEffects(txt, txt.text.Length - 1, resizeAnimationCurve));
-        if (StartDoTextScaleBounce != null) return;
-        StartDoTextScaleBounce = StartCoroutine(DoTextScaleBounce());
-    }
-
-    private void OnCorrectType(int charIndex)
-    {
-        TMP_Text textFocus;
-        if (!shadowText_Enemy.gameObject.activeInHierarchy)
-        {
-            textFocus = shadowText_Player;
-        }
-        else if (!shadowText_Player.gameObject.activeInHierarchy)
-        {
-            textFocus = shadowText_Enemy;
-        }
-        else
-        {
-            Debug.LogError("No text focus!!");
-            return;
-        }
-        Debug.LogError($"has TextFocus! {textFocus.text}");
-
-        TMP_TextInfo textInfo = textFocus.textInfo;
-        if (charIndex >= textInfo.characterCount) return;
-        TMP_CharacterInfo charInfo = textInfo.characterInfo[charIndex];
-        if (!charInfo.isVisible) return;
-        int meshIndex = charInfo.materialReferenceIndex;
-        int vertexIndex = charInfo.vertexIndex;
-        Color32[] vertexColors = textInfo.meshInfo[meshIndex].colors32;
-
-        for (int i = 0; i < 4; i++)
-        {
-            vertexColors[vertexIndex + i] = correctCharacterColor;
-            Debug.LogError(vertexColors[vertexIndex + i]);
-        }
-        textFocus.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
-    }
 
     private void AddActiveWritingFX(TMP_Text txt, int charIndex)
     {
@@ -427,57 +388,6 @@ public class TypewritingManager : MonoBehaviour
         counterUIController.EmptyText();
     }
 
-    Coroutine StartDoTextScaleBounce;
-    IEnumerator DoTextScaleBounce()
-    {
-        while (activeTypeWriteEffects.Count > 0)
-        {
-            for (int i = 0; i < activeTypeWriteEffects.Count; i++)
-            {
-                TypewriteEffects index = activeTypeWriteEffects[i];
-                if (index == null)
-                {
-                    activeTypeWriteEffects[i] = null;
-                    activeTypeWriteEffects.Remove(index);
-                    continue;
-                }
-                index.timer += Time.deltaTime;
-
-                if (index.timer > index.duration)
-                {
-                    activeTypeWriteEffects[i] = null;
-                    activeTypeWriteEffects.Remove(index);
-                    continue;
-                }
-
-                var flt_t = Mathf.Clamp01(index.timer / index.duration);
-                var flt_Scale = index.animCurve.Evaluate(flt_t);
-                //index.txt.ForceMeshUpdate();
-                TMP_TextInfo textInfo = index.txt.textInfo;
-                TMP_CharacterInfo charInfo = textInfo.characterInfo[index.charIndex];
-                if (!charInfo.isVisible) continue;
-
-                int meshIndex = charInfo.materialReferenceIndex;
-                int vertexIndex = charInfo.vertexIndex;
-
-                Vector3 v0 = index.baseVerts[0];
-                Vector3 v2 = index.baseVerts[2];
-                Vector3 centre = (v0 + v2) / 2f;
-
-                Vector3[] verts = textInfo.meshInfo[meshIndex].vertices;
-                for (int k = 0; k < 4; k++)
-                {
-                    Vector3 offSet = index.baseVerts[k] - centre;
-                    verts[vertexIndex + k] = centre + offSet * flt_Scale;
-                }
-
-                index.txt.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
-            }
-            yield return null;
-        }
-        StartDoTextScaleBounce = null;
-    }
-
     void ShakeCameraOnType()
     {
         float shakeOffset = (((float)correctTypedCount + 1 / (float)wordList.Count)) / 200f;
@@ -490,7 +400,6 @@ public class TypewritingManager : MonoBehaviour
         isTypingActive = false;
         typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
-        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(wordDoneSuccess, false, Vector3.zero)); }
         bool isNowPlayerTarget = wordIndex % 2 == 0;
         TMP_Text shadowText = isNowPlayerTarget ? shadowText_Player : shadowText_Enemy;
         TMP_Text typedText = isNowPlayerTarget ? typedText_Player : typedText_Enemy;
@@ -503,6 +412,29 @@ public class TypewritingManager : MonoBehaviour
             if (ps != null) ps.Play();
         }
 
+        correctTypedCount++;
+        /*counterText.gameObject.SetActive(true);
+        counterText.text = correctTypedCount.ToString();*/
+        wordIndex++;
+        int inverseWordIndex = 0;
+        if (wordIndex >= 1) { inverseWordIndex = wordList.Count - wordIndex; }
+        int gradientVal = 0;
+        gradientVal = Mathf.Clamp(inverseWordIndex, 1, wordList.Count);
+        float t = Mathf.InverseLerp(0, wordList.Count, gradientVal);
+
+        if (currentColorGradient == null)
+        {
+            counterUIController.UpdateTextCounter(correctTypedCount, Color.white);
+        }
+        else
+        {
+            Color c = currentColorGradient.Evaluate(t);
+            counterUIController.UpdateTextCounter(correctTypedCount, c);
+        }
+
+        if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(wordDoneSuccess, false, Vector3.zero)); }
+        OnCorrectWordVignette();
+
         shadowText.color = correctCharacterColor;
         Sequence bounceSeq = DOTween.Sequence();
         bounceSeq.Append(shadowText.transform.DOScale(bounceScale, bounceDuration).SetEase(Ease.OutBack));
@@ -514,25 +446,7 @@ public class TypewritingManager : MonoBehaviour
         typedText.DOFade(0f, fadeOutDuration).SetDelay(bounceDuration);
 
         yield return new WaitForSeconds(bounceDuration + fadeOutDuration + 0.1f);
-
-        correctTypedCount++;
-        /*counterText.gameObject.SetActive(true);
-        counterText.text = correctTypedCount.ToString();*/
-        wordIndex++;
-        int inverseWordIndex = 0;
-        if (wordIndex >= 1) { inverseWordIndex = wordList.Count - wordIndex; }
-        int gradientVal = 0;
-        gradientVal = Mathf.Clamp(inverseWordIndex, 1, wordList.Count);
-        float t = Mathf.InverseLerp(0, wordList.Count, gradientVal);
-        if (currentColorGradient == null)
-        {
-            counterUIController.UpdateTextCounter(correctTypedCount, Color.white);
-        }
-        else
-        {
-            Color c = currentColorGradient.Evaluate(t);
-            counterUIController.UpdateTextCounter(correctTypedCount, c);
-        }
+        
 
         if (wordIndex < wordList.Count)
         {
@@ -543,6 +457,35 @@ public class TypewritingManager : MonoBehaviour
         {
             EndTypingSession();
         }
+    }
+
+    void OnCorrectWordVignette()
+    {
+        if (PostProcessingManager.instance == null) return;
+        if (CO_StartCorrectWordVignette != null) return;
+        CO_StartCorrectWordVignette = StartCoroutine(StartCorrectWordVignette());
+        PostProcessingManager.instance.ActivateVignette(true);
+        
+    }
+
+    Coroutine CO_StartCorrectWordVignette;
+    IEnumerator StartCorrectWordVignette()
+    {
+        float timer = 0f;
+        float maxTimer = correctWordVignetteAnimCurve[correctWordVignetteAnimCurve.length - 1].time;
+
+        while (timer <= maxTimer)
+        {
+            float flt_t = timer / maxTimer;
+            float flt_Eval = correctWordVignetteAnimCurve.Evaluate(flt_t);
+            PostProcessingManager.instance.SetVignette(flt_Eval);
+            PostProcessingManager.instance.SetVignetteColor(correctWordVignetteColor);
+            timer += Time.deltaTime;
+            //Debug.LogError(flt_t);
+            yield return null;
+        }
+        PostProcessingManager.instance.ActivateVignette(false);
+        CO_StartCorrectWordVignette = null;
     }
 
     IEnumerator EarlyFailRoutine()

@@ -7918,7 +7918,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  activeTypeWriteEffects: []
+  correctWordVignetteAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.5099707
+      outSlope: 3.5099707
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08431199
+    - serializedVersion: 3
+      time: 0.8
+      value: 0
+      inSlope: -4.354157
+      outSlope: -4.354157
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05455114
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   useGradientForTypedText: 0
   typedTextGradient:
     topLeft: {r: 1, g: 0.8392157, b: 0, a: 1}
@@ -7927,6 +7950,7 @@ MonoBehaviour:
     bottomRight: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
   shadowTextColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0.7058824}
   correctCharacterColor: {r: 1, g: 0.8392157, b: 0, a: 1}
+  correctWordVignetteColor: {r: 0.15723693, g: 1, b: 0, a: 1}
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
@@ -19047,7 +19071,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
