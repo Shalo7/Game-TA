@@ -25,7 +25,7 @@ MonoBehaviour:
   - word: MANA
     difficulty: 0
     spawnChance: 9.9
-  - word: POWER
+  - word: HARPY
     difficulty: 0
     spawnChance: 9.9
   - word: CURSE
@@ -43,22 +43,64 @@ MonoBehaviour:
   - word: SCROLL
     difficulty: 0
     spawnChance: 9.9
+  - word: POWER
+    difficulty: 0
+    spawnChance: 9.9
+  - word: SWORD
+    difficulty: 0
+    spawnChance: 9.9
+  - word: COVEN
+    difficulty: 0
+    spawnChance: 9.9
+  - word: MIND
+    difficulty: 0
+    spawnChance: 9.9
+  - word: FAITH
+    difficulty: 0
+    spawnChance: 9.9
+  - word: SOUL
+    difficulty: 0
+    spawnChance: 9.9
+  - word: BOLT
+    difficulty: 0
+    spawnChance: 9.9
+  - word: WISP
+    difficulty: 0
+    spawnChance: 9.9
+  - word: CLOAK
+    difficulty: 0
+    spawnChance: 9.9
+  - word: MIST
+    difficulty: 0
+    spawnChance: 9.9
   - word: PHOENIX
+    difficulty: 1
+    spawnChance: 9.9
+  - word: CINDER
+    difficulty: 1
+    spawnChance: 9.9
+  - word: STATIC
     difficulty: 1
     spawnChance: 9.9
   - word: VOLTAGE
     difficulty: 1
     spawnChance: 9.9
-  - word: ALCHEMY
+  - word: PEGASUS
     difficulty: 1
     spawnChance: 9.9
-  - word: ENCHANT
+  - word: SEANCE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: LINGER
     difficulty: 1
     spawnChance: 9.9
   - word: ARCANE
     difficulty: 1
     spawnChance: 9.9
-  - word: SEANCE
+  - word: CLERIC
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ENCHANT
     difficulty: 1
     spawnChance: 9.9
   - word: DRAGON
@@ -67,10 +109,28 @@ MonoBehaviour:
   - word: ETERNAL
     difficulty: 1
     spawnChance: 9.9
+  - word: ALCHEMY
+    difficulty: 1
+    spawnChance: 9.9
   - word: ARCHIVE
     difficulty: 1
     spawnChance: 9.9
   - word: ORACLE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: INVENT
+    difficulty: 1
+    spawnChance: 9.9
+  - word: RECOVER
+    difficulty: 1
+    spawnChance: 9.9
+  - word: MENDING
+    difficulty: 1
+    spawnChance: 9.9
+  - word: HEDWIG
+    difficulty: 1
+    spawnChance: 9.9
+  - word: LAWINE
     difficulty: 1
     spawnChance: 9.9
   - word: THUNDERCLAP
