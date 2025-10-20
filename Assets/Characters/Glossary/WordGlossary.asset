@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: WordGlossary
   m_EditorClassIdentifier: 
   words:
+  - word: VENATOR
+    difficulty: 1
+    spawnChance: 1.1
+  - word: OXLAB
+    difficulty: 0
+    spawnChance: 1.1
   - word: ASHES
     difficulty: 0
     spawnChance: 9.9
@@ -148,8 +154,8 @@ MonoBehaviour:
   - word: SHADOWFAX
     difficulty: 2
     spawnChance: 9.9
-  - word: REJUVINATE
-    difficulty: 0
+  - word: REJUVENATE
+    difficulty: 2
     spawnChance: 9.9
   - word: PHANTASM
     difficulty: 2
@@ -161,5 +167,35 @@ MonoBehaviour:
     difficulty: 2
     spawnChance: 9.9
   - word: TESTAMENT
+    difficulty: 2
+    spawnChance: 9.9
+  - word: RUMBLING
+    difficulty: 2
+    spawnChance: 9.9
+  - word: SORCERER
+    difficulty: 2
+    spawnChance: 9.9
+  - word: HEXBLADE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: TREASURE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: KNOWLEDGE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: GRIMOIRE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: ALLEVIATE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: SCRIPTURES
+    difficulty: 2
+    spawnChance: 9.9
+  - word: GLOSSARY
+    difficulty: 2
+    spawnChance: 9.9
+  - word: ELDRITCH
     difficulty: 2
     spawnChance: 9.9
