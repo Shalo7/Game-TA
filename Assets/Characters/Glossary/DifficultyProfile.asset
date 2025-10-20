@@ -13,7 +13,48 @@ MonoBehaviour:
   m_Name: DifficultyProfile
   m_EditorClassIdentifier: 
   difficultyProfiles:
-  - profileName: Normal
+  - profileName: VERY EASY
+    threshold: 0.2
+    easyCount: 3
+    mediumCount: 2
+    hardCount: 0
+  - profileName: EASY
+    threshold: 0.4
+    easyCount: 2
+    mediumCount: 3
+    hardCount: 0
+  - profileName: NORMAL
+    threshold: 0.5
+    easyCount: 2
+    mediumCount: 2
+    hardCount: 1
+  - profileName: MEDIOCRE
+    threshold: 0.6
     easyCount: 1
     mediumCount: 3
     hardCount: 1
+  - profileName: GOOD
+    threshold: 0.7
+    easyCount: 0
+    mediumCount: 3
+    hardCount: 2
+  - profileName: HARD
+    threshold: 0.8
+    easyCount: 0
+    mediumCount: 2
+    hardCount: 3
+  - profileName: HARDCORE
+    threshold: 0.9
+    easyCount: 0
+    mediumCount: 0
+    hardCount: 5
+  - profileName: BABY
+    threshold: 0
+    easyCount: 5
+    mediumCount: 0
+    hardCount: 0
+  - profileName: BEGINNER
+    threshold: 0.1
+    easyCount: 4
+    mediumCount: 1
+    hardCount: 0

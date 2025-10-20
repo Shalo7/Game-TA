@@ -45,6 +45,7 @@ public class PerformanceManager : MonoBehaviour
         float accuracyScore = Mathf.Clamp01(accuracy);
 
         performanceScore = (speedScore * 0.4f) + (streakScore * 0.3f) + (accuracyScore * 0.3f);
+        Debug.Log("Performance Score" + performanceScore);
     }
 
     public string GetPerformanceTier()

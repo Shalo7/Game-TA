@@ -13,53 +13,93 @@ MonoBehaviour:
   m_Name: WordGlossary
   m_EditorClassIdentifier: 
   words:
-  - ashes
-  - phoenix
-  - flame
-  - cinder
-  - spark
-  - fireball
-  - thunderclap
-  - rumbling
-  - static
-  - voltage
-  - pegasus
-  - mana
-  - seance
-  - linger
-  - arcane
-  - sorcerer
-  - cleric
-  - enchant
-  - incantation
-  - necromancer
-  - harpy
-  - dragon
-  - treasure
-  - knowledge
-  - grimoire
-  - eternal
-  - alchemy
-  - archive
-  - invent
-  - curse
-  - hexblade
-  - cure
-  - oracle
-  - recover
-  - invigorate
-  - mending
-  - rejuvinate
-  - alleviate
-  - ameliorate
-  - scroll
-  - scriptures
-  - runes
-  - glossary
-  - testament
-  - latin
-  - shadowfax
-  - hedwig
-  - phantasm
-  - magnostadt
-  - lawine
+  - word: ASHES
+    difficulty: 0
+    spawnChance: 9.9
+  - word: FLAME
+    difficulty: 0
+    spawnChance: 9.9
+  - word: SPARK
+    difficulty: 0
+    spawnChance: 9.9
+  - word: MANA
+    difficulty: 0
+    spawnChance: 9.9
+  - word: POWER
+    difficulty: 0
+    spawnChance: 9.9
+  - word: CURSE
+    difficulty: 0
+    spawnChance: 9.9
+  - word: CURE
+    difficulty: 0
+    spawnChance: 9.9
+  - word: RUNES
+    difficulty: 0
+    spawnChance: 9.9
+  - word: LATIN
+    difficulty: 0
+    spawnChance: 9.9
+  - word: SCROLL
+    difficulty: 0
+    spawnChance: 9.9
+  - word: PHOENIX
+    difficulty: 1
+    spawnChance: 9.9
+  - word: VOLTAGE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ALCHEMY
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ENCHANT
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ARCANE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: SEANCE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: DRAGON
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ETERNAL
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ARCHIVE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: ORACLE
+    difficulty: 1
+    spawnChance: 9.9
+  - word: THUNDERCLAP
+    difficulty: 2
+    spawnChance: 9.9
+  - word: NECROMANCER
+    difficulty: 2
+    spawnChance: 9.9
+  - word: AMELIORATE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: MAGNOSTADT
+    difficulty: 2
+    spawnChance: 9.9
+  - word: SHADOWFAX
+    difficulty: 2
+    spawnChance: 9.9
+  - word: REJUVINATE
+    difficulty: 0
+    spawnChance: 9.9
+  - word: PHANTASM
+    difficulty: 2
+    spawnChance: 9.9
+  - word: INCANTATION
+    difficulty: 2
+    spawnChance: 9.9
+  - word: INVIGORATE
+    difficulty: 2
+    spawnChance: 9.9
+  - word: TESTAMENT
+    difficulty: 2
+    spawnChance: 9.9
