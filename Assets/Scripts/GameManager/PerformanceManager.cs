@@ -13,7 +13,7 @@ public class PerformanceManager : MonoBehaviour
     public int successfulWords;
     public float performanceScore;
 
-    public void RegisterWordResult(bool success, float timeTaken)
+    public void RegisterWordResult(bool success, float timeTaken, int charactersTyped)
     {
         totalWords++;
 
@@ -22,7 +22,10 @@ public class PerformanceManager : MonoBehaviour
             successfulWords++;
             currentStreak++;
             maxStreak = Mathf.Max(maxStreak, currentStreak);
-            UpdateAverageSpeed(timeTaken);
+            //Debug.Log($"successfulWords={successfulWords}, timeTaken={timeTaken:F3}, chars={charactersTyped}");
+            UpdateAverageSpeed(timeTaken, charactersTyped);
+            Debug.Log($"averageSpeed={averageSpeed:F3}");
+            //Debug.Log($"timeTaken={timeTaken:F2}s, chars={charactersTyped}, CPS={(charactersTyped / timeTaken):F2}");
         }
         else
         {
@@ -32,20 +35,28 @@ public class PerformanceManager : MonoBehaviour
         CalculatePerformanceScore();
     }
 
-    private void UpdateAverageSpeed(float timeTaken)
+    private int totalCharactersTyped = 0;
+    private void UpdateAverageSpeed(float timeTaken, int charactersTyped)
     {
-        averageSpeed = ((averageSpeed * (successfulWords - 1)) + timeTaken) / successfulWords;
+        totalCharactersTyped += charactersTyped;
+        float cps = (float)charactersTyped / timeTaken;
+        Debug.Log($"chars={charactersTyped}, timeTaken={timeTaken:F3}, cps={cps:F3}");
+
+        averageSpeed = ((averageSpeed * (successfulWords - 1)) + cps) / successfulWords;
+        //Debug.Log($"[Performance] timeTaken={timeTaken:F2}s, chars={charactersTyped}, CPS={cps:F2}, AveSpeed = {averageSpeed:F2} ");
     }
 
     private void CalculatePerformanceScore()
     {
-        float speedScore = Mathf.Clamp01(1f - (averageSpeed / 4f));
-        float streakScore = Mathf.Clamp01((float)maxStreak / 10f);
-        float accuracy = (float)successfulWords / totalWords;
+        float targetCPS = 4f;
+        float speedScore = Mathf.Clamp01(averageSpeed / targetCPS);
+        float streakScore = Mathf.Clamp01((float)maxStreak / 20f);//(float)maxStreak / 20f;//maxStreak * 0.05f; 
+        float accuracy = (totalWords > 0) ? (float)successfulWords / totalWords : 0f;
         float accuracyScore = Mathf.Clamp01(accuracy);
 
         performanceScore = (speedScore * 0.4f) + (streakScore * 0.3f) + (accuracyScore * 0.3f);
-        Debug.Log("Performance Score" + performanceScore);
+        performanceScore = Mathf.Clamp01(performanceScore);
+        Debug.Log($"[Performance] Speed={speedScore:F2}, Streak={streakScore:F2}, Accuracy={accuracyScore:F2}, Final={performanceScore:F2}");
     }
 
     public string GetPerformanceTier()

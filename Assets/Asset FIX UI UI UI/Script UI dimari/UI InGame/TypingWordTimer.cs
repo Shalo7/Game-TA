@@ -37,21 +37,15 @@ public class TypingWordTimer : MonoBehaviour
     void Start()
     {
         ResetTimer();
-        startTime = Time.time;
         Hide(); // ⛔ Timer tersembunyi saat start
     }
     
-    public float ElapsedTime
-    {
-        get
-        {
-            return isRunning ? (Time.time - startTime) : finalElapsedTime;
-        }
-    }
     public void StartTimer()
     {
         ResetTimer();
+        startTime = Time.time;
         isRunning = true;
+        finalElapsedTime = 0f;
         Show();
 
         heartbeatSeq = DOTween.Sequence().SetLoops(-1, LoopType.Yoyo);
@@ -78,6 +72,7 @@ public class TypingWordTimer : MonoBehaviour
         redFlashPanel.alpha = 0;
         isCritical = false;
         Hide();
+        //Debug.Log($"ElapsedTime={ElapsedTime}, startTime={startTime}, Time.time={Time.time}");
     }
 
     public void ResetTimer()
@@ -132,5 +127,13 @@ public class TypingWordTimer : MonoBehaviour
     {
         timerSlider.gameObject.SetActive(false);
         redFlashPanel.gameObject.SetActive(false);
+    }
+
+    public float ElapsedTime
+    {
+        get
+        {
+            return isRunning ? (Time.time - startTime) : finalElapsedTime;
+        }
     }
 }

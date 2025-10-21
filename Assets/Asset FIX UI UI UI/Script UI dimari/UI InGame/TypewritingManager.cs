@@ -463,7 +463,7 @@ public class TypewritingManager : MonoBehaviour
 
         yield return new WaitForSeconds(bounceDuration + fadeOutDuration + 0.1f);
 
-        performanceManager.RegisterWordResult(true, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f);
+        performanceManager.RegisterWordResult(true, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f, currentWord.Length);
         if (wordIndex < wordList.Count)
         {
             isTypingActive = true;
@@ -524,7 +524,7 @@ public class TypewritingManager : MonoBehaviour
 
         yield return new WaitForSeconds(fadeOutDuration + 0.1f);
 
-        performanceManager.RegisterWordResult(false, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f);
+        performanceManager.RegisterWordResult(false, typingTimerUI != null ? typingTimerUI.ElapsedTime : 0f, currentWord.Length);
         EndTypingSession(); // ❌ Waktu habis → lanjut giliran musuh
     }
 
