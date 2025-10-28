@@ -471,7 +471,7 @@ MonoBehaviour:
   roomFadeDuration: 0.32
   roomScaleDuration: 0.53
   roomMoveYAmount: 22.6
-  optionsPanel: {fileID: 0}
+  optionsPanel: {fileID: 653591555}
   panelAnimDuration: 0.3
   optionsButtons:
   - {fileID: 240642059}
@@ -680,6 +680,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1501599814}
   m_SourcePrefab: {fileID: 100100000, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+--- !u!225 &653591555 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 1817124382147269038, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+  m_PrefabInstance: {fileID: 653591554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &659720656
 GameObject:
   m_ObjectHideFlags: 0

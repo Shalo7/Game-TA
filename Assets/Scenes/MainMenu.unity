@@ -2072,7 +2072,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!225 &1689080902 stripped
 CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 9138277947620270997, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1817124382147269038, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
   m_PrefabInstance: {fileID: 3447282453736232648}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1705686662 stripped

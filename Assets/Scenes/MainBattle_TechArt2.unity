@@ -15042,6 +15042,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1340179008}
     m_Modifications:
+    - target: {fileID: 791834420250647893, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1307836126545988832, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: buttonEventComms
       value: 
@@ -15052,15 +15056,19 @@ PrefabInstance:
       objectReference: {fileID: 2006737222}
     - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 335.2
+      value: 310.3
       objectReference: {fileID: 0}
     - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 158.3
+      value: 130.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -24.01
       objectReference: {fileID: 0}
     - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -343.16348
+      value: -389.56
       objectReference: {fileID: 0}
     - target: {fileID: 3858612319798470524, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_Sprite

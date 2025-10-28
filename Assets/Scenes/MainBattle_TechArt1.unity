@@ -17269,11 +17269,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 335.2
+      value: 319.88
       objectReference: {fileID: 0}
     - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 158.3
+      value: 135.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783527539578184871, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -379.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818931505535547131, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -267.9
       objectReference: {fileID: 0}
     - target: {fileID: 3858612319798470524, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_Sprite

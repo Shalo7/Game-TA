@@ -15797,6 +15797,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4332994853379845061, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332994853379845061, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5500120621881658300, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: buttonEventComms
       value: 
@@ -15805,12 +15813,36 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5989461244502741638, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989461244502741638, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092398456033271917, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6092398456033271917, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092398456033271917, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6781470252407153666, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781470252407153666, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781470252407153666, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8851797882091141634, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
