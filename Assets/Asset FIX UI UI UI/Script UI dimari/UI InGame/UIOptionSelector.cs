@@ -40,6 +40,7 @@ public class UIOptionSelector : MonoBehaviour
     {
         UpdatePointer();
         ResetButtonColors();
+        ChangedColorOnSelect();
 
         buttonEventComms.OnHoveredButton += OnHoveredButtonEvent;
         buttonEventComms.OnClickButton += OnClickButtonEvent;
@@ -81,7 +82,6 @@ public class UIOptionSelector : MonoBehaviour
 
     private void OnHoveredButtonEvent(Button button)
     {
-        Debug.LogError("Hovered at " + button.name);
         if (!inputEnabled) return;
         for (int i = 0; i < moveButtons.Length; i++)
         {
@@ -109,7 +109,6 @@ public class UIOptionSelector : MonoBehaviour
 
     private void OnClickButtonEvent(Button button)
     {
-        Debug.LogError("Clicked at " + button.name);
         if (!inputEnabled) return;
         if (button != moveButtons[currentIndex]) return;
         ConfirmSelection();
@@ -126,6 +125,7 @@ public class UIOptionSelector : MonoBehaviour
             if (availableOptions.Contains(opt))
             {
                 UpdatePointer();
+                ChangedColorOnSelect();
                 break;
             }
         }
@@ -133,17 +133,40 @@ public class UIOptionSelector : MonoBehaviour
         AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(optHover, false, Vector3.zero));
     }
 
+    void ChangedColorOnSelect()
+    {
+        for (int i = 0; i < optionImages.Length; i++)
+        {
+            string key = optionButtons[i].name.Replace("Button_", "");
+            if (i == currentIndex && availableOptions.Contains(key))
+            {
+                optionImages[i].color = selectedColor;
+            }
+            else if(availableOptions.Contains(key))
+            {
+                optionImages[i].color = normalColor;
+            }
+            else
+            {
+                optionImages[i].color = disabledColor;
+            }
+        }
+    }
+
     void ConfirmSelection()
     {
         selectionMade = true;
-        ResetButtonColors();
+        //ResetButtonColors();
 
         string opt = optionButtons[currentIndex].name.Replace("Button_", "");
         if (!availableOptions.Contains(opt)) return;
 
-        if (optionImages != null && currentIndex < optionImages.Length)
+        for (int i = 0; i < optionImages.Length; i++)
         {
-            optionImages[currentIndex].color = selectedColor;
+            if (i != currentIndex)
+            {
+                optionImages[i].color = new Color(optionImages[i].color.r, optionImages[i].color.g, optionImages[i].color.b, 0.15f);
+            }
         }
 
         string choice = optionButtons[currentIndex].name.Replace("Button_", "");
@@ -191,6 +214,7 @@ public class UIOptionSelector : MonoBehaviour
 
         UpdatePointer();
         ResetButtonColors();
+        ChangedColorOnSelect();
         gameObject.SetActive(true);
 
         fadeUIOptionsGroup?.ResetFade();
@@ -209,6 +233,7 @@ public class UIOptionSelector : MonoBehaviour
     {
         availableOptions = allowedOptions;
         ResetButtonColors();
+        ChangedColorOnSelect();
     }
 
     public void ForceSelectOption(string optionName)

@@ -104,9 +104,13 @@ public class InGameOptionsMenuController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (isPaused)
+                {
                     ResumeGame();
+                }
                 else
+                {
                     OpenPauseMenu();
+                }
             }
         }
 
@@ -148,6 +152,7 @@ public class InGameOptionsMenuController : MonoBehaviour
         optionIndex = 0;
         HighlightButtons(optionButtons, optionIndex);
         MovePointer(optionButtons[optionIndex].GetComponent<RectTransform>());
+        Time.timeScale = 0f;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(optionButtons[optionIndex].gameObject);
     }
@@ -174,6 +179,7 @@ public class InGameOptionsMenuController : MonoBehaviour
 
         isPaused = false;
         inputLocked = false;
+        Time.timeScale = 1f;
 
         foreach (var script in scriptsToDisable)
             if (script != null) script.enabled = true;
@@ -270,6 +276,9 @@ public class InGameOptionsMenuController : MonoBehaviour
                 OpenTutorialBook();
                 break;
             case 3:
+                ResumeGame();
+                break;
+            case 4:
                 if (Director.instance == null) { StartCoroutine(QuitWithFade()); return; }
                 Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "LevelSelector");
                 break;
