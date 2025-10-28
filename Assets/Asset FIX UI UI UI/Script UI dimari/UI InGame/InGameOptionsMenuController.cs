@@ -279,6 +279,7 @@ public class InGameOptionsMenuController : MonoBehaviour
                 ResumeGame();
                 break;
             case 4:
+                Time.timeScale = 1f;
                 if (Director.instance == null) { StartCoroutine(QuitWithFade()); return; }
                 Director.instance.DoTransition(SceneTransitionPairingsEnum.STP_LEFT2RIGHT, "LevelSelector");
                 break;
@@ -291,6 +292,7 @@ public class InGameOptionsMenuController : MonoBehaviour
 
     void OpenTutorialBook()
     {
+        Time.timeScale = 1f;
         isReadingBook = true;
         pausePanel.SetActive(false);
 
