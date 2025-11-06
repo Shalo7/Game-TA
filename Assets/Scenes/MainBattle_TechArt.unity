@@ -3762,15 +3762,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Accursed Knights
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284722908
+  m_fontColor: {r: 0.8627451, g: 0.68235296, b: 0.3882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3787,7 +3787,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.85
+  m_fontSize: 61.55
   m_fontSizeBase: 55.1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5987,8 +5987,6 @@ MonoBehaviour:
   enemyChara: {fileID: 11400000, guid: 2a7c3b5f317596a4084099cb56fef441, type: 2}
   playerImage: {fileID: 1577821992}
   enemyImage: {fileID: 1355140757}
-  buffIndicator: {fileID: 0}
-  debuffIndicator: {fileID: 0}
   playerHpBar: {fileID: 1804393566}
   enemyHpBar: {fileID: 289001792}
   moveButtons:
@@ -6007,8 +6005,7 @@ MonoBehaviour:
   selector: {fileID: 1103825440}
   battleUIManager: {fileID: 996873119}
   typingManager: {fileID: 996873120}
-  entityHurt: {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
-  entityDeath: {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
+  gameplaySounds: []
   nextLevel: 0
 --- !u!4 &812588305
 Transform:
@@ -7930,7 +7927,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  activeTypeWriteEffects: []
+  correctWordVignetteAnimCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   useGradientForTypedText: 0
   typedTextGradient:
     topLeft: {r: 1, g: 0.8392157, b: 0, a: 1}
@@ -7939,9 +7941,11 @@ MonoBehaviour:
     bottomRight: {r: 0.5921569, g: 0.23529412, b: 0.03137255, a: 1}
   shadowTextColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
   correctCharacterColor: {r: 1, g: 0.8392157, b: 0, a: 1}
+  correctWordVignetteColor: {r: 0, g: 0, b: 0, a: 0}
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
+  wordDoneSuccess: {fileID: 0}
   earlyFailDelay: 1
   typingTimerUI: {fileID: 721961003}
 --- !u!114 &996873121
@@ -9017,6 +9021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f1e1c6871de5e840be8cdd0d7c02720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonEventComms: {fileID: 0}
   moveButtons:
   - {fileID: 1157152002}
   - {fileID: 1746594929}
@@ -10363,7 +10368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1138946787}
-  pausePanelGroup: {fileID: 2109645401}
+  pausePanelGroup: {fileID: 0}
   optionButtons:
   - {fileID: 1035447278}
   - {fileID: 983212863}
@@ -10386,6 +10391,7 @@ MonoBehaviour:
   musicSlider: {fileID: 527931044}
   sfxSlider: {fileID: 1122299282}
   sliderStep: 0.1
+  UIButtonEventComms: {fileID: 0}
 --- !u!1001 &1293341492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14561,17 +14567,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dukun
+  m_text: Darin Dragan
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
-  m_sharedMaterial: {fileID: 5702334040385797396, guid: 634ff5fb9934dab478f1dc1aeced03ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284722908
+  m_fontColor: {r: 0.8627451, g: 0.68235296, b: 0.3882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14588,7 +14594,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67
+  m_fontSize: 72
   m_fontSizeBase: 60.1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -17376,11 +17382,6 @@ RectTransform:
 --- !u!224 &2109645398 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8851797882091141634, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
-  m_PrefabInstance: {fileID: 1787395897}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &2109645401 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 9138277947620270997, guid: a14e591e33a1eb04584c9e24a718fb4f, type: 3}
   m_PrefabInstance: {fileID: 1787395897}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2110507589
