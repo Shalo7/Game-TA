@@ -4201,6 +4201,14 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1855744001}
+    - target: {fileID: 5160121215483011900, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: TimeBetweenPages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160121215483011900, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: AnimationFramesCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6904273233940557318, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
