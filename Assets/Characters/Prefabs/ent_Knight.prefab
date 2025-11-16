@@ -213,6 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1778369093965220134}
   - component: {fileID: 2539649322294131339}
+  - component: {fileID: 2879115746601945036}
   m_Layer: 0
   m_Name: ent_Knight
   m_TagString: Untagged
@@ -250,6 +251,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charType: 2
+--- !u!114 &2879115746601945036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8571090679162683609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78035acd2b8089a4793a948fa15455ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8986992037561474063
 GameObject:
   m_ObjectHideFlags: 0

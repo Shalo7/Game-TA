@@ -49,7 +49,7 @@ public class TextCounterUIController : MonoBehaviour
         counterText.text = "";
         rectTrans.localScale = baseScale;
         currentScale = rectTrans.localScale;
-        rectTrans.localPosition = basePos.localPosition;
+        //rectTrans.localPosition = basePos.localPosition;
     }
 
     Coroutine StartTextAnimation;

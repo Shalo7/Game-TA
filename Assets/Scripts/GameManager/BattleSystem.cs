@@ -54,6 +54,7 @@ public class BattleSystem : MonoBehaviour
     int debuffTurnCount = 1;
     int buffTurnCount = 1;
     [SerializeField] int nextLevel = 0;
+    [SerializeField] BaseEnemyChoiceHandler choiceHandler;
 
     BaseAnimationController currentAnimMonitored;
     AnimationStateInstance currentAnimStateMonitored;
@@ -99,6 +100,8 @@ public class BattleSystem : MonoBehaviour
 
         shieldSlider.maxValue = maxShieldHP;
         shieldSlider.value = player.shieldHP;
+
+        if (choiceHandler != null) choiceHandler.InitializeScript(enemy);
 
         UpdateHPUI();
 
@@ -256,10 +259,12 @@ public class BattleSystem : MonoBehaviour
         typingManager.EmptyCounterText();
         yield return new WaitForSeconds(1f);
 
-        int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
+        if (choiceHandler == null) isAnimationDone = true;
+        choiceHandler.DecideTurn();
+        /*int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
         int basePower = enemy.baseData.moves[moveIndex].power;
         ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
-        Debug.LogError($"Enemy movement is {enemy.baseData.moves[moveIndex]}!");
+        Debug.LogError($"Enemy movement is {enemy.baseData.moves[moveIndex]}!");*/
 
 
         yield return WaitTurnDone();
@@ -274,7 +279,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
+    public void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
     {
         isAnimationDone = false;
         /*//isAnimationDone = false;
