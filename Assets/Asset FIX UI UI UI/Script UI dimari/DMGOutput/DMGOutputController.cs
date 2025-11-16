@@ -78,7 +78,7 @@ public class DMGOutputController : MonoBehaviour
     void Update()
     {
         if (currentVelocity.sqrMagnitude < 0.0001f) return;
-        transform.position += currentVelocity * spd * Time.deltaTime;
+        rectTransform.position += currentVelocity * spd * Time.deltaTime;
         currentVelocity += (-drag * currentVelocity) * Time.deltaTime;
         if (currentVelocity.sqrMagnitude < 0.0001f) currentVelocity = Vector3.zero; 
     }

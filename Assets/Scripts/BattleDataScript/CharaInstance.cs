@@ -160,6 +160,11 @@ public class CharaInstance
                 //Debug.LogError("entity exist and has status effect!");
             }
 
+            if (StatEffectNotifierManager.instance != null)
+            {
+                StatEffectNotifierManager.instance.StartNotifying(move, curTransform, targetTransform);
+            }
+
         }
 
         //Apply stat change

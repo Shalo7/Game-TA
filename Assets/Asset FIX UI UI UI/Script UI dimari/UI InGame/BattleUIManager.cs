@@ -117,6 +117,7 @@ public class BattleUIManager : MonoBehaviour
 
     public IEnumerator BackToPlayerSelection()
     {
+        yield return !BattleSystem.instance.GetIsRunningGame();
         yield return BattleSystem.instance.WaitTurnDone();
         if (playerNotDone)
         {

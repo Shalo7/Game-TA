@@ -72,7 +72,6 @@ public class UIOptionSelector : MonoBehaviour
                 Button selectedBtn = moveButtons[currentIndex].GetComponent<Button>();
                 if (selectedBtn != null && selectedBtn.interactable)
                 {
-                    Debug.Log("Triggered" + selectedBtn.name);
                     selectedBtn.onClick.Invoke();
                 }
             }

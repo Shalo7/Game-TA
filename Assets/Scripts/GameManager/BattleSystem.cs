@@ -58,13 +58,16 @@ public class BattleSystem : MonoBehaviour
     BaseAnimationController currentAnimMonitored;
     AnimationStateInstance currentAnimStateMonitored;
     bool isAnimationDone = false;
+    public bool isRunningGame = false;
+    public bool GetIsRunningGame() => isRunningGame;
 
     private bool isPlayerTurn;
 
     void Awake()
     {
         if (instance != null) return;
-        instance = this;   
+        instance = this;
+        isRunningGame = false;   
     }
 
     void Start()
@@ -151,6 +154,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator BattleLoop()
     {
         yield return new WaitForSeconds(1f);
+        isRunningGame = true;
 
         while (true)
         {
@@ -255,7 +259,7 @@ public class BattleSystem : MonoBehaviour
         int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
         int basePower = enemy.baseData.moves[moveIndex].power;
         ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
-        Debug.Log(moveIndex);
+        Debug.LogError($"Enemy movement is {enemy.baseData.moves[moveIndex]}!");
 
 
         yield return WaitTurnDone();
@@ -460,6 +464,7 @@ public class BattleSystem : MonoBehaviour
 
                     ExecuteParticleEffects(data);
                 }
+                ExecuteAbility();
                 //currentTarget.curHP -= damagePower;
                 //Debug.LogError($"{currentAttacker.curTransform.name} is attacking {currentTarget.curTransform.name}!");
 
@@ -496,6 +501,7 @@ public class BattleSystem : MonoBehaviour
                 }
 
                 ExecuteDMGOutput(shieldAmount, targetCenter, AbilityOutputTypes.Shield);
+                ExecuteAbility();
                 //Debug.Log($"{this} shield {shieldAmount} HP!");
                 //Debug.Log(currentAttacker.shieldHP);
                 /*if (currentAttacker.isBlocking)
@@ -521,6 +527,7 @@ public class BattleSystem : MonoBehaviour
                 {
                     currentAttacker.ApplyMoveEffect(currentMove, false, currentTarget, currentFinalPower);
                     isDebuffing = true;
+                    ExecuteAbility();
                     //debuffIndicator.gameObject.SetActive(true);
                 }
                 /*if (debuffTurnCount == 3)
@@ -536,6 +543,7 @@ public class BattleSystem : MonoBehaviour
             }
             else if (currentMove.moveType == MoveType.Buff)
             {
+                ExecuteAbility();
                 currentAttacker.ApplyMoveEffect(currentMove, false, null, currentFinalPower);
                 isBuffing = true;
                 //buffIndicator.gameObject.SetActive(true);
@@ -550,6 +558,23 @@ public class BattleSystem : MonoBehaviour
         UpdateHPUI();
     }
 
+
+    void ExecuteAbility()
+    {
+        if (currentMove == null || currentAttacker == null) return;
+        if (currentAttacker.curTransform.childCount < 1) return;
+        Transform casterTransform = currentAttacker.curTransform;
+        BaseAbilityInstance baseAbilityInstance = null;
+        for (int i = 0; i < casterTransform.childCount; i++)
+        {
+            casterTransform.GetChild(i).transform.TryGetComponent(out baseAbilityInstance);
+            if (baseAbilityInstance == null) continue;
+            if (baseAbilityInstance.GetMoveType() != currentMove.moveType) continue;
+            if (baseAbilityInstance.GetAffectedStatType() != currentMove.affectedStat) continue;
+            baseAbilityInstance.ExecuteAbility();
+        }
+    }
+    
     private void debuffTurnCounter()
     {
         battleLog.text = $"Turn {debuffTurnCount}";

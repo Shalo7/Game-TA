@@ -12,29 +12,42 @@ public class PostProcessingManager : MonoBehaviour
     }
 
     public Volume postProcessVolume;
-    public Vignette vignette;
-    public Color vignetteColor;
+    private Vignette vignette;
+    private Color vignetteColor;
+
+    private LensDistortion lensDistortion;
 
     void Start()
     {
         postProcessVolume.profile.TryGet(out vignette);
+        postProcessVolume.profile.TryGet(out lensDistortion);
     }
 
     public void SetVignette(float val)
     {
         if (vignette == null) return;
         vignette.intensity.value = val;
-        Debug.LogError("Intensified!");
     }
     public void SetVignetteColor(Color color)
     {
-        if (vignette == null) return;
+        if (vignette == null) {Debug.LogError("No vignette!"); return;}
         vignette.color.value = color;
-        Debug.LogError("Colored!");
     }
     public void ActivateVignette(bool val)
     {
-        if (vignette == null) return;
+        if (vignette == null) { Debug.LogError("No vignette!"); return;}
         vignette.active = val;
+    }
+
+
+    public void ActivateLensDistortion(bool val)
+    {
+        if (lensDistortion == null) return;
+        lensDistortion.active = val;
+    }
+    public void SetLensDistortion(float val)
+    {
+        if (lensDistortion == null) return;
+        lensDistortion.intensity.value = val;
     }
 }

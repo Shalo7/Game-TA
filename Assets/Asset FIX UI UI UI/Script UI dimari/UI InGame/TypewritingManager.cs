@@ -37,7 +37,7 @@ public class TypewritingManager : MonoBehaviour
     [SerializeField] AnimationCurve colorTransitionCurve;
     [SerializeField] Gradient colorTransition;
     [SerializeField] AnimationCurve resizeAnimationCurve;
-    [SerializeField] AnimationCurve correctWordVignetteAnimCurve;
+    [SerializeField] AnimationCurve doneWordVignetteAnimCurve;
     [SerializeField] List<ActiveWritingFX> activeWritingFX = new List<ActiveWritingFX>();
 
     [Header("Colors")]
@@ -51,6 +51,7 @@ public class TypewritingManager : MonoBehaviour
     public Color shadowTextColor = new Color(1f, 1f, 1f, 22f / 255f);
     [SerializeField] Color correctCharacterColor;
     [SerializeField] Color correctWordVignetteColor;
+    [SerializeField] Color wrongWordVignetteColor;
 
     [Header("Sounds")]
     public AudioSource audioSource;
@@ -433,7 +434,7 @@ public class TypewritingManager : MonoBehaviour
         }
 
         if (AudioPoolManager.instance != null) { AudioPoolManager.instance.RequestPlayAudio(new AudioSpawnData(wordDoneSuccess, false, Vector3.zero)); }
-        OnCorrectWordVignette();
+        OnDoneWordVignette(correctWordVignetteColor);
 
         shadowText.color = correctCharacterColor;
         Sequence bounceSeq = DOTween.Sequence();
@@ -459,27 +460,27 @@ public class TypewritingManager : MonoBehaviour
         }
     }
 
-    void OnCorrectWordVignette()
+    void OnDoneWordVignette(Color c)
     {
         if (PostProcessingManager.instance == null) return;
         if (CO_StartCorrectWordVignette != null) return;
-        CO_StartCorrectWordVignette = StartCoroutine(StartCorrectWordVignette());
+        CO_StartCorrectWordVignette = StartCoroutine(StartCorrectWordVignette(c));
         PostProcessingManager.instance.ActivateVignette(true);
         
     }
 
     Coroutine CO_StartCorrectWordVignette;
-    IEnumerator StartCorrectWordVignette()
+    IEnumerator StartCorrectWordVignette(Color c)
     {
         float timer = 0f;
-        float maxTimer = correctWordVignetteAnimCurve[correctWordVignetteAnimCurve.length - 1].time;
+        float maxTimer = doneWordVignetteAnimCurve[doneWordVignetteAnimCurve.length - 1].time;
 
         while (timer <= maxTimer)
         {
             float flt_t = timer / maxTimer;
-            float flt_Eval = correctWordVignetteAnimCurve.Evaluate(flt_t);
+            float flt_Eval = doneWordVignetteAnimCurve.Evaluate(flt_t);
             PostProcessingManager.instance.SetVignette(flt_Eval);
-            PostProcessingManager.instance.SetVignetteColor(correctWordVignetteColor);
+            PostProcessingManager.instance.SetVignetteColor(c);
             timer += Time.deltaTime;
             //Debug.LogError(flt_t);
             yield return null;
@@ -491,6 +492,7 @@ public class TypewritingManager : MonoBehaviour
     IEnumerator EarlyFailRoutine()
     {
         CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f), 0.7f, 1f);
+        OnDoneWordVignette(wrongWordVignetteColor);
         isTypingActive = false;
         typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
@@ -520,8 +522,9 @@ public class TypewritingManager : MonoBehaviour
 
     void EndTypingSession()
     {
-        Debug.Log("➡ Semua kata selesai diketik! Sekarang giliran musuh!");
+        //Debug.Log("➡ Semua kata selesai diketik! Sekarang giliran musuh!");
         //counterText.gameObject.SetActive(false);
+        counterUIController.TextCenterReposition();
         shadowText_Player.gameObject.SetActive(false);
         typedText_Player.gameObject.SetActive(false);
         shadowText_Enemy.gameObject.SetActive(false);

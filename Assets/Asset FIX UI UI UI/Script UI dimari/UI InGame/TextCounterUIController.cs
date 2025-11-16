@@ -10,8 +10,12 @@ public class TextCounterUIController : MonoBehaviour
 
     [Header("Animation Setting")]
     [SerializeField] AnimationCurve resizeCounterCurve;
+    [SerializeField] AnimationCurve repositionCenterCurve;
     [SerializeField] Vector3 baseScale;
-    [SerializeField] Gradient currentColorGradient;
+    Vector3 currentScale;
+    [SerializeField] RectTransform basePos;
+    [SerializeField] RectTransform middlePos;
+
 
     void OnEnable()
     {
@@ -26,6 +30,7 @@ public class TextCounterUIController : MonoBehaviour
             if (counterText == null) { Debug.LogError("No Counter Text!"); return; }
         }
         baseScale = rectTrans.localScale;
+        currentScale = rectTrans.localScale;
         StartTextAnimation = null;
     }
 
@@ -42,8 +47,10 @@ public class TextCounterUIController : MonoBehaviour
     public void EmptyText()
     {
         counterText.text = "";
+        rectTrans.localScale = baseScale;
+        currentScale = rectTrans.localScale;
+        rectTrans.localPosition = basePos.localPosition;
     }
-
 
     Coroutine StartTextAnimation;
     IEnumerator DoStartTextAnimation()
@@ -57,10 +64,34 @@ public class TextCounterUIController : MonoBehaviour
             var flt_t = flt_Time / flt_MaxCounter;
             var flt_CurveEval = resizeCounterCurve.Evaluate(flt_t);
 
-            rectTrans.localScale = baseScale * flt_CurveEval;
+            rectTrans.localScale = currentScale * flt_CurveEval;
             yield return null;
         }
-        rectTrans.localScale = baseScale;
+        currentScale = rectTrans.localScale;
         StartTextAnimation = null;
+    }
+
+    public void TextCenterReposition()
+    {
+        if (StartMovingToCenter != null) return;
+        //StartMovingToCenter = StartCoroutine(DoStartMovingToCenter());
+    }
+
+    Coroutine StartMovingToCenter;
+    IEnumerator DoStartMovingToCenter()
+    {
+        var flt_Time = 0f;
+        var flt_MaxTime = repositionCenterCurve[repositionCenterCurve.length - 1].time;
+        var rt_StartPos = rectTrans.localPosition;
+        while (flt_Time <= flt_MaxTime)
+        {
+            flt_Time += Time.deltaTime;
+            var flt_T = flt_Time / flt_MaxTime;
+            var flt_CurveEval = resizeCounterCurve.Evaluate(flt_T);
+            rectTrans.localPosition = Vector3.Lerp(rt_StartPos, middlePos.localPosition, flt_CurveEval);
+            yield return null;
+        }
+        rectTrans.localPosition = middlePos.localPosition;
+        StartMovingToCenter = null;
     }
 }
