@@ -260,14 +260,17 @@ public class BattleSystem : MonoBehaviour
         typingManager.EmptyCounterText();
         yield return new WaitForSeconds(1f);
 
-        if (choiceHandler == null) isAnimationDone = true;
-        choiceHandler.DecideTurn();
-        /*int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
-        int basePower = enemy.baseData.moves[moveIndex].power;
-        ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
-        Debug.LogError($"Enemy movement is {enemy.baseData.moves[moveIndex]}!");*/
-
-
+        if (choiceHandler == null)
+        {
+            int moveIndex = Random.Range(0, enemy.baseData.moves.Length); //Placeholder AI
+            int basePower = enemy.baseData.moves[moveIndex].power;
+            ExecuteMove(enemy, player, enemy.baseData.moves[moveIndex], basePower);
+            Debug.LogError($"Enemy movement is {enemy.baseData.moves[moveIndex]}!");
+        }
+        else
+        {
+            choiceHandler.DecideTurn();   
+        }
         yield return WaitTurnDone();
     }
 
