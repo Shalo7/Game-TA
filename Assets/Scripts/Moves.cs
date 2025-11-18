@@ -6,7 +6,8 @@ public enum MoveType
     Defend,
     Heal,
     Buff,
-    Debuff
+    Debuff,
+    None
 }
 
 [CreateAssetMenu(fileName = "Moves", menuName = "Scriptable Objects/Moves")]

@@ -35,6 +35,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] GameObject loseScreen;
     [SerializeField] Slider shieldSlider;
     [SerializeField] int maxShieldHP = 50;
+    public int GetMaxShieldHP() => maxShieldHP;
 
     [SerializeField] UIOptionSelector selector;
     [SerializeField] BattleUIManager battleUIManager;
