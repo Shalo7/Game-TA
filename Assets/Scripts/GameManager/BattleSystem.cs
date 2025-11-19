@@ -145,7 +145,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < moveButtons.Length; i++)
         {
             int index = i;
-            moveButtons[i].onClick.AddListener(() => OnPlayerMoveChosen(index));
+            moveButtons[index].onClick.AddListener(() => OnPlayerMoveChosen(index));
         }
     }
 

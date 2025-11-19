@@ -15,6 +15,9 @@ public class TextCounterUIController : MonoBehaviour
     Vector3 currentScale;
     [SerializeField] RectTransform basePos;
     [SerializeField] RectTransform middlePos;
+    private bool isActive = false;
+    public bool GetActiveStatus() => isActive;
+    public void SetActive(bool val) { isActive = val; }
 
 
     void OnEnable()
@@ -37,6 +40,7 @@ public class TextCounterUIController : MonoBehaviour
 
     public void UpdateTextCounter(int counter, Color c)
     {
+        if (!isActive) return;
         if (counter >= 0)
         { counterText.text = counter.ToString(); counterText.color = c; }
 
