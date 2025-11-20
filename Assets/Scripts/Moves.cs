@@ -31,5 +31,6 @@ public enum StatType
 {
     None,
     Attack,
-    Defense
+    Defense,
+    Stun
 }

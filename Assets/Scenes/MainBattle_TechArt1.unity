@@ -3613,6 +3613,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.000000036512702
       objectReference: {fileID: 0}
+    - target: {fileID: 7528381937008654137, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
+      propertyPath: maxMoveTracked
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7529495891659238704, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -64.78997
@@ -6986,6 +6990,7 @@ MonoBehaviour:
   battleUIManager: {fileID: 996873119}
   typingIntroAnimator: {fileID: 846540371}
   playerHealthBarAnim: {fileID: 0}
+  textCounterUIController: {fileID: 0}
   currentStepIndex: 1
 --- !u!4 &660498398
 Transform:

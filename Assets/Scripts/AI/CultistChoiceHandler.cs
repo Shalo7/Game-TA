@@ -11,13 +11,14 @@ public class CultistChoiceHandler : BaseEnemyChoiceHandler
         
         Moves nextMove = null;
         MoveType targetPredictedMove = EnemyMovePrediction();
-        Debug.LogError(targetPredictedMove);
         int predictedDamage = PredictDamage(MoveType.Attack);
+        int attackMoveTrackCount = CountMoveInMoveTracker(MoveType.Attack, StatType.None);
         if (predictedDamage >= targetInstance.curHP && targetInstance.shieldHP <= 0)
         {
             nextMove = GetMoves(MoveType.Attack, StatType.None);
             if (nextMove == null) return;
             BattleSystem.instance.ExecuteMove(charaInstance, targetInstance, nextMove, nextMove.power);
+            UpdateMoveTracker(nextMove);
             return;
         }
 
@@ -43,14 +44,17 @@ public class CultistChoiceHandler : BaseEnemyChoiceHandler
             if (randomChangeAttack < 0.3f)
             {
                 nextMove = GetMoves(MoveType.Attack, StatType.None);
-                if (nextMove == null) return;
-                BattleSystem.instance.ExecuteMove(charaInstance, targetInstance, nextMove, nextMove.power);
-                return;
             } 
         }
+        else if (attackMoveTrackCount < 1 && nextMove.moveType != MoveType.Attack)
+        {
+            nextMove = GetMoves(MoveType.Attack, StatType.None);
+        }
+
 
         if (nextMove == null) return;
         BattleSystem.instance.ExecuteMove(charaInstance, targetInstance, nextMove, nextMove.power);
+        UpdateMoveTracker(nextMove);
     }
 
     public override void InitializeScript(CharaInstance cI)
@@ -136,7 +140,7 @@ public class CultistChoiceHandler : BaseEnemyChoiceHandler
             currentShieldProb = Mathf.Lerp(probShieldHighHP, probShieldLowHP, t);
             currentHealProb = Mathf.Lerp(probHealHighHP, probHealLowHP, t);
         }
-        Debug.LogError($"Shield probability is {currentShieldProb} and Heal probability is {currentHealProb}!");
+        //Debug.LogError($"Shield probability is {currentShieldProb} and Heal probability is {currentHealProb}!");
         
         float attackOverrideChance = 0.3f;
         float randomValOverride = Random.Range(0f, 1f);
@@ -163,5 +167,31 @@ public class CultistChoiceHandler : BaseEnemyChoiceHandler
     protected override MoveType PredictMoveLowShieldHP()
     {
         return MoveType.None;
+    }
+
+    protected override int CountMoveInMoveTracker(MoveType mT, StatType sT)
+    {
+        if (moveTracker.Count < 1) return 0;
+        int counter = 0;
+        foreach(Moves m in moveTracker)
+        {
+            if (mT != m.moveType) continue;
+            if (sT != m.affectedStat) continue;
+            counter++;
+        }
+        return counter;
+    }
+
+    protected override void UpdateMoveTracker(Moves m)
+    {
+        if (moveTracker.Count == maxMoveTracked)
+        { moveTracker.RemoveAt(0); }
+
+        moveTracker.Add(m);
+    }
+
+    protected override Moves GetOldestMoveTracked()
+    {
+        throw new System.NotImplementedException();
     }
 }

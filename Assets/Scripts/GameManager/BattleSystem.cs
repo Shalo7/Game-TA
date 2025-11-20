@@ -280,50 +280,11 @@ public class BattleSystem : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
     }
 
     public void ExecuteMove(CharaInstance source, CharaInstance target, Moves move, float modifiedPower)
     {
         isAnimationDone = false;
-        /*//isAnimationDone = false;
-        int finalPower = Mathf.RoundToInt(modifiedPower);
-
-        //Attack Damage Math
-        if (move.moveType == MoveType.Attack)
-        {
-            int damage = Mathf.Max(1, finalPower + source.curAtt - target.curDef);
-
-            //Block Mechanic
-            if (target.isBlocking)
-            {
-                damage = 0;
-                target.isBlocking = false;
-            }
-            else
-            {
-                target.curHP -= damage;
-                ParticleSpawnData data = new ParticleSpawnData(null, target.curTransform.position, Vector3.zero, Vector3.one, ParticleEnum.EntityDamage, true);
-                ExecuteParticleEffects(data);
-                if (source.GetCurrentAnimCtrl() != null)
-                {
-                    AnimationLoadStruct animStruct = new AnimationLoadStruct(0, GenericAnimationEnums.ATTACK, true, true);
-                    (currentAnimMonitored, currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(animStruct);
-                    //this.currentAnimMonitored = currentAnimMonitored;
-                    //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                    currentAnimMonitored.OnAnimEndsEvent += OnTurnAnimationEnds;
-                    currentAnimStateMonitored.AnimationStateEvents += OnAnimationStateEvents;
-                }
-            }
-        }
-        else if (move.moveType == MoveType.Debuff || move.moveType == MoveType.Heal)
-        {
-            source.ApplyMoveEffect(move, false, target, finalPower); //Debuff
-        }
-        else
-        {
-            source.ApplyMoveEffect(move, false, null, finalPower);
-        }*/
         currentAttacker = source;
         currentTarget = target;
         currentMove = move;
@@ -340,7 +301,7 @@ public class BattleSystem : MonoBehaviour
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(attackAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                //currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
                 currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
                 break;
 
@@ -349,7 +310,7 @@ public class BattleSystem : MonoBehaviour
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(healAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                //currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
                 currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
                 break;
 
@@ -358,7 +319,7 @@ public class BattleSystem : MonoBehaviour
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(defAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                //currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
                 currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
                 break;
 
@@ -367,7 +328,7 @@ public class BattleSystem : MonoBehaviour
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(buffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                //currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
                 currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
                 break;
 
@@ -377,7 +338,7 @@ public class BattleSystem : MonoBehaviour
                 (this.currentAnimMonitored, this.currentAnimStateMonitored) = source.GetCurrentAnimCtrl().RequestPlayAnimation(debuffAnimStruct);
                 //this.currentAnimMonitored = currentAnimMonitored;
                 //this.currentAnimStateMonitored = currentAnimStateMonitored;
-                currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
+                //currentAnimMonitored.AnimationEndsEvent = OnTurnAnimationEnds;
                 currentAnimStateMonitored.AnimationStateEvents = OnAnimationStateEvents;
                 break;
         }
@@ -564,6 +525,7 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        OnTurnAnimationEnds();
         UpdateHPUI();
     }
 

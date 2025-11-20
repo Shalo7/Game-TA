@@ -4899,6 +4899,7 @@ MonoBehaviour:
   battleUIManager: {fileID: 996873119}
   typingIntroAnimator: {fileID: 846540371}
   playerHealthBarAnim: {fileID: 1804393566}
+  textCounterUIController: {fileID: 0}
   currentStepIndex: 1
 --- !u!4 &660498398
 Transform:
@@ -22776,6 +22777,10 @@ PrefabInstance:
     - target: {fileID: 2814991352496147817, guid: 6b5d7a2403aa72a41b5b122f85e5cd14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.00000029726584
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879115746601945036, guid: 6b5d7a2403aa72a41b5b122f85e5cd14, type: 3}
+      propertyPath: maxMoveTracked
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2906163114208250131, guid: 6b5d7a2403aa72a41b5b122f85e5cd14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

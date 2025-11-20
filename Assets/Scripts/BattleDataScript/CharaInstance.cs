@@ -28,6 +28,7 @@ public class CharaInstance
     public bool isBlocking = false;
 
     private List<ActiveEffect> activeEffects = new List<ActiveEffect>();
+    public List<ActiveEffect> GetActiveEffects() => activeEffects;
 
     public CharaInstance(Charas baseData, Transform transform, Transform target)
     {
