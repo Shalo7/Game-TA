@@ -41,10 +41,18 @@ public class TypewritingManager : MonoBehaviour
     [SerializeField] AnimationCurve resizeAnimationCurve;
     [SerializeField] AnimationCurve doneWordVignetteAnimCurve;
     [SerializeField] List<ActiveWritingFX> activeWritingFX = new List<ActiveWritingFX>();
+    System.Action<int> onCompleteCallback;
+    int correctTypedCount;
+    int currentWordIndex;
 
     [Header("Colors")]
     public bool useGradientForTypedText = false;
     public VertexGradient typedTextGradient;
+    /*typedTextGradient note
+    FDD776
+    FFD600
+    563921
+    331A00*/
     public Color shadowTextColor = new Color(1f, 1f, 1f, 22f / 255f);
     [SerializeField] Color correctCharacterColor;
     [SerializeField] Color correctWordVignetteColor;
@@ -64,19 +72,11 @@ public class TypewritingManager : MonoBehaviour
 
     private int wordIndex = 0;
     private string currentWord;
-    private string inputBuffer = ""; // Menyimpan input asli pemain
+    private string inputBuffer = "";
     private bool isTypingActive = false;
     private bool hasFailedEarly = false;
     private Gradient currentColorGradient;
-    private int lastActiveFXListLength;
-    private int numFXDone;
-    private Coroutine CO_StartWritingFX;
-    private Coroutine CO_StartCorrectWordVignette;
 
-    private System.Action<int> onCompleteCallback;
-    private int correctTypedCount;
-
-    // Daftar tombol keyboard yang valid untuk dideteksi
     KeyCode[] validKeys =
     {
         KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G,
@@ -84,8 +84,6 @@ public class TypewritingManager : MonoBehaviour
         KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T, KeyCode.U,
         KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z
     };
-
-    #region Initialization & Game Loop
 
     public void BeginTypingSession()
     {
@@ -95,45 +93,54 @@ public class TypewritingManager : MonoBehaviour
         SetupWord();
     }
 
-    public void StartTyping(System.Action<int> onComplete)
-    {
-        onCompleteCallback = onComplete;
-        correctTypedCount = 0;
-
-        LoadWords(5); // Ambil 5 kata dari glossary
-        BeginTypingSession();
-    }
-
     void Update()
     {
         if (!isTypingActive || wordIndex >= wordList.Count) return;
         HandleTypingInput();
     }
 
-    #endregion
-
-    #region Logic
-
-    public void LoadWords(int count)
+    void HandleTypingInput()
     {
-        wordList.Clear();
-
-        if (glossary == null || glossary.words.Count == 0)
+        foreach (KeyCode kc in validKeys)
         {
-            Debug.LogWarning("No Glossary");
-            return;
+            if (Input.GetKeyDown(kc))
+            {
+                char typedChar = char.ToUpper(kc.ToString()[0]);
+
+                if (typedChar == '\b')
+                {
+                    if (inputBuffer.Length > 0)
+                        inputBuffer = inputBuffer.Substring(0, inputBuffer.Length - 1);
+                    continue;
+                }
+
+                if (!char.IsLetter(typedChar)) continue;
+
+                // Batasi typing panjang dan early fail
+                if (inputBuffer.Length >= currentWord.Length || hasFailedEarly) return;
+
+                char expectedChar = currentWord[inputBuffer.Length];
+                inputBuffer += typedChar;
+
+                if (typedChar == expectedChar)
+                {
+                    PlaySound(typeSound);
+                    UpdateTypedVisual();
+                }
+                else
+                {
+                    PlaySound(wrongTypeSound);
+                    ApplyShakeEffect();
+
+                    if (!hasFailedEarly)
+                    {
+                        hasFailedEarly = true;
+                        StartCoroutine(EarlyFailRoutine());
+                        UpdateTypedVisual();
+                    }
+                }
+            }
         }
-
-        List<string> copy = new List<string>(glossary.words);
-
-        for (int i = 0; i < count && copy.Count > 0; i++)
-        {
-            int index = Random.Range(0, copy.Count);
-            wordList.Add(copy[index].ToUpper()); // Pastikan uppercase
-            copy.RemoveAt(index);
-        }
-
-        Debug.Log("✅ Loaded words: " + string.Join(", ", wordList));
     }
 
     void SetupWord()
@@ -149,6 +156,7 @@ public class TypewritingManager : MonoBehaviour
         activeWritingFX.Clear();
 
         currentWord = wordList[wordIndex];
+        //Debug.Log("🆕 Typing word: " + currentWord);
         inputBuffer = "";
         hasFailedEarly = false;
 
@@ -157,7 +165,6 @@ public class TypewritingManager : MonoBehaviour
         TMP_Text shadowText = isNowPlayerTarget ? shadowText_Player : shadowText_Enemy;
         TMP_Text typedText = isNowPlayerTarget ? typedText_Player : typedText_Enemy;
 
-        // Reset UI visibility
         shadowText.gameObject.SetActive(true);
         typedText.gameObject.SetActive(true);
         (isNowPlayerTarget ? shadowText_Enemy : shadowText_Player).gameObject.SetActive(false);
@@ -176,17 +183,13 @@ public class TypewritingManager : MonoBehaviour
         shadowText.transform.localScale = Vector3.one;
         typedText.transform.localScale = Vector3.one;
 
-        // Mulai timer kata baru
+        // 🔁 Mulai timer kata baru
         if (typingTimerUI != null)
         {
             typingTimerUI.OnTimerTimeout = OnWordTimeOut;
             typingTimerUI.StartTimer();
         }
     }
-
-    System.Action<int> onCompleteCallback;
-    int correctTypedCount;
-    int currentWordIndex;
 
     public void StartTyping(System.Action<int> onComplete)
     {
@@ -202,52 +205,10 @@ public class TypewritingManager : MonoBehaviour
     {
         wordList.Clear();
 
-        if (glossary == null || difficultyProfile == null || performanceManager == null) { Debug.LogError("no glossary!"); return;}
-    }
-
-    void HandleTypingInput()
-    {
-        foreach (KeyCode kc in validKeys)
+        if (glossary == null || difficultyProfile == null || performanceManager == null)
         {
-            if (Input.GetKeyDown(kc))
-            {
-                char typedChar = char.ToUpper(kc.ToString()[0]);
-
-                // Handle Backspace (Opsional, jika game mengizinkan koreksi)
-                if (typedChar == '\b')
-                {
-                    if (inputBuffer.Length > 0)
-                        inputBuffer = inputBuffer.Substring(0, inputBuffer.Length - 1);
-                    continue;
-                }
-
-                if (!char.IsLetter(typedChar)) continue;
-
-                // Batasi panjang typing agar tidak melebihi kata target & cegah input jika sudah gagal
-                if (inputBuffer.Length >= currentWord.Length || hasFailedEarly) return;
-
-                char expectedChar = currentWord[inputBuffer.Length];
-                inputBuffer += typedChar; // Simpan apa yang diketik player ke buffer
-
-                if (typedChar == expectedChar)
-                {
-                    PlaySound(typeSound);
-                    UpdateTypedVisual();
-                }
-                else
-                {
-                    PlaySound(wrongTypeSound);
-                    ApplyShakeEffect();
-
-                    // Cek apakah ini kesalahan pertama yang memicu kegagalan
-                    if (!hasFailedEarly)
-                    {
-                        hasFailedEarly = true;
-                        StartCoroutine(EarlyFailRoutine());
-                        UpdateTypedVisual(); // Update visual untuk menampilkan huruf salah (X)
-                    }
-                }
-            }
+            Debug.LogWarning("No Glossary");
+            return;
         }
         
         // Get the appropriate tier based on the player's performance score
@@ -291,14 +252,14 @@ public class TypewritingManager : MonoBehaviour
 
             if (typedChar == correctChar)
             {
+                //shadowText.ForceMeshUpdate();
                 correctCount++;
                 renderedTyped += typedChar;
+                //OnCorrectType(i);
             }
             else
             {
                 hasMistake = true;
-                // --- PERUBAHAN DISINI ---
-                // Jika salah ketik, tampilkan 'X' kapital berwarna merah
                 renderedTyped += $"<color=#FF4444>X</color>";
                 typedText.text = renderedTyped;
             }
@@ -309,7 +270,10 @@ public class TypewritingManager : MonoBehaviour
         if (useGradientForTypedText)
             typedText.colorGradient = typedTextGradient;
 
-        // Logika Sukses atau Efek Visual Ketik
+        float newSize = baseFontSize + (correctCount * sizeIncreasePerLetter);
+        //typedText.fontSize = newSize;
+        //shadowText.fontSize = newSize;
+
         if (!hasMistake && inputBuffer.Length == currentWord.Length && !hasFailedEarly)
         {
             StartCoroutine(WordCompleteRoutine());
@@ -318,28 +282,49 @@ public class TypewritingManager : MonoBehaviour
         {
             ShakeCameraOnType();
             typedText.ForceMeshUpdate();
+            //AddActiveTypewriteEffect(typedText);
             AddActiveWritingFX(shadowText, inputBuffer.Length - 1);
+            //StartCoroutine(DoTextScaleBounce(typedText));
+            if (ParticlePoolManager.instance == null) { return; }
+            /*typedText.ForceMeshUpdate();
+            string theText = typedText.text;
+            if (theText == "") return;
+            TMP_TextInfo textInfo = typedText.textInfo;
+
+            int matIndex = textInfo.characterInfo[theText.Length - 1].materialReferenceIndex;
+            int vertIndex = textInfo.characterInfo[theText.Length - 1].vertexIndex;
+            Vector3[] vertices = textInfo.meshInfo[matIndex].vertices;
+
+            Vector3 localMidPos = (vertices[vertIndex + 0] + vertices[vertIndex + 2]) / 2f;
+
+            Vector3 worldPos = typedText.transform.TransformPoint(localMidPos);
+
+            //Debug.Log(worldPos);
+
+            ParticleSpawnData datas = new ParticleSpawnData(null, worldPos, Vector3.zero, Vector3.one * 0.1f, ParticleEnum.OnTextTyped, true);
+
+            if (inputBuffer.Length == currentWord.Length) return;
+            ParticlePoolManager.instance.ActivateParticleFX(datas);*/
         }
     }
-    
 
-    #endregion
-
-    #region Visual Effects & Animation
 
     private void AddActiveWritingFX(TMP_Text txt, int charIndex)
     {
         activeWritingFX.Add(new ActiveWritingFX(txt, charIndex, resizeAnimationCurve, correctCharacterColor));
+        //Debug.LogError("Added new FX!");
         if (CO_StartWritingFX != null) return;
         CO_StartWritingFX = StartCoroutine(StartWritingFX());
     }
 
+    int lastActiveFXListLength;
+    int numFXDone;
+    Coroutine CO_StartWritingFX;
     IEnumerator StartWritingFX()
     {
         float waitTimer = 0f;
         float maxWaitTime = 2f;
-        if (activeWritingFX.Count < 1) { CO_StartWritingFX = null; yield break; }
-
+        if (activeWritingFX.Count < 1) { CO_StartWritingFX = null; Debug.LogError("List empty!"); yield break; }
         while (true)
         {
             if (lastActiveFXListLength == activeWritingFX.Count && lastActiveFXListLength == numFXDone)
@@ -351,6 +336,7 @@ public class TypewritingManager : MonoBehaviour
                 else
                 {
                     CO_StartWritingFX = null;
+                    //Debug.LogError("We stopped...");
                     yield break;
                 }
             }
@@ -362,7 +348,6 @@ public class TypewritingManager : MonoBehaviour
                 {
                     ActiveWritingFX index = activeWritingFX[i];
                     if (index == null) { activeWritingFX[i] = null; activeWritingFX.Remove(index); }
-
                     ChangeColorWrittenColor(index);
 
                     if (index.timer <= index.duration)
@@ -372,11 +357,10 @@ public class TypewritingManager : MonoBehaviour
                         if (index.timer > index.duration) { numFXDone++; }
                     }
                     else { continue; }
-
                     index.txt.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
                 }
             }
-
+            
             yield return null;
         }
     }
@@ -387,7 +371,9 @@ public class TypewritingManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             vertexColors[text.GetVertexIndex() + i] = correctCharacterColor;
+            //Debug.LogError(vertexColors[text.GetVertexIndex() + i]);
         }
+        //Debug.LogError("Color changed!");
     }
 
     private void ScaleBounceWrittenCharacter(ActiveWritingFX text)
@@ -395,7 +381,6 @@ public class TypewritingManager : MonoBehaviour
         var flt_t = Mathf.Clamp01(text.timer / text.duration);
         var flt_Scale = text.animCurve.Evaluate(flt_t);
         if (!text.GetCharacterInfo().isVisible) return;
-
         Vector3 vert0 = text.baseVerts[0];
         Vector3 vert1 = text.baseVerts[2];
         Vector3 center = (vert0 + vert1) / 2f;
@@ -406,6 +391,17 @@ public class TypewritingManager : MonoBehaviour
             Vector3 offSet = text.baseVerts[k] - center;
             verts[text.GetVertexIndex() + k] = center + offSet * flt_Scale;
         }
+        //Debug.LogError("Animated bounce!");
+    }
+
+    public void AddColorGradient(Gradient newGradient)
+    {
+        currentColorGradient = newGradient;
+    }
+
+    public void EmptyCounterText()
+    {
+        counterUIController.EmptyText();
     }
 
     void ShakeCameraOnType()
@@ -415,47 +411,10 @@ public class TypewritingManager : MonoBehaviour
         CameraShakeManager.instance.ActivateCamShake(new Vector3(0f + shakeOffset, 0f, 0f), 0.15f, 0.05f + shakeOffset);
     }
 
-    void ApplyShakeEffect()
-    {
-        bool isNowPlayerTarget = wordIndex % 2 == 0;
-        TMP_Text typedText = isNowPlayerTarget ? typedText_Player : typedText_Enemy;
-        typedText.transform.DOShakePosition(shakeDuration, new Vector3(shakeStrength, 0f, 0f), 10, 90, false, true);
-    }
-
-    void OnDoneWordVignette(Color c)
-    {
-        if (PostProcessingManager.instance == null) return;
-        if (CO_StartCorrectWordVignette != null) return;
-        CO_StartCorrectWordVignette = StartCoroutine(StartCorrectWordVignette(c));
-        PostProcessingManager.instance.ActivateVignette(true);
-    }
-
-    IEnumerator StartCorrectWordVignette(Color c)
-    {
-        float timer = 0f;
-        float maxTimer = doneWordVignetteAnimCurve[doneWordVignetteAnimCurve.length - 1].time;
-
-        while (timer <= maxTimer)
-        {
-            float flt_t = timer / maxTimer;
-            float flt_Eval = doneWordVignetteAnimCurve.Evaluate(flt_t);
-            PostProcessingManager.instance.SetVignette(flt_Eval);
-            PostProcessingManager.instance.SetVignetteColor(c);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        PostProcessingManager.instance.ActivateVignette(false);
-        CO_StartCorrectWordVignette = null;
-    }
-
-    #endregion
-
-    #region Game Flow Routines
-
     IEnumerator WordCompleteRoutine()
     {
         isTypingActive = false;
-        typingTimerUI?.StopTimer();
+        typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
         bool isNowPlayerTarget = wordIndex % 2 == 0;
         TMP_Text shadowText = isNowPlayerTarget ? shadowText_Player : shadowText_Enemy;
@@ -470,16 +429,19 @@ public class TypewritingManager : MonoBehaviour
         }
 
         correctTypedCount++;
+        /*counterText.gameObject.SetActive(true);
+        counterText.text = correctTypedCount.ToString();*/
         wordIndex++;
-
-        // Update Counter UI with Gradient
         int inverseWordIndex = 0;
         if (wordIndex >= 1) { inverseWordIndex = wordList.Count - wordIndex; }
-        int gradientVal = Mathf.Clamp(inverseWordIndex, 1, wordList.Count);
+        int gradientVal = 0;
+        gradientVal = Mathf.Clamp(inverseWordIndex, 1, wordList.Count);
         float t = Mathf.InverseLerp(0, wordList.Count, gradientVal);
 
         if (currentColorGradient == null)
+        {
             counterUIController.UpdateTextCounter(correctTypedCount, Color.white);
+        }
         else
         {
             Color c = currentColorGradient.Evaluate(t);
@@ -513,12 +475,41 @@ public class TypewritingManager : MonoBehaviour
         }
     }
 
+    void OnDoneWordVignette(Color c)
+    {
+        if (PostProcessingManager.instance == null) return;
+        if (CO_StartCorrectWordVignette != null) return;
+        CO_StartCorrectWordVignette = StartCoroutine(StartCorrectWordVignette(c));
+        PostProcessingManager.instance.ActivateVignette(true);
+        
+    }
+
+    Coroutine CO_StartCorrectWordVignette;
+    IEnumerator StartCorrectWordVignette(Color c)
+    {
+        float timer = 0f;
+        float maxTimer = doneWordVignetteAnimCurve[doneWordVignetteAnimCurve.length - 1].time;
+
+        while (timer <= maxTimer)
+        {
+            float flt_t = timer / maxTimer;
+            float flt_Eval = doneWordVignetteAnimCurve.Evaluate(flt_t);
+            PostProcessingManager.instance.SetVignette(flt_Eval);
+            PostProcessingManager.instance.SetVignetteColor(c);
+            timer += Time.deltaTime;
+            //Debug.LogError(flt_t);
+            yield return null;
+        }
+        PostProcessingManager.instance.ActivateVignette(false);
+        CO_StartCorrectWordVignette = null;
+    }
+
     IEnumerator EarlyFailRoutine()
     {
         CameraShakeManager.instance.ActivateCamShake(new Vector3(0f, 1f, 0f), 0.7f, 1f);
         OnDoneWordVignette(wrongWordVignetteColor);
         isTypingActive = false;
-        typingTimerUI?.StopTimer();
+        typingTimerUI?.StopTimer(); // ⏹ Stop timer
 
         bool isNowPlayerTarget = wordIndex % 2 == 0;
         TMP_Text shadowText = isNowPlayerTarget ? shadowText_Player : shadowText_Enemy;
@@ -547,30 +538,27 @@ public class TypewritingManager : MonoBehaviour
 
     void EndTypingSession()
     {
+        //Debug.Log("➡ Semua kata selesai diketik! Sekarang giliran musuh!");
+        //counterText.gameObject.SetActive(false);
         counterUIController.TextCenterReposition();
         shadowText_Player.gameObject.SetActive(false);
         typedText_Player.gameObject.SetActive(false);
         shadowText_Enemy.gameObject.SetActive(false);
         typedText_Enemy.gameObject.SetActive(false);
 
-        typingTimerUI?.StopTimer();
+        typingTimerUI?.StopTimer(); // ⏹ Pastikan timer mati
 
         FindFirstObjectByType<BattleUIManager>()?.OnTypingSessionComplete();
+        //Debug.Log("Find!");
         onCompleteCallback?.Invoke(correctTypedCount);
     }
 
-    #endregion
-
-    #region Utilities
-
-    public void AddColorGradient(Gradient newGradient)
+    void ApplyShakeEffect()
     {
-        currentColorGradient = newGradient;
-    }
+        bool isNowPlayerTarget = wordIndex % 2 == 0;
+        TMP_Text typedText = isNowPlayerTarget ? typedText_Player : typedText_Enemy;
 
-    public void EmptyCounterText()
-    {
-        counterUIController.EmptyText();
+        typedText.transform.DOShakePosition(shakeDuration, new Vector3(shakeStrength, 0f, 0f), 10, 90, false, true);
     }
 
     void PlaySound(AudioClip clip)
@@ -578,6 +566,4 @@ public class TypewritingManager : MonoBehaviour
         if (audioSource != null && clip != null)
             audioSource.PlayOneShot(clip);
     }
-
-    #endregion
 }
