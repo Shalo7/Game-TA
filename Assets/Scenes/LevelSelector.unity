@@ -1417,7 +1417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &924383087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1430,7 +1430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &924383088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2132,7 +2132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1372598180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,7 +2145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1372598181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2248,6 +2248,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3467946270814394209, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: 'bookPages.Array.data[3]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 673370e408fde99428a310e063fe727b, type: 3}
+    - target: {fileID: 3467946270814394209, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: 'bookPages.Array.data[4]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 2961525364fddd843aeaa9f82298b129, type: 3}
+    - target: {fileID: 3467946270814394209, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: 'bookPages.Array.data[5]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 800e7d1c987e3ec4f8c293e7757d82c1, type: 3}
     - target: {fileID: 4372681341662964529, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: moveDuration
       value: 0.42
@@ -3123,7 +3135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1612448397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3136,7 +3148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1612448398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3272,7 +3284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1662421160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3285,7 +3297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd8cb2610251a748abec98a26c61e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonEventComms: {fileID: 0}
+  buttonEventComms: {fileID: 1927844488}
 --- !u!114 &1662421161
 MonoBehaviour:
   m_ObjectHideFlags: 0

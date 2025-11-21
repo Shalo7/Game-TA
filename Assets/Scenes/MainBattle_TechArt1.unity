@@ -3613,6 +3613,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.000000036512702
       objectReference: {fileID: 0}
+    - target: {fileID: 7528381937008654137, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
+      propertyPath: maxMoveTracked
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7529495891659238704, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -64.78997
@@ -4070,6 +4074,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
+--- !u!114 &248587870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7528381937008654137, guid: 67ec3d7e38c3bdc488c485be2e00447f, type: 3}
+  m_PrefabInstance: {fileID: 248587869}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0155fe297db048f409d081bb8dcdb79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &298223345
 GameObject:
   m_ObjectHideFlags: 0
@@ -6975,6 +6990,7 @@ MonoBehaviour:
   battleUIManager: {fileID: 996873119}
   typingIntroAnimator: {fileID: 846540371}
   playerHealthBarAnim: {fileID: 0}
+  textCounterUIController: {fileID: 0}
   currentStepIndex: 1
 --- !u!4 &660498398
 Transform:
@@ -8061,6 +8077,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 00c6b0824c46fdc42b0556885b7c184c, type: 3}
   - {fileID: 8300000, guid: 00690a5a93b10d1449988b9369349fff, type: 3}
   nextLevel: 2
+  choiceHandler: {fileID: 248587870}
+  isRunningGame: 0
 --- !u!4 &812588305
 Transform:
   m_ObjectHideFlags: 0
@@ -9635,27 +9653,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  correctWordVignetteAnimCurve:
+  doneWordVignetteAnimCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.5099707
-      outSlope: 3.5099707
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.08431199
-    - serializedVersion: 3
-      time: 0.8
-      value: 0
-      inSlope: -4.354157
-      outSlope: -4.354157
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.05455114
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -9668,6 +9668,7 @@ MonoBehaviour:
   shadowTextColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
   correctCharacterColor: {r: 1, g: 0.8392157, b: 0, a: 1}
   correctWordVignetteColor: {r: 0.15686275, g: 1, b: 0, a: 1}
+  wrongWordVignetteColor: {r: 0, g: 0, b: 0, a: 0}
   audioSource: {fileID: 361988147}
   typeSound: {fileID: 8300000, guid: 0f41e55bf1fc58349945bca916c503cb, type: 3}
   wrongTypeSound: {fileID: 8300000, guid: cb0463f11294c264a9e9b64448c59aa9, type: 3}
@@ -15986,6 +15987,7 @@ GameObject:
   - component: {fileID: 1646324228}
   - component: {fileID: 1646324230}
   - component: {fileID: 1646324229}
+  - component: {fileID: 1646324231}
   m_Layer: 0
   m_Name: Settings TAB
   m_TagString: Untagged
@@ -16050,6 +16052,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646324227}
   m_CullTransparentMesh: 1
+--- !u!114 &1646324231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646324227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1646324229}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1282360174}
+        m_TargetAssemblyTypeName: InGameOptionsMenuController, Assembly-CSharp
+        m_MethodName: EscPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1661552179
 GameObject:
   m_ObjectHideFlags: 0
@@ -16767,37 +16825,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  baseScale: {x: 0, y: 0, z: 0}
-  currentColorGradient:
+  repositionCenterCurve:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  baseScale: {x: 0, y: 0, z: 0}
+  basePos: {fileID: 0}
+  middlePos: {fileID: 0}
 --- !u!1 &1724868281
 GameObject:
   m_ObjectHideFlags: 0

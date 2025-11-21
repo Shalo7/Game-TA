@@ -62,6 +62,7 @@ public class UIOptionSelector : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space) && inputEnabled)
         {
             string selectedOption = optionButtons[currentIndex].name.Replace("Button_", "");
+            Button selectedBtn = moveButtons[currentIndex].GetComponent<Button>();
             if (availableOptions.Contains(selectedOption))
             {
                 ConfirmSelection();
@@ -69,7 +70,6 @@ public class UIOptionSelector : MonoBehaviour
 
             if (moveButtons != null && currentIndex >= 0 && currentIndex < moveButtons.Length)
             {
-                Button selectedBtn = moveButtons[currentIndex].GetComponent<Button>();
                 if (selectedBtn != null && selectedBtn.interactable)
                 {
                     selectedBtn.onClick.Invoke();
@@ -110,6 +110,8 @@ public class UIOptionSelector : MonoBehaviour
     {
         if (!inputEnabled) return;
         if (button != moveButtons[currentIndex]) return;
+        /*Image btnIMG = button.transform?.GetComponent<Image>();
+        if (btnIMG.color.a < 1f) return;*/
         ConfirmSelection();
     }
 
@@ -191,7 +193,13 @@ public class UIOptionSelector : MonoBehaviour
         for (int i = 0; i < optionImages.Length; i++)
         {
             string key = optionButtons[i].name.Replace("Button_", "");
+            if (moveButtons.Length < i) continue;
+            
             optionImages[i].color = availableOptions.Contains(key) ? normalColor : disabledColor;
+            if (optionImages[i].color != disabledColor)
+            { moveButtons[i].interactable = true; }
+            else
+            { moveButtons[i].interactable = false; }
         }
     }
 

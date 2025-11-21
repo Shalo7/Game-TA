@@ -125,6 +125,18 @@ public class InGameOptionsMenuController : MonoBehaviour
 
     #region === Pause Control ===
 
+    public void EscPressed()
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            OpenPauseMenu();
+        }
+    }
+
     void OpenPauseMenu()
     {
         isPaused = true;

@@ -26,6 +26,8 @@ public class TutorialController : MonoBehaviour
     public BattleUIManager battleUIManager;
     public TypingIntroAnimator typingIntroAnimator;
     public HealthBarAnimation playerHealthBarAnim;
+    [SerializeField] TextCounterUIController textCounterUIController;
+    
 
     public int currentStepIndex = 1;
     private bool tutorialActive = true;
@@ -42,6 +44,7 @@ public class TutorialController : MonoBehaviour
     void Start()
     {
         battleUIManager.isTutorial = true;
+        textCounterUIController.SetActive(false);
         originalParent_PlayerHB = playerHealthBar.transform.parent;
         originalParent_EnemyHB = enemyHealthBar.transform.parent;
         originalParent_BannerYourTurn = bannerYourTurn.transform.parent;
@@ -199,6 +202,7 @@ public class TutorialController : MonoBehaviour
         zonaTutorial.SetActive(false);
         tutorialActive = false;
         uiOptionSelector.EnableSelection();
+        textCounterUIController.SetActive(true);
 
         //HideAllTutorialUI();
         //optionsGroup.SetActive(false);
