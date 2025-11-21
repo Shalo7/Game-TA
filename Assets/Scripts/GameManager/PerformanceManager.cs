@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.MPE;
 using UnityEngine;
 
 public class PerformanceManager : MonoBehaviour
