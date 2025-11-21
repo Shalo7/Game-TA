@@ -148,6 +148,7 @@ public class TypewritingManager : MonoBehaviour
         if (wordIndex >= wordList.Count)
         {
             EndTypingSession();
+            performanceManager.OnSessionSuccess();
             return;
         }
 
@@ -221,6 +222,7 @@ public class TypewritingManager : MonoBehaviour
             Debug.LogWarning($"Difficulty profile not found!");
             return;
         }
+
 
         // Load words based on the profile's ratios
         wordList.AddRange(glossary.GetRandomWords(Difficulty.Easy, profile.easyCount));
@@ -472,6 +474,7 @@ public class TypewritingManager : MonoBehaviour
         else
         {
             EndTypingSession();
+            performanceManager.OnSessionSuccess();
         }
     }
 

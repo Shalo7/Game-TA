@@ -1,3 +1,5 @@
+using System;
+using UnityEditor.MPE;
 using UnityEngine;
 
 public class PerformanceManager : MonoBehaviour
@@ -12,6 +14,7 @@ public class PerformanceManager : MonoBehaviour
     public int totalWords;
     public int successfulWords;
     public float performanceScore;
+    [SerializeField] float falseMultiplier;
 
     public void RegisterWordResult(bool success, float timeTaken, int charactersTyped)
     {
@@ -30,9 +33,23 @@ public class PerformanceManager : MonoBehaviour
         else
         {
             currentStreak = 0;
+            if (falseMultiplier < Math.Abs(0.3f))
+            { 
+                falseMultiplier += 0.1f;
+                if (falseMultiplier > 0.3f) falseMultiplier = 0.3f; 
+            }
         }
 
-        CalculatePerformanceScore();
+        CalculatePerformanceScore(success);
+    }
+
+    public void OnSessionSuccess()
+    {
+        if (falseMultiplier > 0) 
+        { 
+            falseMultiplier -= 0.15f;
+            if (falseMultiplier < 0f) falseMultiplier = 0f; 
+        }
     }
 
     private int totalCharactersTyped = 0;
@@ -46,17 +63,26 @@ public class PerformanceManager : MonoBehaviour
         //Debug.Log($"[Performance] timeTaken={timeTaken:F2}s, chars={charactersTyped}, CPS={cps:F2}, AveSpeed = {averageSpeed:F2} ");
     }
 
-    private void CalculatePerformanceScore()
+    private void CalculatePerformanceScore(bool success)
     {
         float targetCPS = 4f;
         float speedScore = Mathf.Clamp01(averageSpeed / targetCPS);
-        float streakScore = Mathf.Clamp01((float)maxStreak / 20f);//(float)maxStreak / 20f;//maxStreak * 0.05f; 
+        float streakScore = Mathf.Clamp01(currentStreak / 20f);//(float)maxStreak / 20f;//maxStreak * 0.05f; 
         float accuracy = (totalWords > 0) ? (float)successfulWords / totalWords : 0f;
-        float accuracyScore = Mathf.Clamp01(accuracy);
+        float accuracyScore = Mathf.Clamp01(MathF.Pow(accuracy, 2f));
+        if (!success)
+        {
+            performanceScore -= ( 1 * falseMultiplier);
+        }
+        else
+        {
+            float hackyFalseMultiplier = falseMultiplier - 0.05f;
+            performanceScore = (speedScore * 0.4f) + (streakScore * 0.3f) + (accuracyScore * 0.3f - hackyFalseMultiplier);
+        }
 
-        performanceScore = (speedScore * 0.4f) + (streakScore * 0.3f) + (accuracyScore * 0.3f);
+        //Debug.LogError(1*falseMultiplier*accuracyScore);
         performanceScore = Mathf.Clamp01(performanceScore);
-        Debug.Log($"[Performance] Speed={speedScore:F2}, Streak={streakScore:F2}, Accuracy={accuracyScore:F2}, Final={performanceScore:F2}");
+        Debug.LogError($"[Performance] Speed={speedScore:F2}, Streak={streakScore:F2}, Accuracy={accuracyScore:F2}, Final={performanceScore:F2}");
     }
 
     public string GetPerformanceTier()
