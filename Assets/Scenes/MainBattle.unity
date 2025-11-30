@@ -1777,6 +1777,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &165082118
@@ -3656,6 +3689,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &513273700
@@ -3672,7 +3738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4057,8 +4123,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543125894}
-  - component: {fileID: 543125896}
   - component: {fileID: 543125895}
+  - component: {fileID: 543125896}
   m_Layer: 5
   m_Name: Enemy
   m_TagString: Untagged
@@ -4085,7 +4151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 420, y: 239}
+  m_AnchoredPosition: {x: 847.1, y: 218.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543125895
@@ -4115,7 +4181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 543125893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -4123,8 +4189,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 47.4
+  m_ChildAlignment: 1
+  m_Spacing: 32
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -5848,6 +5914,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &777342496
@@ -5864,7 +5963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6189,8 +6288,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814884435}
-  - component: {fileID: 814884437}
   - component: {fileID: 814884436}
+  - component: {fileID: 814884437}
   m_Layer: 5
   m_Name: Player
   m_TagString: Untagged
@@ -6217,7 +6316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -700, y: 239}
+  m_AnchoredPosition: {x: -847.1, y: 218.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814884436
@@ -6247,7 +6346,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 814884434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -6255,8 +6354,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 47.4
+  m_ChildAlignment: 1
+  m_Spacing: 32
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -8801,6 +8900,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &1051328143
@@ -8817,7 +8949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16229,6 +16361,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &1805300224
@@ -16245,7 +16410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16796,6 +16961,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1434c1737b4d40b3d09c15aa172f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resizeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.352549
+      outSlope: 1.352549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12267721
+    - serializedVersion: 3
+      time: 0.45
+      value: 1.5
+      inSlope: 0.0020160568
+      outSlope: 0.0020160568
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9918508
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9
+      value: 1
+      inSlope: -1.5387132
+      outSlope: -1.5387132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45055255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   imgComp: {fileID: 0}
   currentMove: {fileID: 0}
 --- !u!114 &1866153892
@@ -16812,7 +17010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
