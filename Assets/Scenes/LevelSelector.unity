@@ -919,6 +919,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &495329225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1809638622730507207, guid: 1381cb781486322428ddc320c6918097, type: 3}
+  m_PrefabInstance: {fileID: 1379862373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &495329227
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495329225}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &498503512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,6 +2281,10 @@ PrefabInstance:
       propertyPath: moveDuration
       value: 0.42
       objectReference: {fileID: 0}
+    - target: {fileID: 4372681341662964529, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      propertyPath: xButtonGroup
+      value: 
+      objectReference: {fileID: 495329227}
     - target: {fileID: 5160121215483011900, guid: 1381cb781486322428ddc320c6918097, type: 3}
       propertyPath: PageFlipTime
       value: 0.38
@@ -2403,7 +2424,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1809638622730507207, guid: 1381cb781486322428ddc320c6918097, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 495329227}
   m_SourcePrefab: {fileID: 100100000, guid: 1381cb781486322428ddc320c6918097, type: 3}
 --- !u!224 &1379862374 stripped
 RectTransform:
